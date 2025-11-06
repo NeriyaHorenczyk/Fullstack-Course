@@ -3,3 +3,29 @@
     padding: 0;
     box-sizing: border-box;
 }
+.store-sales{
+    text-align: center;
+    background-color: black;
+    color: white;
+}
+
+.store-sales{
+    text-transform: uppercase;
+}
+.main-header{
+display: flex;
+align-items: center;
+justify-content: space-between;
+width: 100%;
+height: 100px;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logo-container img {
+    width: 150px;   
+    height: auto;  
+}
