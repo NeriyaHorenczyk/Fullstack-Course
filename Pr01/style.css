@@ -9,6 +9,22 @@
     color: white;
 }
 
+h6 a{
+    color:cadetblue;
+    text-decoration: none;
+}
+
+h6 a:visited{
+    color:cadetblue;
+}
+
+h6 a:hover{
+    color:blue;
+}
+
+
+
+
 .store-sales{
     text-transform: uppercase;
 }
@@ -18,6 +34,7 @@ align-items: center;
 justify-content: space-between;
 width: 100%;
 height: 100px;
+background-color: antiquewhite;
 }
 
 .logo-container {
@@ -33,4 +50,17 @@ height: 100px;
 display: flex;
 gap: 30px;
 list-style: none;
+margin: 10px;
 }
+
+.main-header a{
+    text-decoration: none;
+    color: black;
+}
+.main-header a:visited{
+    color:black;
+}
+.main-header a:hover{
+    color:blue;
+}
+
