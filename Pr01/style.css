@@ -1,0 +1,150 @@
+*, *::after, *::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.store-sales{
+    background-color: black;
+    color: white;
+    display: flex;
+    align-items: center;    
+    justify-content: center;
+    padding: 6px 0;
+    text-align: center;
+    gap:5px;
+}
+
+body{
+    width:100%;
+}
+
+h6 a{
+    color:cadetblue;
+    text-decoration: none;
+}
+
+h6 a:visited{
+    color:cadetblue;
+}
+
+h6 a:hover{
+    color:blue;
+}
+
+
+.store-sales{
+    text-transform: uppercase;
+}
+.main-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100px;
+    background-color: antiquewhite;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logo-container img {
+    width: 150px;   
+    height: auto;  
+}
+.main-nav ul ,.secondary-nav ul{
+display: flex;
+gap: 30px;
+list-style: none;
+margin: 10px;
+}
+
+.main-header a{
+    text-decoration: none;
+    color: black;
+}
+.main-header a:visited{
+    color:black;
+}
+.main-header a:hover{
+    color:blue;
+}
+
+.category{
+    display: flex;
+    width:100%;
+    width:100%;
+    justify-content: space-evenly;
+    text-align: center;
+    font-size: 50px;
+    position: relative;
+}
+
+
+.cat-p{
+    position: absolute;
+    bottom: 100px;
+    justify-self: center;
+    color:white;
+    text-shadow: 0px 0px 10px black;
+}
+
+.category a:hover{
+    transform: scale(1.1);
+    
+}
+
+.men-category{
+    background-image: url('../Pr01/media/men-category.png');
+    background-size: cover;
+    min-height:400px;
+    width:100%;    
+}
+
+.women-category{
+    background-image: url('../Pr01/media/women-category.png');
+    background-size: cover;
+    min-height:400px;
+    width:100%;
+}
+
+footer{
+    display: block;
+    background-color:black;
+}
+.footer-logo-container{
+    text-align: center;
+    margin: auto;
+    width:100%;
+    height: 200px;
+    
+}
+
+.footer-logo-container img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+.footer-information{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height:400px;
+}
+
+.footer-information a{
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 3em;
+}
+
+.footer-information a:hover{
+    color: chocolate;
+    transform: scale(1.5);
+}

@@ -3,14 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OneLine Store</title>
     <link rel="stylesheet" href="style.css">
+    <title>Document</title>
 </head>
 <body>
-    <header>
-        <h6 class="store-sales">Enjoy 15% off your first order when you <a href="signup.html">sign up</a></h6>
-    </header>
-
     <main>
         <header class="main-header">
             <nav class="main-nav">
@@ -31,28 +27,31 @@
                 </ul>
             </nav>
         </header>
-        <section class="category">
-            <a  class="men-category cat-link" href="#">
-                <div>
-                    <p class="cat-p">Men</p>
-                </div>
-            </a>
-            <a  class="women-category cat-link" href="#">
-                <div>
-                    <p class="cat-p">Women</p>
-                </div>
-            </a>
+        <section class="signup-intro">
+            <h1>Sign up</h1>
+            <p>Create an account to get 15% off your first order</p>
         </section>
-        <footer>
-            <div class="footer-logo-container">
-                <img src="media/OneLine_logo_blanc_transparent.png" alt="OneLine Logo">
-            </div>
-            <hr>
-            <div class="footer-information">
-                <a href="about.html">about</a>
-                <a href="managers.html">managers</a>
-            </div>
-        </footer>
+    
+    <form action="" method="post">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password">
+    </form>
+
+    <a href="index.html">go back</a>
+    <footer>
+        <div class="footer-logo-container">
+            <img src="media/OneLine_logo_blanc_transparent.png" alt="OneLine Logo">
+        </div>
+        <hr>
+        <div class="footer-information">
+            <a href="about.html">about</a>
+            <a href="#managers.html">managers</a>
+        </div>
+    </footer>
     </main>
 </body>
 </html>
