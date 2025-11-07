@@ -98,14 +98,14 @@ margin: 10px;
 }
 
 .men-category{
-    background-image: url('/Pr01/media/men-category.png');
+    background-image: url('../Pr01/media/men-category.png');
     background-size: cover;
     min-height:400px;
     width:100%;    
 }
 
 .women-category{
-    background-image: url('/Pr01/media/women-category.png');
+    background-image: url('../Pr01/media/women-category.png');
     background-size: cover;
     min-height:400px;
     width:100%;
@@ -148,5 +148,3 @@ footer{
     color: chocolate;
     transform: scale(1.5);
 }
-
-
