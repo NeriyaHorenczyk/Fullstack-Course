@@ -32,25 +32,45 @@
             <p>Create an account to get 15% off your first order</p>
         </section>
     
-    <form action="" method="post">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name">
+    <form action="" method="post class="signup-form">
+        <label for="first-name">First Name</label>
+        <input type="text" id="first-name" name="first-name" required >
+        <label for="last-name">Last Name</label>
+        <input type="text" id="last-name" name="last-name" required>
+        <label for="birth-date">Birth Date</label>
+        <input type="date" id="birth-date" name="birth-date" required>
+        <label for="gender">Gender</label>
+        <input type="radio" id="gender" name="gender" value="male" required>
+        <label for="gender">Male</label>
+        <input type="radio" id="gender" name="gender" value="female" required>
+        <label for="gender">Female</label>
         <label for="email">Email</label>
-        <input type="email" id="email" name="email">
+        <input type="email" id="email" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" name="phone" required>
         <label for="password">Password</label>
-        <input type="password" id="password" name="password">
+        <input type="password" id="password" name="password" required>
+        <label for="confirm-password">Confirm Password</label>
+        <input type="password" id="confirm-password" name="confirm-password">
+        <label for="Marketing">Where did you hear about us</label>
+        <select  id="Marketing" name="Marketing"  required>
+            <option value="" disabled selected hidden>Choose</option> 
+            <option value="Facebook">Facebook </option> 
+            <option value="Instagram">Instagram </option>
+            <option value="Google">Google </option>
+            <option value="TikTok">TikTok </option>
+            <option value="Other">Other </option>
+        </select>
+        <label for="agree">I agree to the terms and conditions</label>
+        <input type="checkbox" id="agree" name="agree" required>
+        <label for="agree">I agree to receive marketing emails</label>
+        <input type="checkbox" id="marketing" name="marketing">
+        <label for="other-info">Additional preferences (optional)</label>
+        <textarea id="other-info" name="other_info" rows="3" maxlength="300"
+         placeholder="Anything else you'd like us to know (fit, colors, brands you like)…"></textarea>
+        <button type="submit">Sign up</button>
     </form>
-
-    <a href="index.html">go back</a>
     <footer>
-        <div class="footer-logo-container">
-            <img src="media/OneLine_logo_blanc_transparent.png" alt="OneLine Logo">
-        </div>
-        <hr>
-        <div class="footer-information">
-            <a href="about.html">about</a>
-            <a href="#managers.html">managers</a>
-        </div>
     </footer>
     </main>
 </body>
