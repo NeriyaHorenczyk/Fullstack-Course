@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>Sign up - OneLine Store</title>
 </head>
-<body>
+<body class="signup-page">
     <main>
         <header class="main-header">
             <nav class="main-nav">
@@ -32,25 +32,90 @@
             <p>Create an account to get 15% off your first order</p>
         </section>
     
-    <form action="" method="post">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password">
+    <form action="" method="post" class="signup-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="first-name">First Name</label>
+                <input type="text" id="first-name" name="first-name" required>
+            </div>
+            <div class="form-group">
+                <label for="last-name">Last Name</label>
+                <input type="text" id="last-name" name="last-name" required>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="birth-date">Birth Date</label>
+            <input type="date" id="birth-date" name="birth-date" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Gender</label>
+            <div class="radio-group">
+                <label class="radio-label">
+                    <input type="radio" id="gender-male" name="gender" value="male" required>
+                    Male
+                </label>
+                <label class="radio-label">
+                    <input type="radio" id="gender-female" name="gender" value="female" required>
+                    Female
+                </label>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+        </div>
+        
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" required>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="marketing-source">Where did you hear about us</label>
+            <select id="marketing-source" name="Marketing" required>
+                <option value="" disabled selected hidden>Choose</option> 
+                <option value="Facebook">Facebook</option> 
+                <option value="Instagram">Instagram</option>
+                <option value="Google">Google</option>
+                <option value="TikTok">TikTok</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        
+        <div class="form-group checkbox-group">
+            <label class="checkbox-label">
+                <input type="checkbox" id="agree" name="agree" required>
+                I agree to the terms and conditions
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" id="marketing" name="marketing">
+                I agree to receive marketing emails
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <label for="other-info">Additional preferences (optional)</label>
+            <textarea id="other-info" name="other_info" rows="3" maxlength="300"
+                placeholder="Anything else you'd like us to know (fit, colors, brands you like)…"></textarea>
+        </div>
+        
+        <button type="submit" class="submit-btn">Sign up</button>
     </form>
-
-    <a href="index.html">go back</a>
     <footer>
-        <div class="footer-logo-container">
-            <img src="media/OneLine_logo_blanc_transparent.png" alt="OneLine Logo">
-        </div>
-        <hr>
-        <div class="footer-information">
-            <a href="about.html">about</a>
-            <a href="#managers.html">managers</a>
-        </div>
     </footer>
     </main>
 </body>

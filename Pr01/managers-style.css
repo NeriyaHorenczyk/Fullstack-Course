@@ -1,0 +1,23 @@
+body{
+    background-color: #f0f4f8;
+}
+
+.managers-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 50px;
+    height: 100vh;
+}
+
+.Neriya-card{
+    width: 100%;
+    height: 50%;
+    background-color: aqua;
+}
+
+.David-card{
+    width: 100%;
+    height: 50%;
+    background-color: lightcoral;
+}

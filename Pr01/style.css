@@ -18,6 +18,7 @@
 
 body{
     width:100%;
+    overflow-x: hidden;
 }
 
 h6 a{
@@ -30,8 +31,9 @@ h6 a:visited{
 }
 
 h6 a:hover{
-    color:blue;
+    color:rgb(249, 249, 255);
 }
+
 
 
 .store-sales{
@@ -43,8 +45,12 @@ h6 a:hover{
     justify-content: space-between;
     width: 100%;
     height: 100px;
-    background-color: antiquewhite;
+    background-color: rgb(255, 255, 255);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
+
 
 .logo-container {
     display: flex;
@@ -62,22 +68,43 @@ list-style: none;
 margin: 10px;
 }
 
-.main-header a{
+.main-header a {
     text-decoration: none;
     color: black;
 }
-.main-header a:visited{
-    color:black;
+
+.main-header a:visited {
+    color: black;
 }
-.main-header a:hover{
-    color:blue;
+.main-nav a,
+.secondary-nav a {
+    position: relative;
+    transition: color 0.3s ease;
 }
+
+.main-nav a::after,
+.secondary-nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: black;
+    transition: width 0.4s ease;
+}
+
+.main-nav a:hover::after,
+.secondary-nav a:hover::after {
+    width: 100%;
+}
+
 
 .category{
     display: flex;
     width:100%;
-    width:100%;
-    justify-content: space-evenly;
+    justify-content: flex-start; 
+    gap: 0;                    
     text-align: center;
     font-size: 50px;
     position: relative;
@@ -92,35 +119,65 @@ margin: 10px;
     text-shadow: 0px 0px 10px black;
 }
 
+.category a{
+    transition: transform 500ms ease;
+    position: relative;
+    z-index: 1;
+}
 .category a:hover{
-    transform: scale(1.1);
-    
+    transform: scale(1.1);    
+}
+.category a {
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.category a:hover {
+    transform: scale(1.05);
+}
+
+.category a:hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .men-category{
     background-image: url('../Pr01/media/men-category.png');
     background-size: cover;
-    min-height:400px;
-    width:100%;    
+    background-position: center 10%; 
+    height: 90vh; 
+    flex: 0 0 50%;
 }
 
 .women-category{
     background-image: url('../Pr01/media/women-category.png');
     background-size: cover;
-    min-height:400px;
-    width:100%;
+    background-position: center 10%;
+    height: 90vh; 
+    flex: 0 0 50%;
 }
+
 
 footer{
     display: block;
     background-color:black;
+    position: relative;
+    z-index: 10;
 }
 .footer-logo-container{
     text-align: center;
     margin: auto;
     width:100%;
     height: 200px;
-    
+    position: relative;
+    z-index: 20;
+
+    height: 300px;
 }
 
 .footer-logo-container img{
@@ -141,10 +198,201 @@ footer{
     color: white;
     text-decoration: none;
     text-transform: uppercase;
-    font-size: 3em;
+    font-size: 2em;
 }
 
+.footer-information a{
+    transition: transform 300ms ease, color 300ms ease;
+}
 .footer-information a:hover{
     color: chocolate;
-    transform: scale(1.5);
+    transform: translateY(-10px);
+}
+
+/* Signup Page Background */
+body.signup-page {
+    background-color:#e7e3e3;;
+}
+
+/* Signup Form Styles */
+.signup-intro {
+    text-align: center;
+    padding: 60px 20px 40px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.signup-intro h1 {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    color: black;
+}
+
+.signup-intro p {
+    font-size: 1.1em;
+    color: #666;
+}
+
+.signup-form {
+    max-width: 600px;
+    margin: 0 auto 60px;
+    padding: 0 20px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: black;
+    font-size: 0.95em;
+}
+
+.signup-form input[type="text"],
+.signup-form input[type="email"],
+.signup-form input[type="tel"],
+.signup-form input[type="date"],
+.signup-form input[type="password"],
+.signup-form select,
+.signup-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+}
+
+.signup-form input:focus,
+.signup-form select:focus,
+.signup-form textarea:focus {
+    outline: none;
+    border-color: black;
+}
+
+.signup-form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.radio-group {
+    display: flex;
+    gap: 30px;
+    margin-top: 10px;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.radio-label input[type="radio"] {
+    width: auto;
+    margin: 0;
+    cursor: pointer;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+    cursor: pointer;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1em;
+    font-weight: 500;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+.about-intro{
+    text-align: center;
+    padding: 80px 20px 60px;
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.about-intro h1{
+    font-size: 3em;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    
+}
+
+.about-intro p{
+    font-size:1.3em;
+    line-height: 1.8;
+    font-weight: 300;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px 100px;
+}
+.about-card {
+    padding: 40px 30px;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.about-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+.about-card p {
+    font-size: 1em;
+    color: #666;
+    line-height: 1.7;
+    font-weight: 300;
 }
