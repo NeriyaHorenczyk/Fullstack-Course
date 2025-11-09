@@ -1,0 +1,17 @@
+body{
+    background-color: #f0f4f8;
+}
+
+.managers-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 50px;;
+}
+
+p{
+    width: 60%;
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
