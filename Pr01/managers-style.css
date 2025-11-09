@@ -6,12 +6,18 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 50px;;
+    margin: 50px;
+    height: 100vh;
 }
 
-p{
-    width: 60%;
-    font-size: 18px;
-    line-height: 1.6;
-    margin-bottom: 30px;
+.Neriya-card{
+    width: 100%;
+    height: 50%;
+    background-color: aqua;
+}
+
+.David-card{
+    width: 100%;
+    height: 50%;
+    background-color: lightcoral;
 }
