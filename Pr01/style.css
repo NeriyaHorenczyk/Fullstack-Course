@@ -43,7 +43,7 @@ h6 a:hover{
     justify-content: space-between;
     width: 100%;
     height: 100px;
-    background-color: antiquewhite;
+    background-color: rgb(255, 255, 255);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -79,8 +79,8 @@ margin: 10px;
 .category{
     display: flex;
     width:100%;
-    width:100%;
-    justify-content: space-evenly;
+    justify-content: flex-start; 
+    gap: 0;                    
     text-align: center;
     font-size: 50px;
     position: relative;
@@ -103,16 +103,19 @@ margin: 10px;
 .men-category{
     background-image: url('../Pr01/media/men-category.png');
     background-size: cover;
-    min-height:400px;
-    width:100%;    
+    background-position: center 10%; 
+    height: 90vh; 
+    flex: 0 0 50%;
 }
 
 .women-category{
     background-image: url('../Pr01/media/women-category.png');
     background-size: cover;
-    min-height:400px;
-    width:100%;
+    background-position: center 10%;
+    height: 90vh; 
+    flex: 0 0 50%;
 }
+
 
 footer{
     display: block;
@@ -154,5 +157,4 @@ footer{
 
 .signup-form{
     display: grid;
-    
 }
