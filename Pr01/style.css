@@ -396,3 +396,14 @@ body.signup-page {
     line-height: 1.7;
     font-weight: 300;
 }
+
+/* La vidéo elle-même */
+.men-video .men-category,
+.women-video .women-category{
+    width: 100%;
+    height:80vh;         
+    display: block;
+    object-fit: contain;  
+    object-position: center;
+    background: #000;  
+  }
