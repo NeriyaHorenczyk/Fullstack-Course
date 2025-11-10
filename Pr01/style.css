@@ -205,7 +205,7 @@ footer{
     transition: transform 300ms ease, color 300ms ease;
 }
 .footer-information a:hover{
-    color: chocolate;
+    color: rgb(228, 215, 206);
     transform: translateY(-10px);
 }
 
@@ -352,9 +352,9 @@ body.signup-page {
 
 .about-intro{
     text-align: center;
-    padding: 80px 20px 60px;
+    padding: 80px 20px 30px;
     margin: 0 auto;
-    max-width: 800px;
+    max-width: 850px;
 }
 
 .about-intro h1{
@@ -370,6 +370,8 @@ body.signup-page {
     font-size:1.3em;
     line-height: 1.8;
     font-weight: 300;
+    font-style: italic;
+    letter-spacing: 1px;
 }
 
 .about-grid {
@@ -378,7 +380,7 @@ body.signup-page {
     gap: 40px;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 60px 20px 100px;
+    padding: 40px 20px 100px;
 }
 .about-card {
     padding: 40px 30px;
@@ -387,7 +389,7 @@ body.signup-page {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .about-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-20px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 .about-card p {
@@ -397,7 +399,6 @@ body.signup-page {
     font-weight: 300;
 }
 
-/* La vidéo elle-même */
 .men-video .men-category,
 .women-video .women-category{
     width: 100%;
@@ -407,3 +408,4 @@ body.signup-page {
     object-position: center;
     background: #000;  
   }
+
