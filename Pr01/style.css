@@ -426,6 +426,6 @@ body.signup-page {
 .div1 img{
     width: 100%;
     height: 80%;
-    object-fit: cover;        /* cover = remplit & recadre ; contain = tout voir avec bandes */
-    display: block;           /* évite l’espace blanc (img inline) */
+    object-fit: cover;        
+    display: block;           
   }
