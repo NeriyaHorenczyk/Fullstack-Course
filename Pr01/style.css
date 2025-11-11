@@ -210,7 +210,6 @@ footer{
     margin: 0 auto;               
   }
   
-  /* Links: smaller, cleaner, still uppercase */
   .footer-information a{
     color: white;
     text-decoration: none;
@@ -226,9 +225,9 @@ footer{
     transform: translateY(-3px);
     opacity: 1;
   }
-  
 
-/* Signup Form Styles */
+
+
 .signup-intro {
     text-align: center;
     padding: 60px 20px 40px;
@@ -499,4 +498,21 @@ footer{
     .parent{ grid-template-columns: 1fr; }
   }
   
+  
+  /* ===== Terms page ===== */
+.terms-page .terms-container{
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 16px;
+    color: #111;
+  }
+  
+  .pdf-embed{
+    width: 100%;
+    height: 800px;             
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 8px;
+    background: #fff;
+    display: block;
+  }
   
