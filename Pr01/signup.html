@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <title>Sign up - OneLine Store</title>
 </head>
 <body class="signup-page">
@@ -21,9 +22,10 @@
             </div>
             <nav class="secondary-nav">
                 <ul>
-                    <li><a href="#">Search</a></li>
-                    <li><a href="#">Account</a></li>
-                    <li><a href="#">Bag</a></li>
+                    <li><a href="#" aria-label="Search" class="icon-btn"><span class="material-symbols-outlined">search</span></a></li>
+                    <li><a href="#" aria-label="Account" class="icon-btn"><span class="material-symbols-outlined">person</span></a></li>
+                    <li><a href="#" aria-label="Bag" class="icon-btn"><span class="material-symbols-outlined">shopping_bag</span></a></li>
+                    
                 </ul>
             </nav>
         </header>
@@ -83,6 +85,12 @@
                 <input type="password" id="confirm-password" name="confirm-password" required>
             </div>
         </div>
+        <div class="form-group">
+            <label for="choose-size" class="size">What is your shoes size?</label>
+            <input type="number" id="choose-size" name="size" required>
+            <p id="link-size">Click <a href=# >here</a> for size table.</p>
+        </div>
+
         
         <div class="form-group">
             <label for="marketing-source">Where did you hear about us</label>

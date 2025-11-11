@@ -20,14 +20,19 @@ body{
     width:100%;
     overflow-x: hidden;
 }
+h6{
+    font-size: 15px;
+    letter-spacing: 1px;
+    font-weight: 300;
+}
 
 h6 a{
-    color:cadetblue;
-    text-decoration: none;
+    color:rgb(117, 21, 64);
+    padding-bottom: 1px;
 }
 
 h6 a:visited{
-    color:cadetblue;
+    color:rgb(179, 63, 152);
 }
 
 h6 a:hover{
@@ -56,6 +61,8 @@ h6 a:hover{
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    right: 50px;
 }
 .logo-container img {
     width: 150px;   
@@ -240,12 +247,22 @@ footer{
     color: #666;
 }
 
+#link-size{
+    margin:10px 0;
+    font-size: 1em;
+    font-family: inherit;
+    
+}
+
 .signup-form {
     max-width: 600px;
     margin: 0 auto 60px;
     padding: 0 20px;
 }
-
+#choose-size{
+    width:100px;
+    height:30px;
+}
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -380,6 +397,8 @@ footer{
     font-style: italic;
     letter-spacing: 1px;
 }
+
+
 
 .about-grid {
     display: grid;
