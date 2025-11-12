@@ -228,20 +228,23 @@ footer{
 
 
 
-.signup-intro {
+.signup-intro ,
+.signin-intro{
     text-align: center;
     padding: 60px 20px 40px;
     max-width: 600px;
     margin: 0 auto;
 }
 
-.signup-intro h1 {
+.signup-intro h1,
+.signin-intro h1 {
     font-size: 2.5em;
     margin-bottom: 15px;
     color: black;
 }
 
-.signup-intro p {
+.signup-intro p 
+.signin-intro p{
     font-size: 1.1em;
     color: #666;
 }
@@ -252,7 +255,10 @@ footer{
     font-family: inherit;
     
 }
-
+.signin-intro p{
+    margin:30px;
+    font-size: 25px;
+}
 .signup-form {
     max-width: 600px;
     margin: 0 auto 60px;
@@ -449,7 +455,7 @@ footer{
     aspect-ratio: 16 / 9;
     border: 0;
   }
-  .men-page{
+  .men-page,.women-page{
     background: black;
   }
 .men-video .men-category,
@@ -499,7 +505,6 @@ footer{
   }
   
   
-  /* ===== Terms page ===== */
 .terms-page .terms-container{
     max-width: 1000px;
     margin: 40px auto;

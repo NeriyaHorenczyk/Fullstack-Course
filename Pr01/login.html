@@ -3,18 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OneLine Store</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <title>Login</title>
 </head>
 <body>
-    <header>
-        <h6 class="store-sales">Enjoy 15% off your first order when you <a href="signup.html">sign up</a></h6>
-    </header>
-
     <main>
         <header class="main-header">
-            <nav class="main-nav navheader">
+            <nav class="main-nav">
                 <ul>
                     <li><a href="women.html">Women</a></li>
                     <li><a href="men.html">Men</a></li>
@@ -24,7 +20,7 @@
             <div class="logo-container">
                 <a href="index.html"><img src="media/store-logo-removebg-preview.png" alt="OneLine Store" class="logo"></a>
             </div>
-            <nav class="secondary-nav navheader">
+            <nav class="secondary-nav">
                 <ul>
                     <li><a href="#" aria-label="Search" class="icon-btn"><span class="material-symbols-outlined">search</span></a></li>
                     <li><a href="login.html" aria-label="Account" class="icon-btn"><span class="material-symbols-outlined">person</span></a></li>
@@ -33,18 +29,29 @@
                 </ul>
             </nav>
         </header>
-        <section class="category">
-            <a  class="men-category cat-link" href="men.html">
-                <div>
-                    <p class="cat-p">Men</p>
+        <section class="signin-intro">
+            <h1>Welcome back</h1>
+            <p>Access your orders, returns and saved items.</p>
+            <form action="" method="post" class="signup-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="name@example.com" >
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
                 </div>
-            </a>
-            <a  class="women-category cat-link" href="women.html">
-                <div>
-                    <p class="cat-p">Women</p>
-                </div>
-            </a>
+                <button type="submit" class="submit-btn">Sign In</button>
+
+
+            </form>
         </section>
+
+        <footer>
+        </footer>
+        </main>
         <footer id="main-footer">
             <div class="footer-logo-container">
               <img src="media/OneLine_logo_blanc_transparent.png" alt="OneLine Logo">
@@ -57,6 +64,6 @@
                 <a href="terms.html">Terms of Use</a>
               </div>
         </footer>
-    </main>
-</body>
-</html>
+          
+    </body>
+    </html>
