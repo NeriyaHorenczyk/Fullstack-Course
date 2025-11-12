@@ -263,6 +263,7 @@ footer{
     max-width: 600px;
     margin: 0 auto 60px;
     padding: 0 20px;
+    background-color: antiquewhite;
 }
 #choose-size{
     font-size: 0.8rem;
