@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <title>Sign up - OneLine Store</title>
 </head>
-<body class="signup-page">
+<body class="signup-page" style="background-color: antiquewhite;">
     <main>
         <header class="main-header">
             <nav class="main-nav">
@@ -21,9 +22,10 @@
             </div>
             <nav class="secondary-nav">
                 <ul>
-                    <li><a href="#">Search</a></li>
-                    <li><a href="#">Account</a></li>
-                    <li><a href="#">Bag</a></li>
+                    <li><a href="#" aria-label="Search" class="icon-btn"><span class="material-symbols-outlined">search</span></a></li>
+                    <li><a href="login.html" aria-label="Account" class="icon-btn"><span class="material-symbols-outlined">person</span></a></li>
+                    <li><a href="#" aria-label="Bag" class="icon-btn"><span class="material-symbols-outlined">shopping_bag</span></a></li>
+                    
                 </ul>
             </nav>
         </header>
@@ -83,6 +85,12 @@
                 <input type="password" id="confirm-password" name="confirm-password" required>
             </div>
         </div>
+        <div class="form-group">
+            <label for="choose-size" class="size">What is your US shoes size?</label>
+            <input type="number" id="choose-size" name="size" required>
+            <p id="link-size">Click <a href="shoe-table.html" >here</a> for size table.</p>
+        </div>
+
         
         <div class="form-group">
             <label for="marketing-source">Where did you hear about us</label>
@@ -118,5 +126,18 @@
     <footer>
     </footer>
     </main>
+    <footer id="main-footer">
+        <div class="footer-logo-container">
+          <img src="media/OneLine_logo_blanc_transparent.png" alt="OneLine Logo">
+        </div>
+        <hr>
+      
+        <div class="footer-information">
+            <a href="about.html">About</a>
+            <a href="managers.html">Managers</a>
+            <a href="terms.html">Terms of Use</a>
+          </div>
+    </footer>
+      
 </body>
 </html>

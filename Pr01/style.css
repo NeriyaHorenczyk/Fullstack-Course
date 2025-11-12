@@ -20,14 +20,19 @@ body{
     width:100%;
     overflow-x: hidden;
 }
+h6{
+    font-size: 15px;
+    letter-spacing: 1px;
+    font-weight: 300;
+}
 
 h6 a{
-    color:cadetblue;
-    text-decoration: none;
+    color:rgb(117, 21, 64);
+    padding-bottom: 1px;
 }
 
 h6 a:visited{
-    color:cadetblue;
+    color:rgb(179, 63, 152);
 }
 
 h6 a:hover{
@@ -44,8 +49,8 @@ h6 a:hover{
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    height: 100px;
-    background-color: rgb(255, 255, 255);
+    height: 60px;
+    background-color: rgb(218, 204, 204);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -56,6 +61,8 @@ h6 a:hover{
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    right: 50px;
 }
 .logo-container img {
     width: 150px;   
@@ -66,6 +73,7 @@ display: flex;
 gap: 30px;
 list-style: none;
 margin: 10px;
+font-size: large;
 }
 
 .main-header a {
@@ -165,79 +173,105 @@ margin: 10px;
 
 footer{
     display: block;
-    background-color:black;
+    background-color: black;
     position: relative;
     z-index: 10;
-}
-.footer-logo-container{
+    padding: 24px 16px;          
+    border-top: 1px solid rgba(255,255,255,0.08); 
+  }
+  
+  .footer-logo-container{
     text-align: center;
-    margin: auto;
-    width:100%;
-    height: 200px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1200px;            
     position: relative;
     z-index: 20;
-
-    height: 300px;
-}
-
-.footer-logo-container img{
-    width: 100%;
-    height: 100%;
+    padding: 12px 0;              
+  }
+  
+  .footer-logo-container img{
+    display: inline-block;
+    width: auto;                  
+    max-width: 220px;              
+    height: auto;
     object-fit: contain;
-}
-
-
-.footer-information{
+    filter: drop-shadow(0 0 0 transparent);
+  }
+    .footer-information{
     display: flex;
-    justify-content: space-around;
+    justify-content: center;       
     align-items: center;
-    height:400px;
-}
-
-.footer-information a{
+    gap: clamp(16px, 5vw, 40px);  
+    flex-wrap: wrap;               
+    height: auto;                  
+    padding: 16px 0 6px;
+    max-width: 1200px;
+    margin: 0 auto;               
+  }
+  
+  .footer-information a{
     color: white;
     text-decoration: none;
     text-transform: uppercase;
-    font-size: 2em;
-}
+    letter-spacing: 0.06em;
+    font-size: clamp(0.9rem, 1.6vw, 1.1rem);
+    transition: transform 200ms ease, color 200ms ease, opacity 200ms ease;
+    opacity: 0.92;
+  }
+  
+  .footer-information a:hover{
+    color: rgb(228, 215, 206);
+    transform: translateY(-3px);
+    opacity: 1;
+  }
 
-.footer-information a{
-    transition: transform 300ms ease, color 300ms ease;
-}
-.footer-information a:hover{
-    color: chocolate;
-    transform: translateY(-10px);
-}
 
-/* Signup Page Background */
-body.signup-page {
-    background-color:#e7e3e3;;
-}
 
-/* Signup Form Styles */
-.signup-intro {
+.signup-intro ,
+.signin-intro{
     text-align: center;
     padding: 60px 20px 40px;
     max-width: 600px;
     margin: 0 auto;
 }
 
-.signup-intro h1 {
+.signup-intro h1,
+.signin-intro h1 {
     font-size: 2.5em;
     margin-bottom: 15px;
     color: black;
 }
 
-.signup-intro p {
+.signup-intro p 
+.signin-intro p{
     font-size: 1.1em;
     color: #666;
 }
 
+#link-size{
+    margin:10px 0;
+    font-size: 1em;
+    font-family: inherit;
+    
+}
+.signin-intro p{
+    margin:30px;
+    font-size: 25px;
+}
 .signup-form {
     max-width: 600px;
     margin: 0 auto 60px;
     padding: 0 20px;
 }
+#choose-size{
+    font-size: 0.8rem;
+    padding: 14px 16px;
+    width: 100%;
+    max-width: 260px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
 
 .form-row {
     display: grid;
@@ -352,9 +386,9 @@ body.signup-page {
 
 .about-intro{
     text-align: center;
-    padding: 80px 20px 60px;
+    padding: 80px 20px 30px;
     margin: 0 auto;
-    max-width: 800px;
+    max-width: 850px;
 }
 
 .about-intro h1{
@@ -370,7 +404,11 @@ body.signup-page {
     font-size:1.3em;
     line-height: 1.8;
     font-weight: 300;
+    font-style: italic;
+    letter-spacing: 1px;
 }
+
+
 
 .about-grid {
     display: grid;
@@ -378,16 +416,17 @@ body.signup-page {
     gap: 40px;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 60px 20px 100px;
+    padding: 40px 20px 40px;
+    border-bottom: 2px black solid;
 }
 .about-card {
-    padding: 40px 30px;
+    padding: 40px 30px ;
     background-color: white;
     border: 1px solid #e0e0e0;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .about-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-20px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 .about-card p {
@@ -396,3 +435,94 @@ body.signup-page {
     line-height: 1.7;
     font-weight: 300;
 }
+.center-grid p{
+    margin:20px 0 30px;
+    font-size: 40px;
+    font-weight: 700;
+}
+.center-grid {
+    display: grid;
+    place-items: center; 
+  }
+
+  .map-embed {
+    width: 100%;
+    max-width: 1100px;  
+    margin: 0 auto;
+  }
+    .map-embed iframe {
+    display: block;   
+    width: 100%;       
+    aspect-ratio: 16 / 9;
+    border: 0;
+  }
+  .men-page,.women-page{
+    background: black;
+  }
+.men-video .men-category,
+.women-video .women-category{
+    width: 100%;
+    height:90vh;         
+    display: block;
+    object-fit: contain;  
+    object-position: center;
+    background: #000;  
+    margin : 0 0 40px ;
+  }
+
+  .parent{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    padding: 10px 30px;
+    margin-bottom: 48px;      
+  }
+  
+  .parent > div{
+    border: 1px solid #000;
+    padding: 0 0 8px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .product-image{
+    width: 100%;
+    aspect-ratio: 3 / 4;       
+    object-fit: cover;        
+    object-position: top center;
+    display: block;
+    border-radius: 4px;
+  }
+  
+  .product-title{ margin: 8px 12px 4px; font-size: 18px; font-weight: 600; }
+  .product-price{ margin: 0 12px; color: #444; font-size: 14px; }
+  
+  @media (max-width: 900px){
+    .parent{ grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px){
+    .parent{ grid-template-columns: 1fr; }
+  }
+  
+  
+.terms-page .terms-container{
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 16px;
+    color: #111;
+  }
+  
+  .pdf-embed{
+    width: 100%;
+    height: 800px;             
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 8px;
+    background: #fff;
+    display: block;
+  }
+  
+
+
+
+  
