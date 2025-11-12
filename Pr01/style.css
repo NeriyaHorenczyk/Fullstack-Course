@@ -272,6 +272,7 @@ footer{
     border: 1px solid #ddd;
     border-radius: 4px;
   }
+
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
