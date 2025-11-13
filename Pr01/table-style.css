@@ -14,6 +14,13 @@
 }
 
 /* ===== Tables ===== */
+
+.table-scroller{
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 40px;
+}
+
 .size-table {
   width: 100%;
   border-collapse: collapse;
@@ -23,7 +30,8 @@
   overflow: hidden;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
   margin-bottom: 60px;
-  max-width: 900px;
+  min-width: 700px;
+  
 }
 
 .size-table th,
@@ -60,17 +68,22 @@
 }
 
 
-.scroller{
-    overflow-x:auto;
-}
-
-
-
 @media (max-width: 768px) {
-  .size-table {
-    font-size: 10px;
+ .size-table {
+    font-size: 11px;
   }
+
+  .size-table th,
+  .size-table td {
+    padding: 6px 8px;
+  }
+
   .shoe-tables h1 {
     font-size: 20px;
+  }
+
+  .table-scroller {
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   }
 }
