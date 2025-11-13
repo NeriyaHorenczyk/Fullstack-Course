@@ -14,6 +14,7 @@
     padding: 6px 0;
     text-align: center;
     gap:5px;
+    font-family: 'Segoe UI', sans-serif;
 }
 
 body{
@@ -106,7 +107,6 @@ font-size: large;
     display: none;
 }
 
-/* Menu hamburger - caché par défaut */
 .hamburger {
     display: none;
     flex-direction: column;
@@ -124,7 +124,6 @@ font-size: large;
     border-radius: 2px;
 }
 
-/* Animation du hamburger quand la checkbox est cochée */
 .menu-toggle:checked + .hamburger span:nth-child(1) {
     transform: rotate(45deg) translate(8px, 8px);
 }
@@ -262,30 +261,24 @@ font-size: large;
     position: relative;
 }
 
-
 .cat-p{
-    position: absolute;
-    bottom: 100px;
-    justify-self: center;
-    color:white;
+    color: white;
     text-shadow: 0px 0px 10px black;
+    padding-bottom: 100px;
+    margin: 0;
 }
 
 .category a{
     transition: transform 500ms ease;
     position: relative;
     z-index: 1;
-}
-.category a:hover{
-    transform: scale(1.1);    
-}
-.category a {
-    transition: transform 0.3s ease;
-    position: relative;
+    display: block;
+    width: 100%;
+    text-decoration: none;
 }
 
-.category a:hover {
-    transform: scale(1.05);
+.category a:hover{
+    transform: scale(1.05);    
 }
 
 .category a:hover::before {
@@ -296,6 +289,17 @@ font-size: large;
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.category a div {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
 }
 
 .men-category{
@@ -304,6 +308,9 @@ font-size: large;
     background-position: center 10%; 
     height: 90vh; 
     flex: 0 0 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .women-category{
@@ -312,9 +319,42 @@ font-size: large;
     background-position: center 10%;
     height: 90vh; 
     flex: 0 0 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+/* Responsive styles */
+@media (max-width: 900px) {
+    .category{
+        flex-direction: column;
+    }
+    
+    .men-category,
+    .women-category {
+        flex: 0 0 100%;
+        width: 100%;
+        min-height:80vh;
+        
+    }
+    
+    .cat-p {
+        font-size: 40px;
+        padding-bottom: 80px;
+    }
+}
 
+@media (max-width: 600px) {
+    .men-category,
+    .women-category {
+        min-height: 50vh; /* Smaller height on very small screens */
+    }
+    
+    .cat-p {
+        font-size: 35px;
+        padding-bottom: 60px;
+    }
+}
 footer{
     display: block;
     background-color: black;
