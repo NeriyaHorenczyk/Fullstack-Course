@@ -39,11 +39,6 @@ h6 a:hover{
     color:rgb(249, 249, 255);
 }
 
-
-
-.store-sales{
-    text-transform: uppercase;
-}
 .main-header{
     display: flex;
     align-items: center;
@@ -456,6 +451,27 @@ footer{
     aspect-ratio: 16 / 9;
     border: 0;
   }
+  @media (max-width: 900px){
+    .about-grid{ grid-template-columns: repeat(2, 1fr);
+     }
+     .about-grid .about-card:last-child {
+        grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 600px){
+    .about-grid{ grid-template-columns: 1fr; }
+    .about-intro h1{
+        font-size: 2em;
+    }
+    
+    .about-intro p{
+        font-size:1.1em;
+    }
+    
+  }
+
+
+
   .men-page,.women-page{
     background: black;
   }
@@ -524,5 +540,7 @@ footer{
   
 
 
+
+  
 
   
