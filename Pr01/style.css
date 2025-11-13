@@ -410,6 +410,64 @@ footer{
     opacity: 1;
   }
 
+ /* ===== À AJOUTER À LA FIN DE style.css ===== */
+
+/* Social Links Section */
+.social-links {
+    margin-top: 10px;
+    text-align: center;
+    padding: 25px 0;
+  }
+  
+  .social-title {
+    color: white;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 15px;
+  }
+  
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+  }
+  
+  .social-icons a {
+    color: white;
+    transition: all 0.3s ease;
+  }
+  
+  .social-icons a:hover {
+    transform: translateY(-3px);
+    opacity: 0.7;
+  }
+  
+  .social-icons .material-symbols-outlined {
+    font-size: 28px;
+  }
+  
+  /* Copyright */
+  .copyright {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+    padding: 15px 0;
+    margin-top: 15px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 600px) {
+    .social-icons {
+      gap: 20px;
+    }
+    
+    .social-icons .material-symbols-outlined {
+      font-size: 24px;
+    }
+  }
+
+
 .signup-page {
     background-color: #faf8f6;
     min-height: 100vh;
