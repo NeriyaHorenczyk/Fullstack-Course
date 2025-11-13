@@ -10,6 +10,14 @@
 <body>
     <main>
         <header class="main-header">
+            <input type="checkbox" id="menu-toggle" class="menu-toggle">
+            
+            <label for="menu-toggle" class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+
             <nav class="main-nav">
                 <ul>
                     <li><a href="women.html">Women</a></li>
@@ -17,18 +25,23 @@
                     <li><a href="#">Accessories</a></li>
                 </ul>
             </nav> 
+            
             <div class="logo-container">
                 <a href="index.html"><img src="media/store-logo-removebg-preview.png" alt="OneLine Store" class="logo"></a>
             </div>
+            
             <nav class="secondary-nav">
                 <ul>
                     <li><a href="#" aria-label="Search" class="icon-btn"><span class="material-symbols-outlined">search</span></a></li>
                     <li><a href="login.html" aria-label="Account" class="icon-btn"><span class="material-symbols-outlined">person</span></a></li>
                     <li><a href="#" aria-label="Bag" class="icon-btn"><span class="material-symbols-outlined">shopping_bag</span></a></li>
-                    
                 </ul>
             </nav>
         </header>
+
+        <label for="menu-toggle" class="menu-overlay"></label>
+
+
         <section class="signin-intro">
             <h1>Welcome back</h1>
             <p>Access your orders, returns and saved items.</p>
@@ -44,26 +57,21 @@
                     </div>
                 </div>
                 <button type="submit" class="submit-btn">Sign In</button>
-
-
             </form>
         </section>
-
-        <footer>
-        </footer>
-        </main>
-        <footer id="main-footer">
-            <div class="footer-logo-container">
-              <img src="media/OneLine_logo_blanc_transparent.png" alt="OneLine Logo">
-            </div>
-            <hr>
-          
-            <div class="footer-information">
-                <a href="about.html">About</a>
-                <a href="managers.html">Managers</a>
-                <a href="terms.html">Terms of Use</a>
-              </div>
-        </footer>
-          
-    </body>
-    </html>
+    </main>
+    
+    <footer id="main-footer">
+        <div class="footer-logo-container">
+          <img src="media/OneLine_logo_blanc_transparent.png" alt="OneLine Logo">
+        </div>
+        <hr>
+      
+        <div class="footer-information">
+            <a href="about.html">About</a>
+            <a href="managers.html">Managers</a>
+            <a href="terms.html">Terms of Use</a>
+        </div>
+    </footer>
+</body>
+</html>
