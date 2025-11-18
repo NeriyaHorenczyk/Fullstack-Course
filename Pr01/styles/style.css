@@ -30,6 +30,7 @@ h6{
 h6 a{
     color:rgb(117, 21, 64);
     padding-bottom: 1px;
+    text-decoration: none;
 }
 
 h6 a:visited{
@@ -303,7 +304,7 @@ font-size: large;
 }
 
 .men-category{
-    background-image: url('../Pr01/media/men-category.png');
+    background-image: url('../../Pr01/media/men-category.png');
     background-size: cover;
     background-position: center 10%; 
     height: 90vh; 
@@ -314,7 +315,7 @@ font-size: large;
 }
 
 .women-category{
-    background-image: url('../Pr01/media/women-category.png');
+    background-image: url('../../Pr01/media/women-category.png');
     background-size: cover;
     background-position: center 10%;
     height: 90vh; 
