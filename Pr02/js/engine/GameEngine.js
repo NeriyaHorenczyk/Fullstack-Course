@@ -1,7 +1,8 @@
+// @ts-check
 import { Entity } from './Entity.js';
 
-// @ts-check
 export class GameEngine {
+	FPS_TARGET = 60;
 	/**
 	 * @param {HTMLCanvasElement} canvas
 	 */
@@ -57,7 +58,7 @@ export class GameEngine {
 
 	/**
 	 * Adds a game entity.
-	 * @param {{ update: (deltaTime: number) => void, render: (ctx: CanvasRenderingContext2D) => void }} entity
+	 * @param {Entity} entity
 	 */
 	addEntity(entity) {
 		this.entities.push(entity);
@@ -81,9 +82,24 @@ export class GameEngine {
 	 * @param {number} deltaTime
 	 */
 	update(deltaTime) {
+		// Update each entity
+		const deltaFrames = deltaTime / (1000 / this.FPS_TARGET);
 		for (const entity of this.entities) {
 			if (typeof entity.update === 'function') {
-				entity.update(deltaTime, this);
+				entity.update(deltaFrames, this);
+			}
+		}
+
+		// Handle collision
+		for (let i = 0; i < this.entities.length; i++) {
+			for (let j = i + 1; j < this.entities.length; j++) {
+				const entityA = this.entities[i];
+				const entityB = this.entities[j];
+
+				if (this.checkCollision(entityA, entityB)) {
+					entityA.onCollision(entityB, this);
+					entityB.onCollision(entityA, this);
+				}
 			}
 		}
 	}
@@ -100,5 +116,20 @@ export class GameEngine {
 				entity.render(this.context);
 			}
 		}
+	}
+
+	/**
+	 * Checks for AABB collision between two entities.
+	 * @param {Entity} a
+	 * @param {Entity} b
+	 * @returns {boolean}
+	 */
+	checkCollision(a, b) {
+		return (
+			a.position.x < b.position.x + b.size.x &&
+			a.position.x + a.size.x > b.position.x &&
+			a.position.y < b.position.y + b.size.y &&
+			a.position.y + a.size.y > b.position.y
+		);
 	}
 }

@@ -1,13 +1,20 @@
-import { GameEngine } from './GameEngine.js';
-
 // @ts-check
+import { GameEngine } from './GameEngine.js';
+import Vector from './Vector.js';
+
 export class Entity {
+	type = 'generic';
+	constructor() {
+		this.position = new Vector(0, 0);
+		this.size = new Vector(0, 0);
+	}
+
 	/**
 	 * Updates the entity's state.
-	 * @param {number} deltaTime - Time elapsed since the last update in milliseconds.
+	 * @param {number} deltaFrames - Time elapsed since the last update in frames.
 	 * @param {GameEngine} gameEngine - The game engine instance.
 	 */
-	update(deltaTime, gameEngine) {
+	update(deltaFrames, gameEngine) {
 		// Default implementation does nothing.
 		// Override this method in subclasses to provide specific behavior.
 	}
@@ -39,5 +46,15 @@ export class Entity {
 		// Default implementation does nothing.
 		// Override this method in subclasses to provide specific behavior.
 		// For example, cleanup resources or event listeners here.
+	}
+
+	/**
+	 * Handles collision with another entity.
+	 * @param {Entity} other - The other entity involved in the collision.
+	 * @param {GameEngine} gameEngine - The game engine instance.
+	 */
+	onCollision(other, gameEngine) {
+		// Default implementation does nothing.
+		// Override this method in subclasses to provide specific behavior.
 	}
 }
