@@ -13,6 +13,8 @@ const ACCELERATION = 1.5;
 const FRICTION = 0.85;
 // The fastest the player can run
 const MAX_SPEED = 12;
+// The fastest the player can fall to prevent tunneling
+const MAX_FALL_SPEED = 24;
 // How much force to apply when jumping
 const JUMP_FORCE = -18;
 
@@ -32,6 +34,7 @@ export default class Player extends Entity {
 		super();
 		this.scale = 0.15;
 		this.position = new Vector(x, y);
+		this.previousPosition = new Vector(x, y);
 		this.velocity = new Vector(0, 0);
 
 		// Input State tracking
@@ -118,6 +121,9 @@ export default class Player extends Entity {
 	 * @param {number} deltaFrames
 	 */
 	update(deltaFrames) {
+		// Store previous position for collision resolution
+		this.previousPosition = new Vector(this.position.x, this.position.y);
+
 		// 1. Apply Gravity
 		this.velocity.y += GRAVITY * deltaFrames;
 		// Snap to 0 if very slow to prevent micro-sliding
@@ -141,6 +147,9 @@ export default class Player extends Entity {
 		// 4. Cap Velocity (Max Speed)
 		if (this.velocity.x > MAX_SPEED) this.velocity.x = MAX_SPEED;
 		if (this.velocity.x < -MAX_SPEED) this.velocity.x = -MAX_SPEED;
+
+		// Cap Fall Speed
+		if (this.velocity.y > MAX_FALL_SPEED) this.velocity.y = MAX_FALL_SPEED;
 
 		// 5. Jump Logic
 		if (this.inputs.up && this.grounded) {
@@ -280,8 +289,13 @@ export default class Player extends Entity {
 	 */
 	onCollision(other, gameEngine) {
 		if (other.type === 'platform' && this.velocity.y > 0) {
-			// Check if we are landing on top (feet above platform center approximately)
-			if (this.position.y + this.size.y < other.position.y + other.size.y / 2 + 10) {
+			// Use previous position to determine if we were above the platform.
+			// This prevents clipping when falling fast (tunneling).
+			const feetPrevious = this.previousPosition.y + this.size.y;
+			const platformTop = other.position.y;
+			const margin = 10; // Allow a small margin of error
+
+			if (feetPrevious <= platformTop + margin) {
 				this.position.y = other.position.y - this.size.y;
 				this.velocity.y = 0;
 				if (this.state !== PlayerState.STANDING && this.state !== PlayerState.RUNNING) {

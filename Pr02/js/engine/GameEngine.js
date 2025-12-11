@@ -83,7 +83,9 @@ export class GameEngine {
 	 */
 	update(deltaTime) {
 		// Update each entity
-		const deltaFrames = deltaTime / (1000 / this.FPS_TARGET);
+		// Clamp deltaFrames to prevent massive jumps during lag spikes (max 5 frames ~ 83ms)
+		const rawDeltaFrames = deltaTime / (1000 / this.FPS_TARGET);
+		const deltaFrames = Math.min(rawDeltaFrames, 5);
 		for (const entity of this.entities) {
 			if (typeof entity.update === 'function') {
 				entity.update(deltaFrames, this);
