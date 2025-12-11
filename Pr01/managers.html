@@ -1,50 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="managers-style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="stylesheet" href="styles/managers-style.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    />
     <title>Managers</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h6 class="store-sales">Enjoy 15% off your first order when you <a href="signup.html">sign up</a></h6>
+      <h6 class="store-sales">
+        Enjoy 15% off your first order when you
+        <a href="signup.html">sign up</a>
+      </h6>
     </header>
 
     <main>
-        <header class="main-header">
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="women.html">About</a></li>
-                    <li><a href="men.html">Men</a></li>
-                    <li><a href="#">Accessories</a></li>
-                </ul>
-            </nav> 
-            <div class="logo-container">
-                <a href="index.html"><img src="media/store-logo-removebg-preview.png" alt="OneLine Store" class="logo"></a>
-            </div>
-            <nav class="secondary-nav">
-                <ul>
-                    <li><a href="#">Search</a></li>
-                    <li><a href="#">Account</a></li>
-                    <li><a href="#">Bag</a></li>
-                </ul>
-            </nav>
-        </header>
+      <header class="main-header">
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        
+        <label for="menu-toggle" class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
 
-        <section class="managers-info">
-            <section class="Neriya-card"></section>
-            <section class="David-card"></section>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="women.html">Women</a></li>
+                <li><a href="men.html">Men</a></li>
+                <li><a href="accessories.html">Accessories</a></li>
+            </ul>
+        </nav> 
+        
+        <div class="logo-container">
+            <a href="index.html"><img src="media/store-logo-removebg-preview.png" alt="OneLine Store" class="logo"></a>
+        </div>
+        
+        <nav class="secondary-nav">
+            <ul>
+                <li><a href="#" aria-label="Search" class="icon-btn"><span class="material-symbols-outlined">search</span></a></li>
+                <li><a href="login.html" aria-label="Account" class="icon-btn"><span class="material-symbols-outlined">person</span></a></li>
+                <li><a href="#" aria-label="Bag" class="icon-btn"><span class="material-symbols-outlined">shopping_bag</span></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <label for="menu-toggle" class="menu-overlay"></label>
+
+      <section class="managers-info">
+        <section class="Neriya-card card">
+          <div class="img-container">
+            <img src="media/1708282204063.jpeg" alt="Neriya-photo" />
+          </div>
+          <div class="info-container">
+            <h1 class="name">Neriya Horenczyk</h1>
+            <h2 class="title">Fullstack Developer</h2>
+            <p class="description">
+              Passionate about crafting responsive designs and seamless user
+              experiences.
+            </p>
+             <a href="mailto:ner13579@gmail.com"
+         class="email-link"
+         aria-label="Email Neriya at neriya.horenczyk@gmail.com">
+         ✉️ Email me
+      </a>
+          </div>
         </section>
-
-
-        <footer>
-            <div class="footer-information">
-                <a href="about.html">about</a>
-                <a href="#">managers</a>
-            </div>
-        </footer>
+        <section class="David-card card">
+          <div class="img-container">
+            <img src="media/David's-Photo.jpg" alt="David-photo" />
+          </div>
+          <div class="info-container">
+            <h1 class="name">David Sperling</h1>
+            <h2 class="title">Fullstack Developer</h2>
+            <p class="description">
+              Focused on creative design and visual aesthetics that bring ideas to life.
+            </p>
+            <a href="mailto:davsperling@gmail.com"
+         class="email-link"
+         aria-label="Email David at davsperling@gmail.com"> <!-- for screen readers-->
+         ✉️ Email me
+      </a>
+          </div>
+        </section>
+      </section>
     </main>
-</body>
+
+    <footer id="main-footer">
+      <div class="footer-logo-container">
+        <img src="media/OneLine_logo_blanc_transparent.png" alt="OneLine Logo">
+      </div>
+      <hr>
+                <div class="footer-information">
+        <a href="about.html">About</a>
+        <a href="managers.html">Managers</a>
+        <a href="terms.html">Terms of Use</a>
+      </div>
+    
+      <div class="social-links">
+        <p class="social-title">Follow Us</p>
+        <div class="social-icons">
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram">
+            <span class="material-symbols-outlined">photo_camera</span>
+          </a>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook">
+            <span class="material-symbols-outlined">facebook</span>
+          </a>
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Twitter">
+            <span class="material-symbols-outlined">X</span>
+          </a>
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="Subscribe on YouTube">
+            <span class="material-symbols-outlined">play_circle</span>
+          </a>
+        </div>
+      </div>
+    
+      <p class="copyright">© 2025 OneLine Store. All rights reserved.</p>
+    </footer>
+  </body>
 </html>

@@ -3,30 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <title>Sign up - OneLine Store</title>
 </head>
 <body class="signup-page">
     <main>
         <header class="main-header">
+            <input type="checkbox" id="menu-toggle" class="menu-toggle">
+            
+            <label for="menu-toggle" class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+
             <nav class="main-nav">
                 <ul>
                     <li><a href="women.html">Women</a></li>
                     <li><a href="men.html">Men</a></li>
-                    <li><a href="#">Accessories</a></li>
+                    <li><a href="accessories.html">Accessories</a></li>
                 </ul>
             </nav> 
+            
             <div class="logo-container">
                 <a href="index.html"><img src="media/store-logo-removebg-preview.png" alt="OneLine Store" class="logo"></a>
             </div>
+            
             <nav class="secondary-nav">
                 <ul>
-                    <li><a href="#">Search</a></li>
-                    <li><a href="#">Account</a></li>
-                    <li><a href="#">Bag</a></li>
+                    <li><a href="#" aria-label="Search" class="icon-btn"><span class="material-symbols-outlined">search</span></a></li>
+                    <li><a href="login.html" aria-label="Account" class="icon-btn"><span class="material-symbols-outlined">person</span></a></li>
+                    <li><a href="#" aria-label="Bag" class="icon-btn"><span class="material-symbols-outlined">shopping_bag</span></a></li>
                 </ul>
             </nav>
         </header>
+
+        <label for="menu-toggle" class="menu-overlay"></label>
         <section class="signup-intro">
             <h1>Sign up</h1>
             <p>Create an account to get 15% off your first order</p>
@@ -83,6 +96,12 @@
                 <input type="password" id="confirm-password" name="confirm-password" required>
             </div>
         </div>
+        <div class="form-group">
+            <label for="choose-size" class="size">What is your US shoes size?</label>
+            <input type="number" id="choose-size" name="size" required>
+            <p id="link-size">Click <a href="shoe-table.html" target="_blank">here</a> for size table.</p>
+        </div>
+
         
         <div class="form-group">
             <label for="marketing-source">Where did you hear about us</label>
@@ -115,8 +134,37 @@
         
         <button type="submit" class="submit-btn">Sign up</button>
     </form>
-    <footer>
-    </footer>
-    </main>
+    <footer id="main-footer">
+        <div class="footer-logo-container">
+          <img src="media/OneLine_logo_blanc_transparent.png" alt="OneLine Logo">
+        </div>
+        <hr>
+                  <div class="footer-information">
+          <a href="about.html">About</a>
+          <a href="managers.html">Managers</a>
+          <a href="terms.html">Terms of Use</a>
+        </div>
+      
+        <div class="social-links">
+          <p class="social-title">Follow Us</p>
+          <div class="social-icons">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram">
+              <span class="material-symbols-outlined">photo_camera</span>
+            </a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook">
+              <span class="material-symbols-outlined">facebook</span>
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Twitter">
+              <span class="material-symbols-outlined">X</span>
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="Subscribe on YouTube">
+              <span class="material-symbols-outlined">play_circle</span>
+            </a>
+          </div>
+        </div>
+      
+        <p class="copyright">© 2025 OneLine Store. All rights reserved.</p>
+      </footer>
+      
 </body>
 </html>

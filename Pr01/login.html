@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <title>Login</title>
+</head>
+<body>
+    <main>
+        <header class="main-header">
+            <input type="checkbox" id="menu-toggle" class="menu-toggle">
+            
+            <label for="menu-toggle" class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="women.html">Women</a></li>
+                    <li><a href="men.html">Men</a></li>
+                    <li><a href="accessories.html">Accessories</a></li>
+                </ul>
+            </nav> 
+            
+            <div class="logo-container">
+                <a href="index.html"><img src="media/store-logo-removebg-preview.png" alt="OneLine Store" class="logo"></a>
+            </div>
+            
+            <nav class="secondary-nav">
+                <ul>
+                    <li><a href="#" aria-label="Search" class="icon-btn"><span class="material-symbols-outlined">search</span></a></li>
+                    <li><a href="login.html" aria-label="Account" class="icon-btn"><span class="material-symbols-outlined">person</span></a></li>
+                    <li><a href="#" aria-label="Bag" class="icon-btn"><span class="material-symbols-outlined">shopping_bag</span></a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <label for="menu-toggle" class="menu-overlay"></label>
+
+
+        <section class="signin-intro">
+            <h1>Welcome back</h1>
+            <p>Access your orders, returns and saved items.</p>
+            <form action="" method="post" class="signup-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="name@example.com" >
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="demo1234" required>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Sign In</button>
+            </form>
+        </section>
+    </main>
+    
+    <footer id="main-footer">
+        <div class="footer-logo-container">
+          <img src="media/OneLine_logo_blanc_transparent.png" alt="OneLine Logo">
+        </div>
+        <hr>
+                  <div class="footer-information">
+          <a href="about.html">About</a>
+          <a href="managers.html">Managers</a>
+          <a href="terms.html">Terms of Use</a>
+        </div>
+      
+        <div class="social-links">
+          <p class="social-title">Follow Us</p>
+          <div class="social-icons">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram">
+              <span class="material-symbols-outlined">photo_camera</span>
+            </a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook">
+              <span class="material-symbols-outlined">facebook</span>
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Twitter">
+              <span class="material-symbols-outlined">X</span>
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="Subscribe on YouTube">
+              <span class="material-symbols-outlined">play_circle</span>
+            </a>
+          </div>
+        </div>
+      
+        <p class="copyright">© 2025 OneLine Store. All rights reserved.</p>
+      </footer>
+</body>
+</html>

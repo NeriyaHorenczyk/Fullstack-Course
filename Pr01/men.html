@@ -4,33 +4,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Men Page</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 </head>
-<body>
+<body class="men-page">
     <header>
         <h6 class="store-sales">Enjoy 15% off your first order when you <a href="signup.html">sign up</a></h6>
     </header>
 
     <main>
-        <header class="main-header">
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#main-footer">About</a></li>
-                    <li><a href="men.html">Men</a></li>
-                    <li><a href="#">Accessories</a></li>
-                </ul>
-            </nav> 
-            <div class="logo-container">
-                <a href="index.html"><img src="media/store-logo-removebg-preview.png" alt="OneLine Store" class="logo"></a>
-            </div>
-            <nav class="secondary-nav">
-                <ul>
-                    <li><a href="#">Search</a></li>
-                    <li><a href="#">Account</a></li>
-                    <li><a href="#">Bag</a></li>
-                </ul>
-            </nav>
-        </header>
-        <video src="../Pr01/media/men-video.webm" class="men-category" autoplay muted loop>Men video categpry</video>
+      <header class="main-header">
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        
+        <label for="menu-toggle" class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+
+        <nav class="main-nav">
+            <ul>
+                <li><a href="women.html">Women</a></li>
+                <li><a href="men.html">Men</a></li>
+                <li><a href="accessories.html">Accessories</a></li>
+            </ul>
+        </nav> 
+        
+        <div class="logo-container">
+            <a href="index.html"><img src="media/store-logo-removebg-preview.png" alt="OneLine Store" class="logo"></a>
+        </div>
+        
+        <nav class="secondary-nav">
+            <ul>
+                <li><a href="#" aria-label="Search" class="icon-btn"><span class="material-symbols-outlined">search</span></a></li>
+                <li><a href="login.html" aria-label="Account" class="icon-btn"><span class="material-symbols-outlined">person</span></a></li>
+                <li><a href="#" aria-label="Bag" class="icon-btn"><span class="material-symbols-outlined">shopping_bag</span></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <label for="menu-toggle" class="menu-overlay"></label>
+
+    <div class="men-video">
+        <video src="../Pr01/media/men-video.webm" class="men-category" autoplay muted loop>Men video category</video>
+    </div>
+
+    <div class="parent">
+        <div class="div1">
+          <img class="product-image" src="../Pr01/media/pict1-men.avif" alt="Wool overshirt">
+          <h3 class="product-title">Wool overshirt</h3>
+          <p class="product-price">$189</p>
+          <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+      
+        <div class="div2">
+          <img class="product-image" src="../Pr01/media/men-pic2.avif" alt="Double-faced wool overshirt">
+          <h3 class="product-title">Double-faced wool overshirt</h3>
+          <p class="product-price">$189</p>
+          <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+      
+        <div class="div3">
+          <img class="product-image" src="../Pr01/media/pic3-men.avif" alt="Chunky boots">
+          <h3 class="product-title">Chunky boots</h3>
+          <p class="product-price">$289</p>
+          <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+      
+        <div class="div4">
+          <img class="product-image" src="../Pr01/media/pic4-men.avif" alt="Rider straight-leg jeans">
+          <h3 class="product-title">Rider straight-leg jeans</h3>
+          <p class="product-price">$189</p>
+          <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+      
+        <div class="div5">
+          <img class="product-image" src="../Pr01/media/pic5-men.avif" alt="Slim merino wool crew-neck sweater">
+          <h3 class="product-title">Slim merino wool crew-neck sweater</h3>
+          <p class="product-price">$89</p>
+          <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+
+        <div class="div6">
+          <img class="product-image" src="../Pr01/media/pic6-men.webp" alt="Checked pima cotton shirt">
+          <h3 class="product-title">Checked pima cotton shirt</h3>
+          <p class="product-price">$99</p>
+          <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+    </div>
+
+    <footer id="main-footer">
+      <div class="footer-logo-container">
+        <img src="media/OneLine_logo_blanc_transparent.png" alt="OneLine Logo">
+      </div>
+      <hr>
+                <div class="footer-information">
+        <a href="about.html">About</a>
+        <a href="managers.html">Managers</a>
+        <a href="terms.html">Terms of Use</a>
+      </div>
+    
+      <div class="social-links">
+        <p class="social-title">Follow Us</p>
+        <div class="social-icons">
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram">
+            <span class="material-symbols-outlined">photo_camera</span>
+          </a>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook">
+            <span class="material-symbols-outlined">facebook</span>
+          </a>
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Twitter">
+            <span class="material-symbols-outlined">X</span>
+          </a>
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="Subscribe on YouTube">
+            <span class="material-symbols-outlined">play_circle</span>
+          </a>
+        </div>
+      </div>
+    
+      <p class="copyright">© 2025 OneLine Store. All rights reserved.</p>
+    </footer>
+    </main>
 </body>
 </html>
