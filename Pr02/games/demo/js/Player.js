@@ -121,8 +121,9 @@ export default class Player extends Entity {
 	/**
 	 * Updates the player's position and physics.
 	 * @param {number} deltaFrames
+	 * @param {GameEngine} gameEngine
 	 */
-	update(deltaFrames) {
+	update(deltaFrames, gameEngine) {
 		// Store previous position for collision resolution
 		this.previousPosition = new Vector(this.position.x, this.position.y);
 
@@ -153,8 +154,8 @@ export default class Player extends Entity {
 		// Cap Fall Speed
 		if (this.velocity.y > MAX_FALL_SPEED) this.velocity.y = MAX_FALL_SPEED;
 
-		// 5. Jump Logic
-		if (this.inputs.up && this.grounded) {
+		// 5. If we're on the ground, jump
+		if (this.grounded) {
 			this.velocity.y = JUMP_FORCE;
 			this.state = PlayerState.JUMPING;
 			this.grounded = false;
@@ -175,7 +176,24 @@ export default class Player extends Entity {
 			this.state = PlayerState.STANDING;
 		}
 
-		// this.grounded = false;
+		// 8. X-Screen Wrapping
+		if (this.position.x > gameEngine.canvas.width) {
+			this.position.x = -this.size.x;
+		} else if (this.position.x + this.size.x < 0) {
+			this.position.x = gameEngine.canvas.width;
+		}
+		// 9. Camera / Game Offset Logic
+
+		// If the player is in the top x% of the screen
+		const threshold = Y_THRESHOLD * gameEngine.canvas.height - gameEngine.gameOffset.y;
+		if (this.position.y < threshold) {
+			// Calculate how far we need to pull the world down
+			// to keep the player at the threshold line.
+			// Example: Player Y = 100, Threshold = 200. We shift +100.
+			const targetOffset = threshold - this.position.y;
+			// We only move the camera up (positive offset)
+			if (targetOffset > 0) gameEngine.gameOffset.y += targetOffset;
+		}
 	}
 
 	/**
@@ -251,12 +269,12 @@ export default class Player extends Entity {
 		ctx.fillText(
 			`Pos: (${this.position.x.toFixed(0)}, ${this.position.y.toFixed(0)})`,
 			this.position.x,
-			this.position.y - 20,
+			this.position.y - 20
 		);
 		ctx.fillText(
 			`Vel: (${this.velocity.x.toFixed(0)}, ${this.velocity.y.toFixed(0)})`,
 			this.position.x,
-			this.position.y - 35,
+			this.position.y - 35
 		);
 		ctx.fillText(`Grounded: ${this.grounded}`, this.position.x, this.position.y - 50);
 		ctx.fillText(`State: ${this.state.description}`, this.position.x, this.position.y - 65);
