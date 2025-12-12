@@ -7,13 +7,12 @@ export default class Platform extends Entity {
 	/**
 	 * @param {number} x
 	 * @param {number} y
-	 * @param {number} width
-	 * @param {number} height
+	 * @param {string} variant
 	 */
-	constructor(x, y, width, height) {
+	constructor(x, y, variant) {
 		super();
 		this.position = new Vector(x, y);
-		this.size = new Vector(width, height);
+		this.size = new Vector(40, 5);
 	}
 
 	/**
