@@ -20,7 +20,8 @@ export default class Platform extends Entity {
 	 * @param {CanvasRenderingContext2D} ctx
 	 */
 	render(ctx) {
-		ctx.fillStyle = 'brown';
-		ctx.fillRect(this.position.x, this.position.y, this.size.x, this.size.y);
+		ctx.fillStyle = 'green';
+		ctx.fill();
+		ctx.roundRect(this.position.x, this.position.y, this.size.x, this.size.y, 5);
 	}
 }
