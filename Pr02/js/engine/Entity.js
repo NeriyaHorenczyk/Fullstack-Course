@@ -4,6 +4,8 @@ import Vector from './Vector.js';
 
 export class Entity {
 	type = 'generic';
+	NO_COLLISION = false;
+	STATIC_ON_SCREEN = false;
 	constructor() {
 		this.position = new Vector(0, 0);
 		this.size = new Vector(0, 0);
