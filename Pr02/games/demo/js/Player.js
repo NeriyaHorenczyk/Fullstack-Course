@@ -95,7 +95,8 @@ export default class Player extends Entity {
 		const keyDownHandler = (e) => this.handleKey(e, true);
 		// @ts-ignore event handler type
 		const keyUpHandler = (e) => this.handleKey(e, false);
-		const mouseClickHandler = this.onMouseClick.bind(this);
+		// @ts-ignore event handler type
+		const mouseClickHandler = (e) => this.onMouseClick(e, gameEngine.gameOffset);
 
 		this.eventListeners.set('keydown', keyDownHandler);
 		this.eventListeners.set('keyup', keyUpHandler);
@@ -271,11 +272,17 @@ export default class Player extends Entity {
 	/**
 	 * Handles mouse click events to move the player.
 	 * @param {MouseEvent} event
+	 * @param {Vector} offset
 	 */
-	onMouseClick(event) {
+	onMouseClick(event, offset) {
 		const { clientX, clientY } = event;
-		this.position.x = clientX - this.size.x / 2;
-		this.position.y = clientY - this.size.y / 2;
+		// Adjust for canvas position and game offset
+		const adjustedX = clientX - offset.x;
+		const adjustedY = clientY - offset.y;
+
+		// Center player on click position
+		this.position.x = adjustedX;
+		this.position.y = adjustedY;
 		this.velocity = new Vector(0, 0);
 	}
 
