@@ -12,11 +12,13 @@ const ACCELERATION = 1.5;
 // How quickly to slow down when letting go (0.0-1.0)
 const FRICTION = 0.85;
 // The fastest the player can run
-const MAX_SPEED = 12;
+const MAX_SPEED = 120;
 // The fastest the player can fall to prevent tunneling
-const MAX_FALL_SPEED = 24;
+const MAX_FALL_SPEED = Infinity;
 // How much force to apply when jumping
 const JUMP_FORCE = -18;
+
+const Y_THRESHOLD = 0.25; // If the player is in the top 25% of the screen, move the wallpaper
 
 /**
  * Represents a player entity in the game.
@@ -26,15 +28,13 @@ export default class Player extends Entity {
 	type = 'player';
 
 	/**
-	 * @param {number} x
-	 * @param {number} y
 	 * @param {string} spriteSrc
 	 */
-	constructor(x, y, spriteSrc) {
+	constructor(spriteSrc) {
 		super();
-		this.scale = 0.15;
-		this.position = new Vector(x, y);
-		this.previousPosition = new Vector(x, y);
+		this.scale = 0.1;
+		this.position = new Vector(0, 0);
+		this.previousPosition = new Vector(0, 0);
 		this.velocity = new Vector(0, 0);
 
 		// Input State tracking
