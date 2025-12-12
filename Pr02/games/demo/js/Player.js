@@ -48,11 +48,12 @@ export default class Player extends Entity {
 		this.facingRight = true;
 
 		/** @type {Record<symbol, string>} */
+		// Can be extended to have different sprites for different states
 		const statePaths = {
-			[PlayerState.STANDING]: `${spriteSrc}/standing.png`,
-			[PlayerState.JUMPING]: `${spriteSrc}/jumping.png`,
-			[PlayerState.FALLING]: `${spriteSrc}/falling.png`,
-			[PlayerState.RUNNING]: `${spriteSrc}/running.png`,
+			[PlayerState.STANDING]: `${spriteSrc}/doodle_jump_guy.png`,
+			[PlayerState.JUMPING]: `${spriteSrc}/doodle_jump_guy.png`,
+			[PlayerState.FALLING]: `${spriteSrc}/doodle_jump_guy.png`,
+			[PlayerState.RUNNING]: `${spriteSrc}/doodle_jump_guy.png`,
 		};
 
 		/** @type {Record<symbol, HTMLImageElement>} */
@@ -67,7 +68,7 @@ export default class Player extends Entity {
 			this.sprites[state] = img;
 		});
 
-		this.debug = false;
+		this.debug = true;
 		this.state = PlayerState.STANDING;
 		this.grounded = false;
 
