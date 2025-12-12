@@ -1,5 +1,6 @@
 // @ts-check
 import { Entity } from './Entity.js';
+import Vector from './Vector.js';
 
 export class GameEngine {
 	FPS_TARGET = 60;
@@ -18,7 +19,10 @@ export class GameEngine {
 		this.running = false;
 		this.lastUpdateTime = 0;
 		this.deltaTime = 0;
+		this.gameOffset = new Vector(0, 0);
 
+		/** @type {((deltaFrames: number) => void)[]} */
+		this.tickCallbacks = [];
 		// Bind once, so 'this' works in gameLoop
 		this.gameLoop = this.gameLoop.bind(this);
 	}
@@ -49,11 +53,23 @@ export class GameEngine {
 
 		this.deltaTime = timestamp - this.lastUpdateTime;
 		this.lastUpdateTime = timestamp;
+		// Clamp deltaFrames to prevent massive jumps during lag spikes (max 5 frames ~ 83ms)
+		const rawDeltaFrames = this.deltaTime / (1000 / this.FPS_TARGET);
+		const deltaFrames = Math.min(rawDeltaFrames, 5);
 
-		this.update(this.deltaTime);
+		this.update(deltaFrames);
 		this.render();
 
 		requestAnimationFrame(this.gameLoop);
+		this.tickCallbacks.forEach((callback) => callback(deltaFrames));
+	}
+
+	/**
+	 * Registers a callback to be called on each tick.
+	 * @param {(deltaFrames: number) => void} callback
+	 */
+	onTick(callback) {
+		this.tickCallbacks.push(callback);
 	}
 
 	/**
@@ -79,13 +95,10 @@ export class GameEngine {
 
 	/**
 	 * Updates all game entities.
-	 * @param {number} deltaTime
+	 * @param {number} deltaFrames
 	 */
-	update(deltaTime) {
+	update(deltaFrames) {
 		// Update each entity
-		// Clamp deltaFrames to prevent massive jumps during lag spikes (max 5 frames ~ 83ms)
-		const rawDeltaFrames = deltaTime / (1000 / this.FPS_TARGET);
-		const deltaFrames = Math.min(rawDeltaFrames, 5);
 		for (const entity of this.entities) {
 			if (typeof entity.update === 'function') {
 				entity.update(deltaFrames, this);
@@ -94,7 +107,9 @@ export class GameEngine {
 
 		// Handle collision
 		for (let i = 0; i < this.entities.length; i++) {
+			if (this.entities[i].NO_COLLISION) continue;
 			for (let j = i + 1; j < this.entities.length; j++) {
+				if (this.entities[j].NO_COLLISION) continue;
 				const entityA = this.entities[i];
 				const entityB = this.entities[j];
 
@@ -111,13 +126,28 @@ export class GameEngine {
 	 */
 	render() {
 		if (!this.context) return;
+
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+		this.context.save();
+
+		// Apply the camera offset
+		// We translate the entire coordinate system by the offset amount
+		this.context.translate(this.gameOffset.x, this.gameOffset.y);
+
 		for (const entity of this.entities) {
-			if (typeof entity.render === 'function') {
+			if (entity.STATIC_ON_SCREEN) {
+				// Render static entities in screen space
+				this.context.save();
+				this.context.translate(-this.gameOffset.x, -this.gameOffset.y);
+				entity.render(this.context);
+				this.context.restore();
+			} else {
+				// Render dynamic entities in world space
 				entity.render(this.context);
 			}
 		}
+		this.context.restore();
 	}
 
 	/**
