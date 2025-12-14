@@ -1,44 +1,80 @@
 // @ts-check
-import TextEntity from '../../games/doodle_jump/js/TextEntity.js';
-import { Entity } from './Entity.js';
 import Vector from './Vector.js';
+import { Entity } from './Entity.js';
 
+/**
+ * Generic 2D game engine with a fixed-timestep update loop.
+ *
+ * Responsibilities:
+ * - Fixed timestep game loop
+ * - Entity lifecycle management
+ * - Collision detection (AABB)
+ * - World-to-screen camera transform
+ * - Rendering orchestration
+ *
+ * This class is intentionally game-agnostic.
+ * Game-specific rules should be implemented in subclasses.
+ */
 export class GameEngine {
+	/** Target simulation frames per second */
 	FPS_TARGET = 60;
+
+	/** Duration of a single simulation frame in milliseconds */
 	FRAME_TIME = 1000 / this.FPS_TARGET;
 
 	/**
-	 * @param {HTMLCanvasElement} canvas
-	 * @param {boolean} debug
+	 * @param {HTMLCanvasElement} canvas - Canvas used for rendering
+	 * @param {boolean} [debug=false] - Enables debug rendering
 	 */
 	constructor(canvas, debug = false) {
+		/** @type {HTMLCanvasElement} */
 		this.canvas = canvas;
+
+		/** @type {boolean} */
 		this.debug = debug;
+
+		/** @type {CanvasRenderingContext2D | null} */
 		this.context = canvas.getContext('2d');
-		if (!this.context) throw new Error('Failed to get 2D context');
+		if (!this.context) {
+			throw new Error('Failed to acquire 2D rendering context');
+		}
+
+		/** @type {Entity[]} */
+		this.entities = [];
+
+		/** Indicates whether the engine loop is currently running */
+		this.running = false;
+
+		/** Timestamp of the previous frame (ms) */
+		this.lastUpdateTime = 0;
+
+		/** Accumulated unprocessed time for fixed timestep updates (ms) */
+		this.accumulator = 0;
 
 		/**
-		 * @type {Entity[]}
+		 * Camera offset in world coordinates.
+		 * This value is subtracted from all rendered entities.
+		 * @type {Vector}
 		 */
-		this.entities = [];
-		this.running = false;
-		this.lastUpdateTime = 0;
-		this.deltaTime = 0;
-		this.gameOffset = new Vector(0, 0);
-		this.gameIsOver = false;
+		this.cameraOffset = new Vector(0, 0);
 
-		/** @type {(() => void)[]} */
+		/**
+		 * Callbacks executed once per rendered frame.
+		 * @type {Array<() => void>}
+		 */
 		this.tickCallbacks = [];
-		// Bind once, so 'this' works in gameLoop
+
+		// Ensure correct `this` binding for requestAnimationFrame
 		this.gameLoop = this.gameLoop.bind(this);
-		this.accumulator = 0; // Time accumulator for fixed timestep
 	}
 
 	/**
 	 * Starts the game loop.
+	 * Has no effect if already running.
 	 */
 	start() {
 		if (this.running) return;
+
 		this.running = true;
 		this.lastUpdateTime = performance.now();
 		requestAnimationFrame(this.gameLoop);
@@ -46,14 +82,17 @@ export class GameEngine {
 
 	/**
 	 * Stops the game loop.
+	 * Rendering and updates cease immediately.
 	 */
 	stop() {
 		this.running = false;
 	}
 
 	/**
-	 * The main game loop.
-	 * @param {number} timestamp
+	 * Main game loop callback.
+	 * Uses a fixed timestep update with time accumulation.
+	 *
+	 * @param {number} timestamp - High-resolution timestamp from requestAnimationFrame
 	 */
 	gameLoop(timestamp) {
 		if (!this.running) return;
@@ -62,74 +101,51 @@ export class GameEngine {
 		this.lastUpdateTime = timestamp;
 
 		while (this.accumulator >= this.FRAME_TIME) {
-			this.update(1); // exactly one frame
+			this.update(1);
 			this.accumulator -= this.FRAME_TIME;
 		}
 
 		this.render();
 		requestAnimationFrame(this.gameLoop);
+
 		this.tickCallbacks.forEach((cb) => cb());
 	}
 
 	/**
-	 * Registers a callback to be called on each tick.
-	 * @param {() => void} callback
-	 */
-	onTick(callback) {
-		this.tickCallbacks.push(callback);
-	}
-
-	/**
-	 * Adds a game entity.
-	 * @param {Entity} entity
-	 */
-	addEntity(entity) {
-		this.entities.push(entity);
-		entity.onAdd?.(this);
-	}
-
-	/**
-	 * Removes a game entity.
-	 * @param {*} entity
-	 */
-	removeEntity(entity) {
-		const removedEntities = this.entities.filter((e) => e === entity);
-		this.entities = this.entities.filter((e) => e !== entity);
-		for (const removedEntity of removedEntities) {
-			removedEntity.destroy?.(this);
-		}
-	}
-
-	/**
-	 * Updates all game entities.
-	 * @param {number} deltaFrames
+	 * Updates all entities and processes collisions.
+	 *
+	 * @param {number} deltaFrames - Number of fixed simulation frames to advance
 	 */
 	update(deltaFrames) {
-		// Update each entity
 		for (const entity of this.entities) {
-			if (typeof entity.update === 'function') {
-				entity.update(deltaFrames, this);
-			}
+			entity.update?.(deltaFrames, this);
 		}
 
-		// Handle collision
-		for (let i = 0; i < this.entities.length; i++) {
-			if (this.entities[i].NO_COLLISION) continue;
-			for (let j = i + 1; j < this.entities.length; j++) {
-				if (this.entities[j].NO_COLLISION) continue;
-				const entityA = this.entities[i];
-				const entityB = this.entities[j];
+		this.handleCollisions();
+	}
 
-				if (this.checkCollision(entityA, entityB)) {
-					entityA.onCollision(entityB, this);
-					entityB.onCollision(entityA, this);
+	/**
+	 * Performs pairwise AABB collision detection between entities.
+	 */
+	handleCollisions() {
+		for (let i = 0; i < this.entities.length; i++) {
+			const a = this.entities[i];
+			if (a.NO_COLLISION) continue;
+
+			for (let j = i + 1; j < this.entities.length; j++) {
+				const b = this.entities[j];
+				if (b.NO_COLLISION) continue;
+
+				if (this.checkCollision(a, b)) {
+					a.onCollision?.(b, this);
+					b.onCollision?.(a, this);
 				}
 			}
 		}
 	}
 
 	/**
-	 * Renders all game entities.
+	 * Renders the current world state to the canvas.
 	 */
 	render() {
 		const ctx = this.context;
@@ -138,58 +154,57 @@ export class GameEngine {
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 		ctx.save();
-
-		// Apply the camera offset
-		// We translate the entire coordinate system by the offset amount
-		ctx.translate(-this.gameOffset.x, -this.gameOffset.y);
+		ctx.translate(-this.cameraOffset.x, -this.cameraOffset.y);
 
 		for (const entity of this.entities) {
 			ctx.save();
-			if (entity.STATIC_ON_SCREEN) ctx.translate(this.gameOffset.x, this.gameOffset.y);
+
+			if (entity.STATIC_ON_SCREEN) {
+				ctx.translate(this.cameraOffset.x, this.cameraOffset.y);
+			}
+
 			entity.render(ctx, this.debug);
 			ctx.restore();
 		}
+
 		ctx.restore();
-
-		if (!this.debug) return;
-
-		// Show the relative offset for debugging
-		ctx.fillStyle = 'black';
-		ctx.font = '16px Arial';
-		ctx.fillText(
-			`Offset: (${this.gameOffset.x.toFixed(0)}, ${this.gameOffset.y.toFixed(0)})`,
-			10,
-			ctx.canvas.height - 10
-		);
-
-		const absolutePositionOfBottom = ctx.canvas.height + this.gameOffset.y;
-
-		// Show where the bottom of the canvas is in world coordinates
-		ctx.fillText(
-			`World Y at bottom: ${absolutePositionOfBottom.toFixed(0)}`,
-			10,
-			ctx.canvas.height - 30
-		);
-
-		// Show the number of entities below the bottom of the canvas
-		const entitiesBelow = this.entities.filter(
-			(entity) => entity.position.y > absolutePositionOfBottom && !entity.STATIC_ON_SCREEN
-		).length;
-		ctx.fillText(`Entities below screen: ${entitiesBelow}`, 10, ctx.canvas.height - 50);
-	}
-
-	gameOver() {
-		this.gameIsOver = true;
-		// The player is currently falling, and the offset is following them down.
-		// We want to add the GAME OVER text at a fixed position on the screen
-		this.addEntity(new TextEntity('GAME OVER', this.canvas.width / 2 - 50, this.canvas.height / 2));
 	}
 
 	/**
-	 * Checks for AABB collision between two entities.
+	 * Adds an entity to the engine.
+	 *
+	 * @param {Entity} entity - Entity to add
+	 */
+	addEntity(entity) {
+		this.entities.push(entity);
+		entity.onAdd?.(this);
+	}
+
+	/**
+	 * Removes an entity from the engine.
+	 *
+	 * @param {Entity} entity - Entity to remove
+	 */
+	removeEntity(entity) {
+		this.entities = this.entities.filter((e) => e !== entity);
+		entity.destroy?.(this);
+	}
+
+	/**
+	 * Registers a callback executed once per rendered frame.
+	 *
+	 * @param {() => void} callback
+	 */
+	onTick(callback) {
+		this.tickCallbacks.push(callback);
+	}
+
+	/**
+	 * Axis-Aligned Bounding Box collision test.
+	 *
 	 * @param {Entity} a
 	 * @param {Entity} b
-	 * @returns {boolean}
+	 * @returns {boolean} True if the entities overlap
 	 */
 	checkCollision(a, b) {
 		return (

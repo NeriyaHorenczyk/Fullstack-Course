@@ -1,7 +1,7 @@
 // @ts-check
 import { Entity } from '../../../js/engine/Entity.js';
-import { GameEngine } from '../../../js/engine/GameEngine.js';
 import Vector from '../../../js/engine/Vector.js';
+import { DoodleJumpEngine } from './DoodleGameEngine.js';
 
 const PRECISION_THRESHOLD = 1 / 1000;
 
@@ -90,7 +90,7 @@ export default class Player extends Entity {
 	}
 
 	/**
-	 * @param {GameEngine} gameEngine
+	 * @param {DoodleJumpEngine} gameEngine
 	 */
 	onAdd(gameEngine) {
 		// We need both KeyDown (start moving) and KeyUp (stop moving)
@@ -111,7 +111,7 @@ export default class Player extends Entity {
 	}
 
 	/**
-	 * @param {GameEngine} gameEngine
+	 * @param {DoodleJumpEngine} gameEngine
 	 */
 	destroy(gameEngine) {
 		for (const [event, listener] of this.eventListeners) {
@@ -124,7 +124,7 @@ export default class Player extends Entity {
 	/**
 	 * Updates the player's position and physics.
 	 * @param {number} deltaFrames
-	 * @param {GameEngine} gameEngine
+	 * @param {DoodleJumpEngine} gameEngine
 	 */
 	update(deltaFrames, gameEngine) {
 		// Store previous position for collision resolution
@@ -189,20 +189,20 @@ export default class Player extends Entity {
 		// 9. Camera / Game Offset Logic
 		if (gameEngine.gameIsOver) return;
 		// If the player is in the top x% of the screen
-		const upThreshold = Y_UP_THRESHOLD * gameEngine.canvas.height + gameEngine.gameOffset.y;
-		const downThreshold = Y_DOWN_THRESHOLD * gameEngine.canvas.height + gameEngine.gameOffset.y;
+		const upThreshold = Y_UP_THRESHOLD * gameEngine.canvas.height + gameEngine.cameraOffset.y;
+		const downThreshold = Y_DOWN_THRESHOLD * gameEngine.canvas.height + gameEngine.cameraOffset.y;
 		if (this.position.y < upThreshold) {
 			// Calculate how far we need to pull the world down
 			// to keep the player at the threshold line.
 			// Example: Player Y = 100, Threshold = 200. We shift +100.
 			const targetOffset = upThreshold - this.position.y;
 			// We only move the camera up (negative offset)
-			if (targetOffset > 0) gameEngine.gameOffset.y -= targetOffset;
+			if (targetOffset > 0) gameEngine.cameraOffset.y -= targetOffset;
 		} else if (this.position.y > downThreshold) {
 			// If the player is in the bottom x% of the screen, move down.
 			const targetOffset = this.position.y - downThreshold;
 			// We only move the camera down (positive offset)
-			if (targetOffset > 0) gameEngine.gameOffset.y += targetOffset;
+			if (targetOffset > 0) gameEngine.cameraOffset.y += targetOffset;
 		}
 
 		// Game Over if player falls 2x canvas height below the scoring threshold
@@ -212,7 +212,7 @@ export default class Player extends Entity {
 		}
 
 		// 11. Score Tracking
-		this.score = Math.max(this.score, Math.floor(-gameEngine.gameOffset.y));
+		this.score = Math.max(this.score, Math.floor(-gameEngine.cameraOffset.y));
 	}
 
 	/**
@@ -329,7 +329,7 @@ export default class Player extends Entity {
 	/**
 	 * Handles collision with another entity.
 	 * @param {Entity} other
-	 * @param {GameEngine} gameEngine
+	 * @param {DoodleJumpEngine} gameEngine
 	 */
 	onCollision(other, gameEngine) {
 		if (other.type === 'platform' && this.velocity.y > 0) {

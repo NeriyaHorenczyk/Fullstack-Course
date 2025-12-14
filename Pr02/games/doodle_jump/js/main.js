@@ -1,15 +1,15 @@
 // @ts-check
-import { GameEngine } from '../../../js/engine/GameEngine.js';
 import Player from './Player.js';
 import Platform from './Platform.js';
 import Wallpaper from './Background.js';
 import Header from './Header.js';
 import Vector from '../../../js/engine/Vector.js';
+import { DoodleJumpEngine } from './DoodleGameEngine.js';
 const canvas = document.getElementById('gameCanvas');
 if (!(canvas instanceof HTMLCanvasElement)) {
 	throw new Error('Canvas element not found');
 }
-const gameEngine = new GameEngine(canvas);
+const gameEngine = new DoodleJumpEngine(canvas);
 const player = new Player('assets/player');
 const bg = new Wallpaper();
 const header = new Header();
@@ -25,12 +25,10 @@ platforms.forEach((platform) => gameEngine.addEntity(platform));
 player.position = platforms[0].position.subtract(new Vector(0, 100));
 
 gameEngine.onTick(() => {
-	// Score is based on the y-offset of the game engine
-	// const currentScore = Math.max(0, Math.floor(-gameEngine.gameOffset.y));
 	header.score = player.score;
 
 	platforms.forEach((platform, index) => {
-		if (platform.position.y - gameEngine.gameOffset.y > canvas.height) {
+		if (platform.position.y - gameEngine.cameraOffset.y > canvas.height) {
 			gameEngine.removeEntity(platform);
 			platforms.splice(index, 1);
 		}
