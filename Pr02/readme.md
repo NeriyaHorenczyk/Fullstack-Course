@@ -1,5 +1,12 @@
 # Fullstack Project 2
 
+#### How to run the site
+Because I used ES-module (standard since 2015) imports for JavaScript files, and browsers don't allow file:// urls to use them due to CORS restrictions, you need to run a local web server to test the site.
+
+1. Make sure you have node.js installed. You can download it from https://nodejs.org/.
+2. Open a terminal (command prompt) and navigate to the Pr02 directory of this project.
+3. Run `npx serve .` to start a local web server.
+
 ## Pages
 1. Login Page
 2. Register Page
