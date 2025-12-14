@@ -29,8 +29,9 @@ export default class Wallpaper extends Entity {
 
 	/**
 	 * @param {CanvasRenderingContext2D} ctx
+	 * @param {boolean} debug
 	 */
-	render(ctx) {
+	render(ctx, debug) {
 		// Undo the game offset for wallpaper rendering
 		// Draw background
 		ctx.fillStyle = this.baseColor;
@@ -54,12 +55,19 @@ export default class Wallpaper extends Entity {
 			ctx.stroke();
 		}
 
-		// Draw a line at the Y threshold
+		if (!debug) return;
+		// Draw a line at the Y UP threshold
 		ctx.globalAlpha = 1;
 		ctx.strokeStyle = 'blue';
 		ctx.beginPath();
 		ctx.moveTo(0, 0.25 * ctx.canvas.height);
 		ctx.lineTo(ctx.canvas.width, 0.25 * ctx.canvas.height);
+		ctx.stroke();
+		// Draw a line at the Y DOWN threshold
+		ctx.strokeStyle = 'red';
+		ctx.beginPath();
+		ctx.moveTo(0, 0.9 * ctx.canvas.height);
+		ctx.lineTo(ctx.canvas.width, 0.9 * ctx.canvas.height);
 		ctx.stroke();
 	}
 }

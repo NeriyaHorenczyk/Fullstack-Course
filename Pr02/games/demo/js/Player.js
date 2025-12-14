@@ -221,8 +221,9 @@ export default class Player extends Entity {
 
 	/**
 	 * @param {CanvasRenderingContext2D} ctx
+	 * @param {boolean} debug
 	 */
-	render(ctx) {
+	render(ctx, debug) {
 		const currentSprite = this.sprites[this.state];
 		// Save context to restore later (important for rotation/flipping)
 		ctx.save();
@@ -249,12 +250,10 @@ export default class Player extends Entity {
 			ctx.drawImage(currentSprite, 0, 0, this.size.x, this.size.y);
 		}
 
-		ctx.restore(); // Restore context for the next entity
+		ctx.restore();
 
 		// Draw Debug (Absolute coordinates)
-		if (this.debug) {
-			this.renderDebug(ctx);
-		}
+		if (debug) this.renderDebug(ctx);
 	}
 
 	/**

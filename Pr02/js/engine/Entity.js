@@ -24,8 +24,9 @@ export class Entity {
 	/**
 	 * Renders the entity on the provided canvas context.
 	 * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+	 * @param {boolean} debug - Whether to render debug information.
 	 */
-	render(ctx) {
+	render(ctx, debug) {
 		// Default implementation does nothing.
 		// Override this method in subclasses to provide specific rendering.
 	}
