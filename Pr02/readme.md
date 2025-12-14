@@ -29,5 +29,7 @@
 
 ## Misc. TODO
 - Theme
-  - Style ([neo-brutalism](https://www.google.com/search?q=neo+brutalism+ui)?)
+  - Style: 8-bit retro arcade
   - Color Palette
+  - Everything is offbrand (GameTetrahedron, by Nintendra)
+-
