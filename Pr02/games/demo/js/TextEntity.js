@@ -3,6 +3,7 @@ import { Entity } from '../../../js/engine/Entity.js';
 import { GameEngine } from '../../../js/engine/GameEngine.js';
 
 export default class TextEntity extends Entity {
+	STATIC_ON_SCREEN = true;
 	type = 'text';
 	/**
 	 * @param {string} text
@@ -28,9 +29,5 @@ export default class TextEntity extends Entity {
 	 * @param {number} deltaFrames
 	 * @param {GameEngine} gameEngine
 	 */
-	update(deltaFrames, gameEngine) {
-		// Example update: Move text to the right over time
-		this.x += 1 * deltaFrames; // Move 1 pixel per frame
-		this.x %= gameEngine.canvas.width; // Wrap around the canvas width
-	}
+	update(deltaFrames, gameEngine) {}
 }
