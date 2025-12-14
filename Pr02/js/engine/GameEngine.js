@@ -1,14 +1,19 @@
 // @ts-check
+import TextEntity from '../../games/demo/js/TextEntity.js';
 import { Entity } from './Entity.js';
 import Vector from './Vector.js';
 
 export class GameEngine {
 	FPS_TARGET = 60;
+	FRAME_TIME = 1000 / this.FPS_TARGET;
+
 	/**
 	 * @param {HTMLCanvasElement} canvas
+	 * @param {boolean} debug
 	 */
-	constructor(canvas) {
+	constructor(canvas, debug = false) {
 		this.canvas = canvas;
+		this.debug = debug;
 		this.context = canvas.getContext('2d');
 		if (!this.context) throw new Error('Failed to get 2D context');
 
@@ -20,11 +25,13 @@ export class GameEngine {
 		this.lastUpdateTime = 0;
 		this.deltaTime = 0;
 		this.gameOffset = new Vector(0, 0);
+		this.gameIsOver = false;
 
-		/** @type {((deltaFrames: number) => void)[]} */
+		/** @type {(() => void)[]} */
 		this.tickCallbacks = [];
 		// Bind once, so 'this' works in gameLoop
 		this.gameLoop = this.gameLoop.bind(this);
+		this.accumulator = 0; // Time accumulator for fixed timestep
 	}
 
 	/**
@@ -51,22 +58,22 @@ export class GameEngine {
 	gameLoop(timestamp) {
 		if (!this.running) return;
 
-		this.deltaTime = timestamp - this.lastUpdateTime;
+		this.accumulator += timestamp - this.lastUpdateTime;
 		this.lastUpdateTime = timestamp;
-		// Clamp deltaFrames to prevent massive jumps during lag spikes (max 5 frames ~ 83ms)
-		const rawDeltaFrames = this.deltaTime / (1000 / this.FPS_TARGET);
-		const deltaFrames = Math.min(rawDeltaFrames, 5);
 
-		this.update(deltaFrames);
+		while (this.accumulator >= this.FRAME_TIME) {
+			this.update(1); // exactly one frame
+			this.accumulator -= this.FRAME_TIME;
+		}
+
 		this.render();
-
 		requestAnimationFrame(this.gameLoop);
-		this.tickCallbacks.forEach((callback) => callback(deltaFrames));
+		this.tickCallbacks.forEach((cb) => cb());
 	}
 
 	/**
 	 * Registers a callback to be called on each tick.
-	 * @param {(deltaFrames: number) => void} callback
+	 * @param {() => void} callback
 	 */
 	onTick(callback) {
 		this.tickCallbacks.push(callback);
@@ -125,29 +132,57 @@ export class GameEngine {
 	 * Renders all game entities.
 	 */
 	render() {
-		if (!this.context) return;
+		const ctx = this.context;
+		if (!ctx) return;
 
-		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-		this.context.save();
+		ctx.save();
 
 		// Apply the camera offset
 		// We translate the entire coordinate system by the offset amount
-		this.context.translate(this.gameOffset.x, this.gameOffset.y);
+		ctx.translate(-this.gameOffset.x, -this.gameOffset.y);
 
 		for (const entity of this.entities) {
-			if (entity.STATIC_ON_SCREEN) {
-				// Render static entities in screen space
-				this.context.save();
-				this.context.translate(-this.gameOffset.x, -this.gameOffset.y);
-				entity.render(this.context);
-				this.context.restore();
-			} else {
-				// Render dynamic entities in world space
-				entity.render(this.context);
-			}
+			ctx.save();
+			if (entity.STATIC_ON_SCREEN) ctx.translate(this.gameOffset.x, this.gameOffset.y);
+			entity.render(ctx, this.debug);
+			ctx.restore();
 		}
-		this.context.restore();
+		ctx.restore();
+
+		if (!this.debug) return;
+
+		// Show the relative offset for debugging
+		ctx.fillStyle = 'black';
+		ctx.font = '16px Arial';
+		ctx.fillText(
+			`Offset: (${this.gameOffset.x.toFixed(0)}, ${this.gameOffset.y.toFixed(0)})`,
+			10,
+			ctx.canvas.height - 10
+		);
+
+		const absolutePositionOfBottom = ctx.canvas.height + this.gameOffset.y;
+
+		// Show where the bottom of the canvas is in world coordinates
+		ctx.fillText(
+			`World Y at bottom: ${absolutePositionOfBottom.toFixed(0)}`,
+			10,
+			ctx.canvas.height - 30
+		);
+
+		// Show the number of entities below the bottom of the canvas
+		const entitiesBelow = this.entities.filter(
+			(entity) => entity.position.y > absolutePositionOfBottom && !entity.STATIC_ON_SCREEN
+		).length;
+		ctx.fillText(`Entities below screen: ${entitiesBelow}`, 10, ctx.canvas.height - 50);
+	}
+
+	gameOver() {
+		this.gameIsOver = true;
+		// The player is currently falling, and the offset is following them down.
+		// We want to add the GAME OVER text at a fixed position on the screen
+		this.addEntity(new TextEntity('GAME OVER', this.canvas.width / 2 - 50, this.canvas.height / 2));
 	}
 
 	/**
