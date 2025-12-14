@@ -27,7 +27,7 @@ export default class Header extends Entity {
 		ctx.fillStyle = '#000000';
 		ctx.font = '24px Arial';
 		ctx.globalAlpha = 1;
-		ctx.fillText(`Score: ${this.score}`, 20, 28);
+		ctx.fillText(`Score: ${this.score}`, 10, 28);
 
 		// Draw a shadow under the header
 		ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
