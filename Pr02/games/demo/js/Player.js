@@ -8,9 +8,9 @@ const PRECISION_THRESHOLD = 1 / 1000;
 // PHYSICS CONSTANTS
 const GRAVITY = 0.8;
 // How much speed to add per frame while holding key
-const ACCELERATION = 1.5;
+const ACCELERATION = 1.2;
 // How quickly to slow down when letting go (0.0-1.0)
-const FRICTION = 0.85;
+const FRICTION = 0.9;
 // The fastest the player can run
 const MAX_SPEED = 120;
 // The fastest the player can fall to prevent tunneling
@@ -18,7 +18,8 @@ const MAX_FALL_SPEED = Infinity;
 // How much force to apply when jumping
 const JUMP_FORCE = -18;
 
-const Y_THRESHOLD = 0.25; // If the player is in the top 25% of the screen, move the wallpaper
+const Y_UP_THRESHOLD = 0.25; // If the player is in the top x% of the screen, move up
+const Y_DOWN_THRESHOLD = 0.9; // If the player is in the bottom x% of the screen, game over
 
 /**
  * Represents a player entity in the game.
@@ -33,6 +34,9 @@ export default class Player extends Entity {
 	constructor(spriteSrc) {
 		super();
 		this.scale = 0.1;
+		this.score = 0;
+
+		// Physics State
 		this.position = new Vector(0, 0);
 		this.previousPosition = new Vector(0, 0);
 		this.velocity = new Vector(0, 0);
@@ -68,7 +72,6 @@ export default class Player extends Entity {
 			this.sprites[state] = img;
 		});
 
-		this.debug = true;
 		this.state = PlayerState.STANDING;
 		this.grounded = false;
 
@@ -182,18 +185,34 @@ export default class Player extends Entity {
 		} else if (this.position.x + this.size.x < 0) {
 			this.position.x = gameEngine.canvas.width;
 		}
-		// 9. Camera / Game Offset Logic
 
+		// 9. Camera / Game Offset Logic
+		if (gameEngine.gameIsOver) return;
 		// If the player is in the top x% of the screen
-		const threshold = Y_THRESHOLD * gameEngine.canvas.height - gameEngine.gameOffset.y;
-		if (this.position.y < threshold) {
+		const upThreshold = Y_UP_THRESHOLD * gameEngine.canvas.height + gameEngine.gameOffset.y;
+		const downThreshold = Y_DOWN_THRESHOLD * gameEngine.canvas.height + gameEngine.gameOffset.y;
+		if (this.position.y < upThreshold) {
 			// Calculate how far we need to pull the world down
 			// to keep the player at the threshold line.
 			// Example: Player Y = 100, Threshold = 200. We shift +100.
-			const targetOffset = threshold - this.position.y;
-			// We only move the camera up (positive offset)
+			const targetOffset = upThreshold - this.position.y;
+			// We only move the camera up (negative offset)
+			if (targetOffset > 0) gameEngine.gameOffset.y -= targetOffset;
+		} else if (this.position.y > downThreshold) {
+			// If the player is in the bottom x% of the screen, move down.
+			const targetOffset = this.position.y - downThreshold;
+			// We only move the camera down (positive offset)
 			if (targetOffset > 0) gameEngine.gameOffset.y += targetOffset;
 		}
+
+		// Game Over if player falls 2x canvas height below the scoring threshold
+		const isDead = this.position.y > this.score + gameEngine.canvas.height * 2;
+		if (isDead) {
+			gameEngine.gameOver();
+		}
+
+		// 11. Score Tracking
+		this.score = Math.max(this.score, Math.floor(-gameEngine.gameOffset.y));
 	}
 
 	/**
@@ -294,8 +313,8 @@ export default class Player extends Entity {
 	onMouseClick(event, offset) {
 		const { clientX, clientY } = event;
 		// Adjust for canvas position and game offset
-		const adjustedX = clientX - offset.x;
-		const adjustedY = clientY - offset.y;
+		const adjustedX = clientX + offset.x;
+		const adjustedY = clientY + offset.y;
 
 		// Center player on click position
 		this.position.x = adjustedX;
