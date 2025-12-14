@@ -63,4 +63,13 @@ export default class Vector {
 		if (mag === 0) return new Vector(0, 0);
 		return this.scale(1 / mag);
 	}
+
+	/**
+	 * Multiplies this vector by another vector component-wise.
+	 * @param {Vector} other
+	 * @returns {Vector} The resulting vector.
+	 */
+	multiply(other) {
+		return new Vector(this.x * other.x, this.y * other.y);
+	}
 }
