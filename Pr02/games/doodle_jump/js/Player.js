@@ -99,7 +99,7 @@ export default class Player extends Entity {
 		// @ts-ignore event handler type
 		const keyUpHandler = (e) => this.handleKey(e, false);
 		// @ts-ignore event handler type
-		const mouseClickHandler = (e) => this.onMouseClick(e, gameEngine.gameOffset);
+		const mouseClickHandler = (e) => this.onMouseClick(e, gameEngine);
 
 		this.eventListeners.set('keydown', keyDownHandler);
 		this.eventListeners.set('keyup', keyUpHandler);
@@ -307,15 +307,16 @@ export default class Player extends Entity {
 
 	/**
 	 * Handles mouse click events to move the player.
+	 * Only enabled in debug mode.
 	 * @param {MouseEvent} event
-	 * @param {Vector} offset
+	 * @param {DoodleJumpEngine} gameEngine
 	 */
-	onMouseClick(event, offset) {
+	onMouseClick(event, gameEngine) {
+		if (!gameEngine.debug) return;
 		const { clientX, clientY } = event;
 		// Adjust for canvas position and game offset
-		const adjustedX = clientX + offset.x;
-		const adjustedY = clientY + offset.y;
-
+		const adjustedX = clientX + gameEngine.cameraOffset.x;
+		const adjustedY = clientY + gameEngine.cameraOffset.y;
 		// Center player on click position
 		this.position.x = adjustedX;
 		this.position.y = adjustedY;
