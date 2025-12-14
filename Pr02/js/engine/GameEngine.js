@@ -1,5 +1,5 @@
 // @ts-check
-import TextEntity from '../../games/demo/js/TextEntity.js';
+import TextEntity from '../../games/doodle_jump/js/TextEntity.js';
 import { Entity } from './Entity.js';
 import Vector from './Vector.js';
 

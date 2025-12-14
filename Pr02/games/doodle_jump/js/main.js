@@ -9,7 +9,7 @@ const canvas = document.getElementById('gameCanvas');
 if (!(canvas instanceof HTMLCanvasElement)) {
 	throw new Error('Canvas element not found');
 }
-const gameEngine = new GameEngine(canvas, true); // Enable debug mode
+const gameEngine = new GameEngine(canvas);
 const player = new Player('assets/player');
 const bg = new Wallpaper();
 const header = new Header();
