@@ -9,7 +9,7 @@ const canvas = document.getElementById('gameCanvas');
 if (!(canvas instanceof HTMLCanvasElement)) {
 	throw new Error('Canvas element not found');
 }
-const gameEngine = new GameEngine(canvas);
+const gameEngine = new GameEngine(canvas, true); // Enable debug mode
 const player = new Player('assets/player');
 const bg = new Wallpaper();
 const header = new Header();
@@ -20,18 +20,31 @@ gameEngine.addEntity(player);
 
 // Put down the initial platforms. They will be the same every time.
 const platforms = [new Platform(50, canvas.height - 100, 'standard')];
-for (let i = 0; i < 10; i++) {
-	const platformX = Math.random() * (canvas.width - 60);
-	const platformY = i * -60 + 100;
-	platforms.push(new Platform(platformX, platformY, 'standard'));
-}
 platforms.forEach((platform) => gameEngine.addEntity(platform));
 // Put the player above the first platform
-player.position = platforms[0].position.add(new Vector(10, -400));
+player.position = platforms[0].position.subtract(new Vector(0, 100));
 
-gameEngine.onTick((deltaFrames) => {
+gameEngine.onTick(() => {
 	// Score is based on the y-offset of the game engine
-	const currentScore = Math.max(0, Math.floor(gameEngine.gameOffset.y));
-	header.score = currentScore;
+	// const currentScore = Math.max(0, Math.floor(-gameEngine.gameOffset.y));
+	header.score = player.score;
+
+	platforms.forEach((platform, index) => {
+		if (platform.position.y - gameEngine.gameOffset.y > canvas.height) {
+			gameEngine.removeEntity(platform);
+			platforms.splice(index, 1);
+		}
+	});
+	// Add new platforms if needed
+	while (platforms.length < 10) {
+		// Pick a random x within the canvas width
+		const platformX = Math.random() * (canvas.width - 60);
+		// Position the new platform above the highest existing platform
+		const highestPlatformY = Math.min(...platforms.map((p) => p.position.y));
+		const platformY = highestPlatformY - Math.random() * 80 - 50;
+		const newPlatform = new Platform(platformX, platformY, 'standard');
+		platforms.push(newPlatform);
+		gameEngine.addEntity(newPlatform);
+	}
 });
 gameEngine.start();
