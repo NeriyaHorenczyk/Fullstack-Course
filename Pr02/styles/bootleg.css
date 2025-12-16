@@ -65,6 +65,10 @@ body::before {
 	}
 }
 
+a{
+	text-decoration: none;
+	
+}
 .glitch::before,
 .glitch::after {
 	content: attr(data-text);
