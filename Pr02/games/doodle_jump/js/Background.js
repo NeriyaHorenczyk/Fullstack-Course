@@ -24,7 +24,7 @@ export default class Wallpaper extends Entity {
 	 */
 	update(deltaFrames, gameEngine) {
 		// Update relative offset based on game offset to create parallax effect
-		this.relativeOffset = gameEngine.gameOffset;
+		this.relativeOffset = gameEngine.cameraOffset;
 	}
 
 	/**
