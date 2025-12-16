@@ -61,7 +61,7 @@ export default class Player extends Entity {
    * @param {GameEngine} gameEngine - The game engine instance.
    */
   onCollision(other, gameEngine) {
-    if (other.type === "food") {
+    if (other instanceof FoodEntity) {
       const food = other;
       // Grow the snake by adding a new body part at the tail
       this.hasEaten = true;
@@ -105,6 +105,30 @@ export default class Player extends Entity {
       ctx.fillStyle = i === 0 ? "green" : "lightgreen";
       const size = i === 0 ? this.HEAD_CELL_SIZE : this.BODY_CELL_SIZE;
       ctx.fillRect(part.x, part.y, this.size.x, this.size.y);
+
     }
+    if (!debug) return;
+    // Draw debug info
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(this.position.x, this.position.y, this.size.x, this.size.y);
+
+    ctx.fillStyle = "black";
+    ctx.font = "12px Arial";
+    ctx.fillText(
+      `Pos: (${this.position.x.toFixed(1)}, ${this.position.y.toFixed(1)})`,
+      this.position.x,
+      this.position.y - 10
+    );
+    ctx.fillText(
+      `Dir: (${this.direction.x}, ${this.direction.y})`,
+      this.position.x,
+      this.position.y - 22
+    );
+    ctx.fillText(
+      `Body Length: ${this.bodyParts.length}`,
+      this.position.x,
+      this.position.y - 34
+    );
   }
 }
