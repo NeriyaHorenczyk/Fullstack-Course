@@ -3,17 +3,22 @@ import { Entity } from "../../../js/engine/Entity.js";
 import { GameEngine } from "../../../js/engine/GameEngine.js";
 import Vector from "../../../js/engine/Vector.js";
 export default class Player extends Entity {
-    
-    SNAKE_SPEED = 2; //pixels per frame
-    
+
+    SNAKE_SPEED = 2;
+    BODY_CELL_SIZE = 10;
+    HEAD_CELL_SIZE = 15;
+
     constructor() {
         super();
         this.direction = new Vector(0, 1);
+		this.eventListeners = new Map();
+
     }
 
     onAdd() {
         // Add listeners for keyboard input to change direction
-        window.addEventListener("keydown", (event) => {
+        /** @type {(event: KeyboardEvent) => void} */
+        const keydownListener = (event) => {
             switch (event.key) {
                 case "ArrowUp":
                     this.direction = new Vector(0, -1);
@@ -28,12 +33,22 @@ export default class Player extends Entity {
                     this.direction = new Vector(1, 0);
                     break;
             }
-        });
+        }
+        window.addEventListener("keydown", keydownListener);
+        this.eventListeners.set("keydown", keydownListener);
     }
 
-    onDestroy() {
-        // Clean up event listeners if necessary
-        //TODO: Remove event listeners
+    /**
+     *
+     * @param {GameEngine} gameEngine
+     */
+    onDestroy(gameEngine) {
+		for (const [event, listener] of this.eventListeners) {
+			if (event === 'click') gameEngine.canvas.removeEventListener(event, listener);
+			else window.removeEventListener(event, listener);
+		}
+		this.eventListeners.clear();
+
     }
 
     /**
