@@ -1,7 +1,7 @@
 // @ts-check
 
 import { GameEngine } from '../../../js/engine/GameEngine.js';
-import TextEntity from './TextEntity.js';
+import TextEntity from '../../../js/engine/TextEntity.js';
 /**
  * Doodle Jump–specific game engine.
  *

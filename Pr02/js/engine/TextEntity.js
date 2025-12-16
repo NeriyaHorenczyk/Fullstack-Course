@@ -1,6 +1,6 @@
 // @ts-check
-import { Entity } from '../../../js/engine/Entity.js';
-import { GameEngine } from '../../../js/engine/GameEngine.js';
+import { Entity } from './Entity.js';
+import { GameEngine } from './GameEngine.js';
 
 export default class TextEntity extends Entity {
 	STATIC_ON_SCREEN = true;
