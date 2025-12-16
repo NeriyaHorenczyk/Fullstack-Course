@@ -72,4 +72,12 @@ export default class Vector {
 	multiply(other) {
 		return new Vector(this.x * other.x, this.y * other.y);
 	}
+
+	/**
+	 * Creates a copy of this vector.
+	 * @returns {Vector} The cloned vector.
+	 */
+	clone() {
+		return new Vector(this.x, this.y);
+	}
 }
