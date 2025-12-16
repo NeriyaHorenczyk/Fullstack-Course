@@ -7,7 +7,7 @@ import Vector from '../../../js/engine/Vector.js';
 import { DoodleJumpEngine } from './DoodleGameEngine.js';
 const canvas = document.getElementById('gameCanvas');
 if (!(canvas instanceof HTMLCanvasElement)) {
-	throw new Error('Canvas element not found');
+    throw new Error('Canvas element not found');
 }
 const gameEngine = new DoodleJumpEngine(canvas);
 const player = new Player('assets/player');
@@ -25,24 +25,24 @@ platforms.forEach((platform) => gameEngine.addEntity(platform));
 player.position = platforms[0].position.subtract(new Vector(0, 100));
 
 gameEngine.onTick(() => {
-	header.score = player.score;
+    header.score = player.score;
 
-	platforms.forEach((platform, index) => {
-		if (platform.position.y - gameEngine.cameraOffset.y > canvas.height) {
-			gameEngine.removeEntity(platform);
-			platforms.splice(index, 1);
-		}
-	});
-	// Add new platforms if needed
-	while (platforms.length < 10) {
-		// Pick a random x within the canvas width
-		const platformX = Math.random() * (canvas.width - 60);
-		// Position the new platform above the highest existing platform
-		const highestPlatformY = Math.min(...platforms.map((p) => p.position.y));
-		const platformY = highestPlatformY - Math.random() * 80 - 50;
-		const newPlatform = new Platform(platformX, platformY, 'standard');
-		platforms.push(newPlatform);
-		gameEngine.addEntity(newPlatform);
-	}
+    platforms.forEach((platform, index) => {
+        if (platform.position.y - gameEngine.cameraOffset.y > canvas.height) {
+            gameEngine.removeEntity(platform);
+            platforms.splice(index, 1);
+        }
+    });
+    // Add new platforms if needed
+    while (platforms.length < 10) {
+        // Pick a random x within the canvas width
+        const platformX = Math.random() * (canvas.width - 60);
+        // Position the new platform above the highest existing platform
+        const highestPlatformY = Math.min(...platforms.map((p) => p.position.y));
+        const platformY = highestPlatformY - Math.random() * 80 - 50;
+        const newPlatform = new Platform(platformX, platformY, 'standard');
+        platforms.push(newPlatform);
+        gameEngine.addEntity(newPlatform);
+    }
 });
 gameEngine.start();

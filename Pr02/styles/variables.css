@@ -1,14 +1,14 @@
 :root {
-	/* Color palette: garish but limited */
-	--bg: #0f0b12; /* off-black */
-	--panel: #f7f3e8; /* off-white */
-	--neon: #8b3cff; /* neon purple */
-	--neon-2: #00ffcc; /* cyan */
-	--neon-3: #7fff00; /* neon green */
-	--muted: #c7bfb2;
-	--tile: #efe8d8;
-	--accent-shadow: rgba(139, 60, 255, 0.15);
-	--noise-opacity: 0.06;
-	--tile-border: 3px solid rgba(0, 0, 0, 0.5);
-	--pixel-font: 'Press Start 2P', 'Courier New', monospace;
+    /* Color palette: garish but limited */
+    --bg: #0f0b12; /* off-black */
+    --panel: #f7f3e8; /* off-white */
+    --neon: #8b3cff; /* neon purple */
+    --neon-2: #00ffcc; /* cyan */
+    --neon-3: #7fff00; /* neon green */
+    --muted: #c7bfb2;
+    --tile: #efe8d8;
+    --accent-shadow: rgba(139, 60, 255, 0.15);
+    --noise-opacity: 0.06;
+    --tile-border: 3px solid rgba(0, 0, 0, 0.5);
+    --pixel-font: 'Press Start 2P', 'Courier New', monospace;
 }
