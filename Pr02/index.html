@@ -7,6 +7,16 @@
         <link rel="stylesheet" href="styles/bootleg.css" />
         <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
         <script src="js/glitch.js" defer></script>
+
+        <!-- load ./assets/arcade_bg_audio.wav and play immediately -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const bgAudio = new Audio('assets/arcade_bg_audio.wav');
+                bgAudio.loop = true;
+                bgAudio.volume = 0.2;
+                bgAudio.play();
+            });
+        </script>
     </head>
 
     <body>
