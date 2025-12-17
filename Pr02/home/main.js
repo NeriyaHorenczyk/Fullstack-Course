@@ -1,5 +1,7 @@
+const riser = new Audio('assets/glitch_riser.wav');
+const ding = new Audio('assets/microwave-ding.mp3');
 class SketchyButton {
-    constructor(containerId, label = '⚠️  עקוף מסנן  ⚠️') {
+    constructor(containerId, label = '(:  לחץ אם אתה לא מפחד') {
         this.container = document.getElementById(containerId);
         if (!(this.container instanceof HTMLDivElement)) {
             throw new Error('Failed to acquire sketchy button container element');
@@ -43,8 +45,15 @@ class SketchyButton {
             this.hover = false;
             this.active = false;
         });
-        this.canvas.addEventListener('mousedown', () => (this.active = true));
-        this.canvas.addEventListener('mouseup', () => (this.active = false));
+        this.canvas.addEventListener('mousedown', () => {
+            riser.currentTime = 0;
+            riser.play();
+            this.active = true;
+        });
+        this.canvas.addEventListener('mouseup', () => {
+            riser.pause();
+            this.active = false;
+        });
     }
 
     _resizeCanvas() {
@@ -125,23 +134,33 @@ class SketchyButton {
 
         // Handle progressive glitching
         if (this.active) {
-            this.progress += 0.003; // Increase progress each frame while held
+            this.progress += 0.005; // Increase progress each frame while held
             if (this.progress >= this.maxProgress) {
                 this.progress = this.maxProgress;
                 this.running = false;
-                // 1.4 seconds later, redirect
+                freezeGlitch();
+
                 setTimeout(() => {
-                    //   add an anchor to the page and click it
-                    const a = document.createElement('a');
-                    a.href = '/'; // Target URL
-                    document.body.appendChild(a);
-                    a.click();
+                    // Show overlay first
+                    showOverlayMessage('לא אמור להיות כאן, אבל נו, נלך על זה');
+                    ding.play();
+                    ding.addEventListener('ended', () => {
+                        const a = document.createElement('a');
+                        a.href = '/'; // Target URL
+                        document.body.appendChild(a);
+                        a.click();
+                    });
                 }, 1400);
             }
         } else if (this.progress > 0) {
             this.progress -= 0.02; // Slide back when released
             if (this.progress < 0) this.progress = 0;
         }
+        // css intensity should exponentially increase as approaches 1.
+        const actualProgress = Math.min(this.progress / this.maxProgress, 1);
+        const expGrowthConst = 5;
+        const expIntensity = ((Math.exp(expGrowthConst * actualProgress) - 1) / (Math.exp(expGrowthConst) - 1)) * 4;
+        document.documentElement.style.setProperty('--glitch-intensity', expIntensity);
 
         const pad = 8;
         const baseJitter = this.hover ? 2.5 + this.progress : 1.5;
@@ -226,3 +245,37 @@ class SketchyButton {
 document.addEventListener('DOMContentLoaded', () => {
     new SketchyButton('sketchy-button-container');
 });
+
+function freezeGlitch() {
+    const computed = getComputedStyle(document.documentElement).getPropertyValue('--glitch-intensity');
+    document.documentElement.style.setProperty('--glitch-intensity', computed);
+    const elements = document.querySelectorAll('body *');
+    elements.forEach((el) => {
+        const style = getComputedStyle(el);
+        const shadow = style.textShadow; // current shadow string
+        el.style.textShadow = shadow; // lock it in place
+    });
+    document.body.classList.add('glitch-frozen');
+}
+
+function showOverlayMessage(message) {
+    const overlay = document.createElement('canvas');
+    overlay.id = 'overlay-message';
+    overlay.style.position = 'fixed';
+    overlay.style.top = 0;
+    overlay.style.left = 0;
+    overlay.style.width = '100vw';
+    overlay.style.height = '100vh';
+    overlay.style.zIndex = 9999;
+    document.body.appendChild(overlay);
+
+    const ctx = overlay.getContext('2d');
+    overlay.width = window.innerWidth;
+    overlay.height = window.innerHeight;
+
+    ctx.fillStyle = 'green';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = 'bold 56px monospace';
+    ctx.fillText(message, overlay.width / 2, overlay.height / 2);
+}
