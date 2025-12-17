@@ -65,16 +65,16 @@ body {
 }
 
 .verticalText {
-    float: left;
-    margin-top: 37px;
-    font-size: 12px;
+    float: left !important;
+    margin-top: 37px !important;
+    font-size: 12px !important;
     /* margin-left: -7px; */
-    position: relative;
-    left: 0px;
-    -moz-transform: rotate(90deg);
-    -webkit-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    -ms-writing-mode: tb-lr;
+    position: relative !important;
+    left: 0px !important;
+    -moz-transform: rotate(90deg) !important;
+    -webkit-transform: rotate(90deg) !important;
+    -o-transform: rotate(90deg) !important;
+    -ms-writing-mode: tb-lr !important;
 }
 
 .content-textTitle {
