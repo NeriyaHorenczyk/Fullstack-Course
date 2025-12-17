@@ -31,7 +31,6 @@ window.addEventListener('mousemove', (e) => {
 });
 
 // Glitch parameters
-const scanlineDensity = 10; // px between scanlines
 const horizontalShiftChance = 0.005;
 const colorShiftChance = 0.02;
 
@@ -41,10 +40,11 @@ function glitchLoop() {
 
     // SCANLINES
     ctx.fillStyle = 'rgba(0,255,0,0.05)';
-    for (let y = 0; y < canvas.height; y += scanlineDensity) {
+    for (let y = 0; y < canvas.height; y++) {
         if (Math.random() < 0.5) {
             const scanLineHeight = (Math.random() * 3 + 1) | 0; // 1 to 4 px
             ctx.fillRect(0, y, canvas.width, scanLineHeight);
+            y += scanLineHeight; // Skip ahead
         }
     }
 
