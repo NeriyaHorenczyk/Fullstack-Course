@@ -1,42 +1,34 @@
-const riser = new Audio('assets/glitch_riser.wav');
-const ding = new Audio('assets/microwave-ding.mp3');
-class SketchyButton {
-    constructor(containerId, label = '(:  לחץ אם אתה לא מפחד') {
-        this.container = document.getElementById(containerId);
-        if (!(this.container instanceof HTMLDivElement)) {
-            throw new Error('Failed to acquire sketchy button container element');
-        }
-
-        this.label = label;
-        this.running = true;
-
-        this._initCanvas();
-        this._initState();
-        this._attachEvents();
-        this._resizeCanvas();
-        window.addEventListener('resize', () => this._resizeCanvas());
-
-        this._draw();
+class AudioPlayer {
+    constructor(src) {
+        this.audio = new Audio(src);
     }
 
-    // -------------------- Initialization --------------------
-    _initCanvas() {
-        this.canvas = document.createElement('canvas');
-        this.canvas.id = 'sketchy-button';
-        this.container.appendChild(this.canvas);
-
-        this.ctx = this.canvas.getContext('2d');
-        if (!this.ctx) {
-            throw new Error('Failed to acquire 2D context');
-        }
+    play() {
+        this.audio.currentTime = 0;
+        this.audio.play();
     }
 
-    _initState() {
+    pause() {
+        this.audio.pause();
+    }
+
+    onEnded(callback) {
+        this.audio.addEventListener('ended', callback);
+    }
+}
+
+class InputHandler {
+    constructor(canvas) {
+        this.canvas = canvas;
         this.hover = false;
         this.active = false;
-        this.frame = 0;
-        this.progress = 0; // Progress bar value
-        this.maxProgress = 1.2; // 120%
+        this.cursorDistance = Infinity;
+        this.mouseCoords = { x: 0, y: 0 };
+
+        this.onMouseDown = null;
+        this.onMouseUp = null;
+
+        this._attachEvents();
     }
 
     _attachEvents() {
@@ -44,16 +36,78 @@ class SketchyButton {
         this.canvas.addEventListener('mouseleave', () => {
             this.hover = false;
             this.active = false;
+            if (this.onMouseUp) this.onMouseUp();
         });
+
         this.canvas.addEventListener('mousedown', () => {
-            riser.currentTime = 0;
-            riser.play();
             this.active = true;
+            if (this.onMouseDown) this.onMouseDown();
         });
+
         this.canvas.addEventListener('mouseup', () => {
-            riser.pause();
             this.active = false;
+            if (this.onMouseUp) this.onMouseUp();
         });
+
+        document.addEventListener('mousemove', (e) => this._updateCursorDistance(e));
+    }
+
+    _updateCursorDistance(e) {
+        const rect = this.canvas.getBoundingClientRect();
+        const x = e.clientX;
+        const y = e.clientY;
+
+        // Compute distance from point to rectangle
+        let dx = 0,
+            dy = 0;
+        if (x < rect.left) dx = rect.left - x;
+        else if (x > rect.right) dx = x - rect.right;
+
+        if (y < rect.top) dy = rect.top - y;
+        else if (y > rect.bottom) dy = y - rect.bottom;
+
+        this.cursorDistance = Math.hypot(dx, dy);
+
+        // Clamp cursor coordinates inside canvas for reference
+        this.mouseCoords.x = Math.min(Math.max(x - rect.left, 0), rect.width);
+        this.mouseCoords.y = Math.min(Math.max(y - rect.top, 0), rect.height);
+    }
+}
+
+class SketchyButton {
+    constructor(containerId, label = '(:  לחץ אם אתה לא מפחד', audioRiser, audioDing) {
+        this.container = document.getElementById(containerId);
+        if (!(this.container instanceof HTMLDivElement)) {
+            throw new Error('Invalid container element');
+        }
+
+        this.label = label;
+        this.running = true;
+        this.frame = 0;
+        this.progress = 0;
+        this.maxProgress = 1.2;
+
+        this.audioRiser = audioRiser;
+        this.audioDing = audioDing;
+
+        this._initCanvas();
+        this.input = new InputHandler(this.canvas);
+        this.input.onMouseDown = () => this.audioRiser.play();
+        this.input.onMouseUp = () => this.audioRiser.pause();
+
+        window.addEventListener('resize', () => this._resizeCanvas());
+        this._resizeCanvas();
+
+        this._draw();
+    }
+
+    _initCanvas() {
+        this.canvas = document.createElement('canvas');
+        this.canvas.id = 'sketchy-button';
+        this.container.appendChild(this.canvas);
+
+        this.ctx = this.canvas.getContext('2d');
+        if (!this.ctx) throw new Error('Failed to acquire 2D context');
     }
 
     _resizeCanvas() {
@@ -85,23 +139,12 @@ class SketchyButton {
     }
 
     _drawWithRGBSplit(drawFn, intensity = 1) {
-        const offsets = [
-            {
-                x: this._rand(-intensity, intensity),
-                y: this._rand(-intensity, intensity),
-                c: 'red',
-            },
-            {
-                x: this._rand(-intensity, intensity),
-                y: this._rand(-intensity, intensity),
-                c: 'green',
-            },
-            {
-                x: this._rand(-intensity, intensity),
-                y: this._rand(-intensity, intensity),
-                c: 'blue',
-            },
-        ];
+        const offsets = ['red', 'green', 'blue'].map((c) => ({
+            x: this._rand(-intensity, intensity),
+            y: this._rand(-intensity, intensity),
+            c,
+        }));
+
         offsets.forEach((o) => {
             this.ctx.save();
             this.ctx.translate(o.x, o.y);
@@ -111,6 +154,7 @@ class SketchyButton {
             drawFn();
             this.ctx.restore();
         });
+
         this.ctx.globalCompositeOperation = 'source-over';
     }
 
@@ -119,10 +163,24 @@ class SketchyButton {
         const label = this.label;
         const baseY = this.canvas.height / 2;
         let cursorX = this.canvas.width / 2 + ctx.measureText(label).width / 2;
+
         for (const ch of label) {
             ctx.fillText(ch, cursorX + this._rand(-1.5, 1.5), baseY + this._rand(-1.5, 1.5));
             cursorX -= ctx.measureText(ch).width;
         }
+    }
+
+    _computeRGBIntensity() {
+        const input = this.input;
+        const maxDistance = 300;
+
+        const distanceFactor = Math.max(0, 1 - input.cursorDistance / maxDistance);
+        const hoverFactor = input.hover ? 1.5 : 1.0;
+        const progressFactor = input.active
+            ? (Math.exp(5 * Math.min(this.progress / this.maxProgress, 1)) - 1) / (Math.exp(5) - 1)
+            : 0;
+
+        return (distanceFactor * hoverFactor + progressFactor) * 4;
     }
 
     // -------------------- Rendering --------------------
@@ -132,39 +190,37 @@ class SketchyButton {
         const canvas = this.canvas;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Handle progressive glitching
-        if (this.active) {
-            this.progress += 0.005; // Increase progress each frame while held
+        // -------------------- Progress handling --------------------
+        const input = this.input;
+        if (input.active) {
+            this.progress += 0.005;
+
             if (this.progress >= this.maxProgress) {
                 this.progress = this.maxProgress;
                 this.running = false;
                 freezeGlitch();
 
                 setTimeout(() => {
-                    // Show overlay first
                     showOverlayMessage('לא אמור להיות כאן, אבל נו, נלך על זה');
-                    ding.play();
-                    ding.addEventListener('ended', () => {
+                    this.audioDing.play();
+                    this.audioDing.onEnded(() => {
                         const a = document.createElement('a');
-                        a.href = '/'; // Target URL
+                        a.href = '/';
                         document.body.appendChild(a);
                         a.click();
                     });
                 }, 1400);
             }
-        } else if (this.progress > 0) {
-            this.progress -= 0.02; // Slide back when released
-            if (this.progress < 0) this.progress = 0;
+        } else {
+            if (this.progress > 0) {
+                this.progress -= 0.02;
+                if (this.progress < 0) this.progress = 0;
+            }
         }
-        // css intensity should exponentially increase as approaches 1.
-        const actualProgress = Math.min(this.progress / this.maxProgress, 1);
-        const expGrowthConst = 5;
-        const expIntensity = ((Math.exp(expGrowthConst * actualProgress) - 1) / (Math.exp(expGrowthConst) - 1)) * 4;
-        document.documentElement.style.setProperty('--glitch-intensity', expIntensity);
 
         const pad = 8;
-        const baseJitter = this.hover ? 2.5 + this.progress : 1.5;
-        const glitchJitter = this.active ? 6 + this.progress * 5 : this.hover ? 3 : 1.5;
+        const baseJitter = input.hover ? 2.5 + this.progress : 1.5;
+        const glitchJitter = input.active ? 6 + this.progress * 5 : input.hover ? 3 : 1.5;
         const w = canvas.width - pad * 2;
         const h = canvas.height - pad * 2;
         const breathe = Math.sin(this.frame * 0.05) * 1.5;
@@ -172,7 +228,7 @@ class SketchyButton {
         ctx.save();
         ctx.translate(this._rand(-glitchJitter, glitchJitter), this._rand(-glitchJitter, glitchJitter));
 
-        // Fill
+        // -------------------- Background --------------------
         ctx.fillStyle = '#f2f2f2';
         ctx.fillRect(pad + breathe, pad, w - breathe * 2, h);
 
@@ -183,53 +239,41 @@ class SketchyButton {
         }
         ctx.globalAlpha = 1;
 
-        // Draw progress bar overlay
+        // Progress bar
         if (this.progress > 0) {
             ctx.fillStyle = 'rgba(255,0,0)';
             ctx.fillRect(pad, pad, w * Math.min(this.progress, 1), canvas.height - pad * 2);
         }
 
-        // RGB border
-        const rgbIntensity = this.active ? 6 + this.progress * 5 : this.hover ? 3 : 1.5;
+        const rgbIntensity = this._computeRGBIntensity();
+        const actualProgress = Math.min(this.progress / this.maxProgress, 1);
+        const expGrowthConst = 5;
+        const expIntensity = ((Math.exp(expGrowthConst * actualProgress) - 1) / (Math.exp(expGrowthConst) - 1)) * 4;
+        document.documentElement.style.setProperty('--glitch-intensity', expIntensity);
+
+        // -------------------- RGB border --------------------
         this._drawWithRGBSplit(() => {
             ctx.lineWidth = 2;
             this._sketchyRect(pad + breathe, pad, w - breathe * 2, h, baseJitter);
         }, rgbIntensity);
 
-        // Glitchy text
+        // -------------------- Glitchy text --------------------
         ctx.font = '20px monospace';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
-        const offsets = [
-            {
-                x: this._rand(-1.5, 1.5) * (1 + this.progress),
-                y: this._rand(-1.5, 1.5) * (1 + this.progress),
-                c: 'red',
-            },
-            {
-                x: this._rand(-1.5, 1.5) * (1 + this.progress),
-                y: this._rand(-1.5, 1.5) * (1 + this.progress),
-                c: 'green',
-            },
-            {
-                x: this._rand(-1.5, 1.5) * (1 + this.progress),
-                y: this._rand(-1.5, 1.5) * (1 + this.progress),
-                c: 'blue',
-            },
-        ];
-        offsets.forEach((o) => {
+        ['red', 'green', 'blue'].forEach((c) => {
             ctx.save();
-            ctx.translate(o.x, o.y);
-            ctx.fillStyle = o.c;
-            ctx.strokeStyle = o.c;
+            ctx.translate(this._rand(-1.5, 1.5) * (1 + this.progress), this._rand(-1.5, 1.5) * (1 + this.progress));
+            ctx.fillStyle = c;
+            ctx.strokeStyle = c;
             ctx.globalCompositeOperation = 'source-over';
             this._drawGlitchText();
             ctx.restore();
         });
 
-        // Glitch scan lines
-        if (Math.random() < (this.hover ? 1 : 0.3)) {
+        // -------------------- Glitch scanlines --------------------
+        if (Math.random() < (input.hover ? 1 : 0.3)) {
             const sliceY = this._rand(0, canvas.height);
             const sliceH = this._rand(6, 12);
             const offset = this._rand(-10, 10);
@@ -242,18 +286,12 @@ class SketchyButton {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    new SketchyButton('sketchy-button-container');
-});
-
+// -------------------- Utilities --------------------
 function freezeGlitch() {
     const computed = getComputedStyle(document.documentElement).getPropertyValue('--glitch-intensity');
     document.documentElement.style.setProperty('--glitch-intensity', computed);
-    const elements = document.querySelectorAll('body *');
-    elements.forEach((el) => {
-        const style = getComputedStyle(el);
-        const shadow = style.textShadow; // current shadow string
-        el.style.textShadow = shadow; // lock it in place
+    document.querySelectorAll('body *').forEach((el) => {
+        el.style.textShadow = getComputedStyle(el).textShadow;
     });
     document.body.classList.add('glitch-frozen');
 }
@@ -261,21 +299,30 @@ function freezeGlitch() {
 function showOverlayMessage(message) {
     const overlay = document.createElement('canvas');
     overlay.id = 'overlay-message';
-    overlay.style.position = 'fixed';
-    overlay.style.top = 0;
-    overlay.style.left = 0;
-    overlay.style.width = '100vw';
-    overlay.style.height = '100vh';
-    overlay.style.zIndex = 9999;
+    Object.assign(overlay.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100vw',
+        height: '100vh',
+        zIndex: '9999',
+    });
     document.body.appendChild(overlay);
 
-    const ctx = overlay.getContext('2d');
     overlay.width = window.innerWidth;
     overlay.height = window.innerHeight;
 
+    const ctx = overlay.getContext('2d');
     ctx.fillStyle = 'green';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.font = 'bold 56px monospace';
     ctx.fillText(message, overlay.width / 2, overlay.height / 2);
 }
+
+// -------------------- Initialization --------------------
+document.addEventListener('DOMContentLoaded', () => {
+    const riser = new AudioPlayer('assets/glitch_riser.wav');
+    const ding = new AudioPlayer('assets/microwave-ding.mp3');
+    new SketchyButton('sketchy-button-container', '(:  לחץ אם אתה לא מפחד', riser, ding);
+});
