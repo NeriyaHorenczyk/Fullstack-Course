@@ -7,14 +7,23 @@
         <link rel="stylesheet" href="styles/bootleg.css" />
         <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
         <script src="js/glitch.js" defer></script>
+        <!-- Load the audio -->
+        <link
+            rel="preload"
+            href="https://archive.org/download/deltarune-chapter-2-ost/1.17%20Toby%20Fox%20-%20DELTARUNE%20Chapter%202%20OST%20-%2017%20WELCOME%20TO%20THE%20CITY.mp3"
+            as="audio"
+        />
+        <!-- Play the audio -->
 
-        <!-- load ./assets/arcade_bg_audio.wav and play immediately -->
         <script>
             document.addEventListener('DOMContentLoaded', () => {
-                const bgAudio = new Audio('assets/arcade_bg_audio.wav');
+                const bgAudio = new Audio(
+                    'https://archive.org/download/deltarune-chapter-2-ost/1.17%20Toby%20Fox%20-%20DELTARUNE%20Chapter%202%20OST%20-%2017%20WELCOME%20TO%20THE%20CITY.mp3'
+                );
                 bgAudio.loop = true;
                 bgAudio.volume = 0.2;
                 bgAudio.play();
+                bgAudio.loop = true;
             });
         </script>
     </head>
@@ -108,6 +117,7 @@
                     Warning: Use on experimental hardware only. GameTetrahedron is not responsible for any glitches,
                     malfunctions, or temporal anomalies resulting from gameplay.
                 </p>
+                <p>Background Audio: WELCOME TO THE CITY by Toby Fox</p>
             </div>
         </footer>
     </body>
