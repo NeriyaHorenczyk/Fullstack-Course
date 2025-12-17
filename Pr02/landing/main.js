@@ -205,7 +205,7 @@ class SketchyButton {
                     this.audioDing.play();
                     this.audioDing.onEnded(() => {
                         const a = document.createElement('a');
-                        a.href = '/';
+                        a.href = '/home/';
                         document.body.appendChild(a);
                         a.click();
                     });
@@ -322,7 +322,7 @@ function showOverlayMessage(message) {
 
 // -------------------- Initialization --------------------
 document.addEventListener('DOMContentLoaded', () => {
-    const riser = new AudioPlayer('assets/glitch_riser.wav');
-    const ding = new AudioPlayer('assets/microwave-ding.mp3');
+    const riser = new AudioPlayer('landing/assets/glitch_riser.wav');
+    const ding = new AudioPlayer('landing/assets/microwave-ding.mp3');
     new SketchyButton('sketchy-button-container', '(:  לחץ אם אתה לא מפחד', riser, ding);
 });

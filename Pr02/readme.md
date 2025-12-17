@@ -41,5 +41,5 @@ Because I used ES-module (standard since 2015) imports for JavaScript files, and
 - Theme
     - Style: 8-bit retro arcade
     - Color Palette
-    - Everything is offbrand (GameTetrahedron, by Nintendra)
+    - Everything is offbrand (GameBox, by Nintendra)
 -
