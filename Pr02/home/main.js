@@ -297,27 +297,27 @@ function freezeGlitch() {
 }
 
 function showOverlayMessage(message) {
-    const overlay = document.createElement('canvas');
-    overlay.id = 'overlay-message';
-    Object.assign(overlay.style, {
+    const overlayDiv = document.createElement('div');
+    overlayDiv.id = 'overlay-message';
+    Object.assign(overlayDiv.style, {
         position: 'fixed',
         top: '0',
         left: '0',
         width: '100vw',
         height: '100vh',
         zIndex: '9999',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: 'lime',
+        fontFamily: 'monospace',
+        fontSize: '48px',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
     });
-    document.body.appendChild(overlay);
-
-    overlay.width = window.innerWidth;
-    overlay.height = window.innerHeight;
-
-    const ctx = overlay.getContext('2d');
-    ctx.fillStyle = 'green';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.font = 'bold 56px monospace';
-    ctx.fillText(message, overlay.width / 2, overlay.height / 2);
+    overlayDiv.textContent = message;
+    document.body.appendChild(overlayDiv);
 }
 
 // -------------------- Initialization --------------------
