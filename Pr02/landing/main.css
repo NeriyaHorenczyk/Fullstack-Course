@@ -1,0 +1,65 @@
+/* ==============================
+   Global Glitch Text Effect
+   ============================== */
+
+/* Base styling for all text */
+body * {
+    position: relative; /* ensures shadows render correctly */
+    color: #333; /* fallback text color */
+    transition: text-shadow 0.05s linear;
+    text-shadow:
+        0 0 red,
+        0 0 cyan,
+        0 0 lime; /* initial: no offset */
+    animation: glitch-flicker 0.1s infinite;
+}
+body.glitch-frozen * {
+    animation: none;
+    transform: none;
+    transition: none;
+}
+
+/* Keyframes for flicker animation */
+@keyframes glitch-flicker {
+    0% {
+        text-shadow:
+            0 0 red,
+            0 0 cyan,
+            0 0 lime;
+    }
+    50% {
+        text-shadow:
+            calc(var(--glitch-intensity) * 2px) calc(var(--glitch-intensity) * -2px) red,
+            calc(var(--glitch-intensity) * -2px) calc(var(--glitch-intensity) * 2px) cyan,
+            calc(var(--glitch-intensity) * 1px) calc(var(--glitch-intensity) * 1px) lime;
+    }
+    100% {
+        text-shadow:
+            0 0 red,
+            0 0 cyan,
+            0 0 lime;
+    }
+}
+
+/* Optional: subtle shake effect */
+body.glitch-active {
+    animation: glitch-shake 0.05s infinite alternate;
+}
+
+@keyframes glitch-shake {
+    0% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(calc(var(--glitch-intensity) * 1px), calc(var(--glitch-intensity) * -1px));
+    }
+    50% {
+        transform: translate(calc(var(--glitch-intensity) * -1px), calc(var(--glitch-intensity) * 1px));
+    }
+    75% {
+        transform: translate(calc(var(--glitch-intensity) * 1px), calc(var(--glitch-intensity) * 1px));
+    }
+    100% {
+        transform: translate(0, 0);
+    }
+}

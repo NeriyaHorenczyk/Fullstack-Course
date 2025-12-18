@@ -1,7 +1,7 @@
 // @ts-check
-import FoodEntity from "./FoodEntity.js";
-import Player from "./Player.js";
-import SnakeGameEngine from "./SnakeGameEngine.js";
+import FoodEntity from './FoodEntity.js';
+import Player from './Player.js';
+import SnakeGameEngine from './SnakeGameEngine.js';
 
 const canvas = document.getElementById('game-canvas');
 if (!(canvas instanceof HTMLCanvasElement)) {
