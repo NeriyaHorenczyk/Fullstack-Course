@@ -4,10 +4,10 @@ import { GameEngine } from '../../../js/engine/GameEngine.js';
 import Vector from '../../../js/engine/Vector.js';
 import FoodEntity from './FoodEntity.js';
 export default class Player extends Entity {
-  type = "player";
-  SNAKE_SPEED = 2;
-  BODY_CELL_SIZE = 10;
-  HEAD_CELL_SIZE = 15;
+    type = 'player';
+    SNAKE_SPEED = 2;
+    BODY_CELL_SIZE = 10;
+    HEAD_CELL_SIZE = 15;
 
     constructor() {
         super();
@@ -19,28 +19,40 @@ export default class Player extends Entity {
         this.growthPending = 0;
     }
 
-  onAdd() {
-    // Add listeners for keyboard input to change direction
-    /** @type {(event: KeyboardEvent) => void} */
-    const keydownListener = (event) => {
-      switch (event.key) {
-        case "ArrowUp":
-          this.direction = new Vector(0, -1);
-          break;
-        case "ArrowDown":
-          this.direction = new Vector(0, 1);
-          break;
-        case "ArrowLeft":
-          this.direction = new Vector(-1, 0);
-          break;
-        case "ArrowRight":
-          this.direction = new Vector(1, 0);
-          break;
-      }
-    };
-    window.addEventListener("keydown", keydownListener);
-    this.eventListeners.set("keydown", keydownListener);
-  }
+    onAdd() {
+        // Add listeners for keyboard input to change direction
+        /** @type {(event: KeyboardEvent) => void} */
+        const keydownListener = (event) => {
+            switch (event.key) {
+                case 'ArrowUp':
+                    // Prevent going opposite direction (can't go up if currently going down)
+                    if (this.direction.y !== 1) {
+                        this.direction = new Vector(0, -1);
+                    }
+                    break;
+                case 'ArrowDown':
+                    // Prevent going opposite direction (can't go down if currently going up)
+                    if (this.direction.y !== -1) {
+                        this.direction = new Vector(0, 1);
+                    }
+                    break;
+                case 'ArrowLeft':
+                    // Prevent going opposite direction (can't go left if currently going right)
+                    if (this.direction.x !== 1) {
+                        this.direction = new Vector(-1, 0);
+                    }
+                    break;
+                case 'ArrowRight':
+                    // Prevent going opposite direction (can't go right if currently going left)
+                    if (this.direction.x !== -1) {
+                        this.direction = new Vector(1, 0);
+                    }
+                    break;
+            }
+        };
+        window.addEventListener('keydown', keydownListener);
+        this.eventListeners.set('keydown', keydownListener);
+    }
 
     /**
      *
