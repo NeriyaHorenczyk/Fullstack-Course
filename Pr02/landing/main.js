@@ -22,6 +22,7 @@ class InputHandler {
         this.canvas = canvas;
         this.hover = false;
         this.active = false;
+        this.mouseInsideDoc = false;
         this.cursorDistance = Infinity;
         this.mouseCoords = { x: 0, y: 0 };
 
@@ -50,6 +51,13 @@ class InputHandler {
         });
 
         document.addEventListener('mousemove', (e) => this._updateCursorDistance(e));
+        document.addEventListener('mouseleave', () => {
+            this.mouseInsideDoc = false;
+        });
+        document.addEventListener('mouseenter', (e) => {
+            this.mouseInsideDoc = true;
+            this._updateCursorDistance(e);
+        });
     }
 
     _updateCursorDistance(e) {
@@ -118,10 +126,12 @@ class SketchyButton {
 
     // -------------------- Utilities --------------------
     _rand(min, max) {
+        if (!this.input.mouseInsideDoc) return (min + max) / 2;
         return Math.random() * (max - min) + min;
     }
 
     _jitter(v, amount) {
+        if (!this.input.mouseInsideDoc) return v;
         return v + this._rand(-amount, amount);
     }
 
@@ -139,6 +149,10 @@ class SketchyButton {
     }
 
     _drawWithRGBSplit(drawFn, intensity = 1) {
+        if (!this.input.mouseInsideDoc) {
+            drawFn();
+            return;
+        }
         const offsets = ['red', 'green', 'blue'].map((c) => ({
             x: this._rand(-intensity, intensity),
             y: this._rand(-intensity, intensity),
@@ -163,14 +177,18 @@ class SketchyButton {
         const label = this.label;
         const baseY = this.canvas.height / 2;
         let cursorX = this.canvas.width / 2 + ctx.measureText(label).width / 2;
+        const shouldJitter = this.input.mouseInsideDoc;
 
         for (const ch of label) {
-            ctx.fillText(ch, cursorX + this._rand(-1.5, 1.5), baseY + this._rand(-1.5, 1.5));
+            const randX = shouldJitter ? this._rand(-1.5, 1.5) : 0;
+            const randY = shouldJitter ? this._rand(-1.5, 1.5) : 0;
+            ctx.fillText(ch, cursorX + randX, baseY + randY);
             cursorX -= ctx.measureText(ch).width;
         }
     }
 
     _computeRGBIntensity() {
+        if (!this.input.mouseInsideDoc) return 0;
         const input = this.input;
         const maxDistance = 300;
 
@@ -193,15 +211,16 @@ class SketchyButton {
         // -------------------- Progress handling --------------------
         const input = this.input;
         if (input.active) {
-            this.progress += 0.005;
+            this.progress += 0.009;
 
             if (this.progress >= this.maxProgress) {
                 this.progress = this.maxProgress;
                 this.running = false;
                 freezeGlitch();
 
-                setTimeout(() => {
+                setTimeout(async () => {
                     showOverlayMessage('לא אמור להיות כאן, אבל נו, נלך על זה');
+                    await new Promise((r) => setTimeout(r, 200));
                     this.audioDing.play();
                     this.audioDing.onEnded(() => {
                         const a = document.createElement('a');
@@ -223,7 +242,8 @@ class SketchyButton {
         const glitchJitter = input.active ? 6 + this.progress * 5 : input.hover ? 3 : 1.5;
         const w = canvas.width - pad * 2;
         const h = canvas.height - pad * 2;
-        const breathe = Math.sin(this.frame * 0.05) * 1.5;
+        let breathe = Math.sin(this.frame * 0.05) * 1.5;
+        if (input.cursorDistance === Infinity) breathe = 0;
 
         ctx.save();
         ctx.translate(this._rand(-glitchJitter, glitchJitter), this._rand(-glitchJitter, glitchJitter));
@@ -267,13 +287,14 @@ class SketchyButton {
             ctx.translate(this._rand(-1.5, 1.5) * (1 + this.progress), this._rand(-1.5, 1.5) * (1 + this.progress));
             ctx.fillStyle = c;
             ctx.strokeStyle = c;
-            ctx.globalCompositeOperation = 'source-over';
+            if (this.input.mouseInsideDoc) ctx.globalCompositeOperation = 'source-over';
+            else ctx.globalCompositeOperation = 'darken';
             this._drawGlitchText();
             ctx.restore();
         });
 
         // -------------------- Glitch scanlines --------------------
-        if (Math.random() < (input.hover ? 1 : 0.3)) {
+        if (this.input.cursorDistance !== Infinity && Math.random() < (input.hover ? 1 : 0.3)) {
             const sliceY = this._rand(0, canvas.height);
             const sliceH = this._rand(6, 12);
             const offset = this._rand(-10, 10);
