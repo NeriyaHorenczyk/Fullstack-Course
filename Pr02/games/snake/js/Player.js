@@ -5,9 +5,9 @@ import Vector from '../../../js/engine/Vector.js';
 import FoodEntity from './FoodEntity.js';
 export default class Player extends Entity {
     type = 'player';
-    SNAKE_SPEED = 6;
-    BODY_CELL_SIZE = 10;
-    HEAD_CELL_SIZE = 15;
+    SNAKE_SPEED = 10; // Moves per second
+    BODY_CELL_SIZE = 20;
+    HEAD_CELL_SIZE = 20;
 
     constructor() {
         super();
@@ -17,6 +17,8 @@ export default class Player extends Entity {
         this.hasEaten = false;
         this.size = new Vector(this.HEAD_CELL_SIZE, this.HEAD_CELL_SIZE);
         this.growthPending = 0;
+        this.moveTimer = 0; // Timer to control grid-based movement
+        this.moveInterval = 60 / this.SNAKE_SPEED; // Frames between moves (at 60fps)
     }
 
     onAdd() {
@@ -77,7 +79,7 @@ export default class Player extends Entity {
             // Grow the snake by adding a new body part at the tail
             this.hasEaten = true;
             gameEngine.removeEntity(other);
-            this.growthPending += other.value;
+            this.growthPending += other.value; // Increase growth pending based on food value
         }
     }
 
@@ -87,22 +89,30 @@ export default class Player extends Entity {
      * @param {GameEngine} gameEngine - The game engine instance.
      */
     update(deltaFrames, gameEngine) {
-        // Update player position based on direction
-        const speed = this.SNAKE_SPEED; // Adjust speed as necessary
-        this.position.x += this.direction.x * speed * deltaFrames;
-        this.position.y += this.direction.y * speed * deltaFrames;
-        this.bodyParts.unshift(this.position.clone()); // Add new head position to the front of the body parts array
+        // Increment the timer
+        this.moveTimer += deltaFrames;
 
-        if (this.growthPending > 0) {
-            this.growthPending--;
-        } else {
-            this.bodyParts.pop(); // Remove the last part if not growing
+        // Only move when the timer reaches the move interval
+        if (this.moveTimer >= this.moveInterval) {
+            this.moveTimer = 0; // Reset timer
+
+            // Move the snake one cell in the current direction
+            this.position.x += this.direction.x * this.BODY_CELL_SIZE;
+            this.position.y += this.direction.y * this.BODY_CELL_SIZE;
+
+            this.bodyParts.unshift(this.position.clone()); // Add new head position to the front of the body parts array
+
+            if (this.growthPending > 0) {
+                this.growthPending--;
+            } else {
+                this.bodyParts.pop(); // Remove the last part if not growing
+            }
+
+            console.table({
+                position: this.position,
+                bodyParts: this.bodyParts,
+            });
         }
-
-        console.table({
-            position: this.position,
-            bodyParts: this.bodyParts,
-        });
     }
 
     /**
