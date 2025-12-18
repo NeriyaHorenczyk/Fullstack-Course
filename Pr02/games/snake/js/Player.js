@@ -5,7 +5,7 @@ import Vector from '../../../js/engine/Vector.js';
 import FoodEntity from './FoodEntity.js';
 export default class Player extends Entity {
     type = 'player';
-    SNAKE_SPEED = 2;
+    SNAKE_SPEED = 6;
     BODY_CELL_SIZE = 10;
     HEAD_CELL_SIZE = 15;
 
