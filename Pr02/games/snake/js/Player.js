@@ -100,6 +100,19 @@ export default class Player extends Entity {
             this.position.x += this.direction.x * this.BODY_CELL_SIZE;
             this.position.y += this.direction.y * this.BODY_CELL_SIZE;
 
+            // Wrap around the screen edges
+            if (this.position.x < 0) {
+                this.position.x = gameEngine.canvas.width - this.BODY_CELL_SIZE;
+            } else if (this.position.x >= gameEngine.canvas.width) {
+                this.position.x = 0;
+            }
+
+            if (this.position.y < 0) {
+                this.position.y = gameEngine.canvas.height - this.BODY_CELL_SIZE;
+            } else if (this.position.y >= gameEngine.canvas.height) {
+                this.position.y = 0;
+            }
+
             this.bodyParts.unshift(this.position.clone()); // Add new head position to the front of the body parts array
 
             if (this.growthPending > 0) {
