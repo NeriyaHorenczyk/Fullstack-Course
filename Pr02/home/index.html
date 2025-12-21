@@ -7,11 +7,12 @@
     <title>GameBox — by Nintetra</title>
     <link rel="stylesheet" href="styles/main.css" />
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-    <!-- Load the audio -->
     <link rel="preload"
         href="https://archive.org/download/deltarune-chapter-2-ost/1.30%20Toby%20Fox%20-%20DELTARUNE%20Chapter%202%20OST%20-%2030%20Lost%20Girl.mp3"
         as="audio" />
-    <!-- Play the audio -->
+
+    <!-- https://static.thenounproject.com/png/no-music-icon-7119674-512.png -->
+    <!-- https://static.thenounproject.com/png/music-icon-7119672-512.png -->
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -23,11 +24,31 @@
 
             const startBtn = document.getElementById('start-btn');
             const popup = document.getElementById('start-popup');
+            const audioToggle = document.getElementById('audio-toggle');
+            const musicIcon = 'https://static.thenounproject.com/png/music-icon-7119672-512.png';
+            const noMusicIcon = 'https://static.thenounproject.com/png/no-music-icon-7119674-512.png';
+
+            function updateAudioIcon() {
+                if (bgAudio.paused) {
+                    audioToggle.src = noMusicIcon;
+                } else {
+                    audioToggle.src = musicIcon;
+                }
+            }
 
             startBtn.addEventListener('click', () => {
-                bgAudio.play().catch((e) => console.log('Audio failed:', e));
+                bgAudio.play().then(() => updateAudioIcon()).catch((e) => console.log('Audio failed:', e));
                 popup.style.display = 'none';
-                document.body.classList.add('active'); // Optional hook for CSS
+                document.body.classList.add('active');
+            });
+
+            audioToggle.addEventListener('click', () => {
+                if (bgAudio.paused) {
+                    bgAudio.play().then(() => updateAudioIcon()).catch(e => console.error(e));
+                } else {
+                    bgAudio.pause();
+                    updateAudioIcon();
+                }
             });
         });
     </script>
@@ -49,6 +70,8 @@
             <div class="byline">by Nintetra</div>
             <div class="slogan">Hand-crafted Games for Good Vibes</div>
         </div>
+        <img id="audio-toggle" src="https://static.thenounproject.com/png/no-music-icon-7119674-512.png"
+            alt="Toggle Audio" class="audio-toggle" />
     </header>
 
     <main class="main">
@@ -59,7 +82,6 @@
         </div>
 
         <section class="catalog">
-            <!-- Each tile looks hand-drawn and pleasant -->
             <a href="/games/snake/">
                 <article class="tile">
                     <img src="game_art/worm.jpg" alt="Worm Game Art" class="art" />
