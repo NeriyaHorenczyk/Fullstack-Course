@@ -10,14 +10,23 @@ body {
 }
 body {
     min-height: 100vh;
-    background: linear-gradient(180deg, #0a0810 0%, #19101a 100%);
-    color: var(--panel);
+    background: linear-gradient(135deg, #ff00ff, #00ffff, #ffff00, #ff0000);
+    background-size: 400% 400%;
+    animation: gradientBG 5s ease infinite;
+    color: #000;
     font-family: var(--pixel-font);
     padding: 18px;
     -webkit-font-smoothing: none;
     image-rendering: pixelated;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 /* subtle fake compression noise */
@@ -181,9 +190,10 @@ a {
 .catalog {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 5px; /* Tighten gap */
     align-items: start;
+    padding-bottom: 50px;
 }
 
 .tile {
@@ -195,20 +205,30 @@ a {
     gap: 8px;
     align-items: flex-start;
     transform: rotate(-0.3deg);
-    box-shadow: 0 6px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.5); /* Heavier shadow */
     position: relative;
+    transition: transform 0.1s;
+    min-height: 200px; /* Ensure space for content */
 }
 
-.tile:nth-child(3n) {
-    transform: rotate(0.8deg) translateY(2px);
-}
-.tile:nth-child(4n) {
-    transform: rotate(-1.2deg) translateX(-3px);
+/* Semantic Chaos */
+.tile:nth-child(odd) { transform: rotate(2deg); margin-top: 20px; z-index: 1; }
+.tile:nth-child(even) { transform: rotate(-2deg); margin-left: -15px; z-index: 2; }
+.tile:nth-child(3n) { transform: rotate(5deg) scale(1.05); z-index: 3; border-color: var(--clash-2); }
+.tile:nth-child(4n) { transform: rotate(-5deg) translateY(-10px); border-radius: 10px; }
+.tile:nth-child(5n) { background: #fff0f5; border: 4px dashed var(--clash-1); }
+.tile:nth-child(7n) { margin-right: -30px; z-index: 4; }
+
+.tile:hover {
+    transform: scale(1.2) rotate(0deg) !important;
+    z-index: 99 !important;
+    box-shadow: 20px 20px 0 rgba(0,0,0,0.8);
+    background: #fff;
 }
 
 .art {
     width: 100%;
-    height: 100px;
+    height: 180px;
     background: #111;
     border: 4px solid rgba(0, 0, 0, 0.7);
     display: block;
@@ -226,13 +246,24 @@ a {
 }
 
 .title {
-    font-size: 10px;
+    font-size: 14px;
     color: #0b0b0b;
     background: linear-gradient(0deg, var(--neon-3), var(--neon-2));
     padding: 4px 6px;
     margin: 0;
     border-radius: 2px;
     align-self: stretch;
+}
+
+.tile:nth-child(odd) .title {
+    font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+    letter-spacing: -1px;
+}
+
+.tile:nth-child(even) .title {
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .tile .title {
@@ -293,6 +324,132 @@ a {
     left: 0;
     width: 100vw;
     height: 100vh;
-    pointer-events: none; /* critical: allows clicks to pass through */
+    pointer-events: none; /* required: allows clicks to pass through */
     z-index: 9999; /* make sure it's above everything */
+    mix-blend-mode: exclusion;
+}
+
+.play-btn {
+    background: var(--clash-3);
+    color: #fff;
+    border: 4px outset var(--clash-4);
+    font-family: var(--pixel-font);
+    padding: 8px 12px;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+    text-shadow: 2px 2px 0 #000;
+    margin-top: auto;
+    animation: flash 0.8s infinite;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.play-btn:hover {
+    background: var(--clash-1);
+    border-style: inset;
+    animation: none;
+    transform: scale(1.1);
+}
+
+.sticker {
+    position: absolute;
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
+    padding: 10px;
+    border: 3px solid #000;
+    text-transform: uppercase;
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.8);
+    pointer-events: auto;
+    font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+    z-index: 100;
+}
+
+.sticker-hot {
+    background: var(--clash-3);
+    top: 15%;
+    left: 8%;
+    transform: rotate(-25deg);
+    animation: bounce 0.6s infinite alternate;
+}
+
+.sticker-free {
+    background: var(--clash-2);
+    color: #000;
+    top: 55%;
+    right: 2%;
+    transform: rotate(15deg);
+    font-size: 28px;
+    z-index: 50;
+}
+
+.sticker-virus {
+    background: var(--clash-1);
+    bottom: 10%;
+    left: 20%;
+    transform: rotate(-5deg);
+    font-size: 14px;
+    border-radius: 50%;
+    padding: 25px 15px;
+    text-align: center;
+    animation: shake 3s infinite;
+}
+
+.sticker-wow {
+    top: -15px !important;
+    right: -15px !important;
+    background: var(--clash-4);
+    color: #000;
+    font-size: 12px;
+    transform: rotate(25deg);
+    animation: shake 0.2s infinite;
+    padding: 5px;
+}
+
+.sticker-new {
+    top: -10px !important;
+    left: -10px !important;
+    background: red;
+    color: white;
+    font-size: 12px;
+    transform: rotate(-45deg);
+    border: 2px dashed yellow;
+    padding: 5px;
+    animation: flash 0.2s infinite;
+}
+
+.pop-up-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 50;
+}
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+@keyframes bounce {
+    from { transform: translateY(0) rotate(var(--r, 0deg)); }
+    to { transform: translateY(-15px) rotate(var(--r, 0deg)); }
+}
+
+@keyframes flash {
+    0%, 100% { filter: brightness(1) invert(0); }
+    50% { filter: brightness(1.5) invert(0.2); }
 }

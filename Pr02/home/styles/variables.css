@@ -11,4 +11,8 @@
     --noise-opacity: 0.06;
     --tile-border: 3px solid rgba(0, 0, 0, 0.5);
     --pixel-font: 'Press Start 2P', 'Courier New', monospace;
+    --clash-1: #ff00ff;
+    --clash-2: #ccff00;
+    --clash-3: #ff4500;
+    --clash-4: #ffff00;
 }

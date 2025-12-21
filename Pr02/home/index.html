@@ -1,124 +1,152 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>GameBox — by Nintetra</title>
-        <link rel="stylesheet" href="styles/bootleg.css" />
-        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-        <script src="js/glitch.js" defer></script>
-        <!-- Load the audio -->
-        <link
-            rel="preload"
-            href="https://archive.org/download/deltarune-chapter-2-ost/1.17%20Toby%20Fox%20-%20DELTARUNE%20Chapter%202%20OST%20-%2017%20WELCOME%20TO%20THE%20CITY.mp3"
-            as="audio"
-        />
-        <!-- Play the audio -->
 
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const bgAudio = new Audio(
-                    'https://archive.org/download/deltarune-chapter-2-ost/1.17%20Toby%20Fox%20-%20DELTARUNE%20Chapter%202%20OST%20-%2017%20WELCOME%20TO%20THE%20CITY.mp3'
-                );
-                bgAudio.loop = true;
-                bgAudio.volume = 0.2;
-                bgAudio.play();
-                bgAudio.loop = true;
-            });
-        </script>
-    </head>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GameBox — by Nintetra</title>
+    <link rel="stylesheet" href="styles/bootleg.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <script src="js/glitch.js" defer></script>
+    <!-- Load the audio -->
+    <link rel="preload"
+        href="https://archive.org/download/deltarune-chapter-2-ost/1.17%20Toby%20Fox%20-%20DELTARUNE%20Chapter%202%20OST%20-%2017%20WELCOME%20TO%20THE%20CITY.mp3"
+        as="audio" />
+    <!-- Play the audio -->
 
-    <body>
-        <header class="site-header">
-            <div class="header-inner">
-                <h1 class="logo glitch" data-text="GameBox">GameBox</h1>
-                <div class="byline">by Nintetra™</div>
-                <div class="slogan">Legally Distinctive Games for Experimental Hardware</div>
-            </div>
-        </header>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const bgAudio = new Audio(
+                'https://archive.org/download/deltarune-chapter-2-ost/1.17%20Toby%20Fox%20-%20DELTARUNE%20Chapter%202%20OST%20-%2017%20WELCOME%20TO%20THE%20CITY.mp3'
+            );
+            bgAudio.loop = true;
+            bgAudio.volume = 0.2;
+            bgAudio.play();
+            bgAudio.loop = true;
+        });
+    </script>
+</head>
 
-        <main class="main">
-            <section class="catalog">
-                <!-- Each tile intentionally looks low-res / misaligned -->
-                <a href="/games/snake/">
-                    <article class="tile">
-                        <img src="game_art/worm.jpg" alt="Worm Game Art" class="art" />
-                        <h3 class="title">Worm</h3>
-                    </article>
-                </a>
-                <a href="/games/doodle_jump/">
-                    <article class="tile">
-                        <img src="game_art/sketch_hopper.jpg" alt="Sketch Hopper Game Art" class="art" />
-                        <h3 class="title">Sketch Hopper</h3>
-                    </article>
-                </a>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <h1 class="logo glitch" data-text="GameBox">GameBox</h1>
+            <div class="byline">by Nintetra™</div>
+            <div class="slogan">Legally Distinctive Games for Experimental Hardware</div>
+        </div>
+    </header>
 
-                <article class="tile">
-                    <img src="game_art/meh_marlo_cousins.jpg" alt="Meh Marlo Cousins Game Art" class="art" />
-                    <h3 class="title">Meh Marlo Cousins</h3>
-                </article>
-                <article class="tile">
-                    <img src="game_art/adventures_of_lunk.jpg" alt="Adventures of Lunk Game Art" class="art" />
-                    <h3 class="title">Adventures of Lunk</h3>
-                </article>
-                <article class="tile">
-                    <img src="game_art/really_punchy_fellows.jpg" alt="Really Punchy Fellows Game Art" class="art" />
-                    <h3 class="title">Really Punchy Fellows</h3>
-                </article>
-                <article class="tile">
-                    <img src="game_art/jabbimon.jpg" alt="Jabbímon Game Art" class="art" />
-                    <h3 class="title">Jabbímon</h3>
-                </article>
-                <article class="tile">
-                    <img src="game_art/plumbers_ghost_house.jpg" alt="Plumber's Ghost House Game Art" class="art" />
-                    <h3 class="title">Plumber's Ghost House</h3>
-                </article>
-                <article class="tile">
-                    <img src="game_art/dong.jpg" alt="Dong Game Art" class="art" />
-                    <h3 class="title">Dong</h3>
-                </article>
-                <article class="tile">
-                    <img src="game_art/monkey_smash.jpg" alt="Monkey Smash Game Art" class="art" />
-                    <h3 class="title">Monkey Smash</h3>
-                </article>
-                <article class="tile">
-                    <img src="game_art/speedy_the_dog.jpg" alt="Speedy the Dog Game Art" class="art" />
-                    <h3 class="title">Speedy the Dog</h3>
-                </article>
-                <article class="tile">
-                    <img src="game_art/quick_minute.jpg" alt="Quick Minute Game Art" class="art" />
-                    <h3 class="title">Quick Minute</h3>
-                </article>
-                <article class="tile">
-                    <img src="game_art/salmon_sways.jpg" alt="Salmon Sways Game Art" class="art" />
-                    <h3 class="title">Salmon Sways</h3>
-                </article>
-                <article class="tile">
-                    <img src="game_art/peepers_creepers.jpg" alt="Peepers Creepers Game Art" class="art" />
-                    <h3 class="title">Peepers Creepers</h3>
-                </article>
-                <article class="tile">
-                    <img src="game_art/rail_rush.jpg" alt="Rail Rush Game Art" class="art" />
-                    <h3 class="title">Rail Rush</h3>
-                </article>
-                <article class="tile">
-                    <img src="game_art/vegetable_samurai.jpg" alt="Vegetable Samurai Game Art" class="art" />
-                    <h3 class="title">Vegetable Samurai</h3>
-                </article>
-            </section>
-        </main>
+    <main class="main">
+        <div class="pop-up-container">
+            <div class="sticker sticker-hot">HOT!</div>
+            <div class="sticker sticker-free">100% FREE</div>
+            <div class="sticker sticker-virus">NO VIRUS GUARANTEED</div>
+        </div>
 
-        <div id="spacer"></div>
-        <footer class="site-footer">
-            <div class="foot-inner">
-                <p class="copyright">© 2004–1992 GameBox. All definitely-not-Nintendo rights reserved.</p>
-                <p class="disclaimer">This is totally original. Any resemblance to actual games is suspicious.</p>
-                <p class="warning">
-                    Warning: Use on experimental hardware only. GameBox is not responsible for any glitches,
-                    malfunctions, or temporal anomalies resulting from gameplay.
-                </p>
-                <p>Background Audio: WELCOME TO THE CITY by Toby Fox</p>
-            </div>
-        </footer>
-    </body>
+        <section class="catalog">
+            <!-- Each tile intentionally looks low-res / misaligned -->
+            <a href="/games/snake/">
+                <article class="tile">
+                    <img src="game_art/worm.jpg" alt="Worm Game Art" class="art" />
+                    <h3 class="title">Worm</h3>
+                    <div class="play-btn">Play Now!</div>
+                </article>
+            </a>
+            <a href="/games/doodle_jump/">
+                <article class="tile">
+                    <img src="game_art/sketch_hopper.jpg" alt="Sketch Hopper Game Art" class="art" />
+                    <h3 class="title">Sketch Hopper</h3>
+                    <div class="play-btn">Play Now!</div>
+                </article>
+            </a>
+
+            <article class="tile">
+                <img src="game_art/meh_marlo_cousins.jpg" alt="Meh Marlo Cousins Game Art" class="art" />
+                <h3 class="title">Meh Marlo Cousins</h3>
+                <div class="play-btn">Play Now!</div>
+            </article>
+            <article class="tile">
+                <img src="game_art/adventures_of_lunk.jpg" alt="Adventures of Lunk Game Art" class="art" />
+                <h3 class="title">Adventures of Lunk</h3>
+                <div class="play-btn">Play Now!</div>
+            </article>
+            <article class="tile">
+                <img src="game_art/really_punchy_fellows.jpg" alt="Really Punchy Fellows Game Art" class="art" />
+                <div class="sticker sticker-wow">WOW!</div>
+                <h3 class="title">Really Punchy Fellows</h3>
+                <div class="play-btn">Play Now!</div>
+            </article>
+            <article class="tile">
+                <img src="game_art/jabbimon.jpg" alt="Jabbímon Game Art" class="art" />
+                <h3 class="title">Jabbímon</h3>
+                <div class="play-btn">Play Now!</div>
+            </article>
+            <article class="tile">
+                <img src="game_art/plumbers_ghost_house.jpg" alt="Plumber's Ghost House Game Art" class="art" />
+                <h3 class="title">Plumber's Ghost House</h3>
+                <div class="play-btn">Play Now!</div>
+            </article>
+            <article class="tile">
+                <img src="game_art/dong.jpg" alt="Dong Game Art" class="art" />
+                <h3 class="title">Dong</h3>
+                <div class="play-btn">Play Now!</div>
+            </article>
+            <article class="tile">
+                <img src="game_art/monkey_smash.jpg" alt="Monkey Smash Game Art" class="art" />
+                <h3 class="title">Monkey Smash</h3>
+                <div class="play-btn">Play Now!</div>
+            </article>
+            <article class="tile">
+                <div class="sticker sticker-new">NEW!</div>
+                <img src="game_art/speedy_the_dog.jpg" alt="Speedy the Dog Game Art" class="art" />
+                <h3 class="title">Speedy the Dog</h3>
+                <div class="play-btn">Play Now!</div>
+            </article>
+            <article class="tile">
+                <img src="game_art/quick_minute.jpg" alt="Quick Minute Game Art" class="art" />
+                <h3 class="title">Quick Minute</h3>
+                <div class="play-btn">Play Now!</div>
+            </article>
+            <article class="tile">
+                <img src="game_art/salmon_sways.jpg" alt="Salmon Sways Game Art" class="art" />
+                <h3 class="title">Salmon Sways</h3>
+                <div class="play-btn">Play Now!</div>
+            </article>
+            <article class="tile">
+                <img src="game_art/peepers_creepers.jpg" alt="Peepers Creepers Game Art" class="art" />
+                <h3 class="title">Peepers Creepers</h3>
+                <div class="play-btn">Play Now!</div>
+            </article>
+            <article class="tile">
+                <img src="game_art/rail_rush.jpg" alt="Rail Rush Game Art" class="art" />
+                <h3 class="title">Rail Rush</h3>
+                <div class="play-btn">Play Now!</div>
+            </article>
+            <article class="tile">
+                <img src="game_art/vegetable_samurai.jpg" alt="Vegetable Samurai Game Art" class="art" />
+                <h3 class="title">Vegetable Samurai</h3>
+                <div class="play-btn">Play Now!</div>
+            </article>
+            <article class="tile">
+                <img src="game_art/block_smasher.jpg" alt="Block Smasher Game Art" class="art" />
+                <h3 class="title">Block Smasher</h3>
+                <div class="play-btn">Play Now!</div>
+            </article>
+        </section>
+    </main>
+
+    <div id="spacer"></div>
+    <footer class="site-footer">
+        <div class="foot-inner">
+            <p class="copyright">© 2004–1992 GameBox. All definitely-not-Nintendo rights reserved.</p>
+            <p class="disclaimer">This is totally original. Any resemblance to actual games is suspicious.</p>
+            <p class="warning">
+                Warning: Use on experimental hardware only. GameBox is not responsible for any glitches,
+                malfunctions, or temporal anomalies resulting from gameplay.
+            </p>
+            <p>Background Audio: WELCOME TO THE CITY by Toby Fox</p>
+        </div>
+    </footer>
+</body>
+
 </html>
