@@ -271,6 +271,7 @@ a {
     padding: 12px;
     border-top: 4px dashed rgba(255, 255, 255, 0.04);
     background: black;
+    z-index: 101;
 }
 .foot-inner {
     font-size: 10px;
