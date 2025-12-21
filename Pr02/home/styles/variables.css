@@ -1,18 +1,19 @@
 :root {
-    /* Color palette: garish but limited */
-    --bg: #0f0b12; /* off-black */
-    --panel: #f7f3e8; /* off-white */
-    --neon: #8b3cff; /* neon purple */
-    --neon-2: #00ffcc; /* cyan */
-    --neon-3: #7fff00; /* neon green */
-    --muted: #c7bfb2;
-    --tile: #efe8d8;
-    --accent-shadow: rgba(139, 60, 255, 0.15);
-    --noise-opacity: 0.06;
-    --tile-border: 3px solid rgba(0, 0, 0, 0.5);
+    /* Color palette: Pleasant Pastels */
+    --bg: #fdf6e3; /* Cream */
+    --panel: #fff;
+    --neon: #b19cd9; /* Pastel Purple */
+    --neon-2: #add8e6; /* Pastel Blue */
+    --neon-3: #98fb98; /* Pastel Green */
+    --muted: #7f8c8d;
+    --tile: #fff0f5; /* Lavender Blush */
+    --accent-shadow: rgba(0, 0, 0, 0.05);
+    --noise-opacity: 0.03;
+    --tile-border: 2px dashed #b0b0b0;
     --pixel-font: 'Press Start 2P', 'Courier New', monospace;
-    --clash-1: #ff00ff;
-    --clash-2: #ccff00;
-    --clash-3: #ff4500;
-    --clash-4: #ffff00;
+    /* New pleasant variables */
+    --clash-1: #ffb7b2; /* Pastel Red */
+    --clash-2: #e2f0cb; /* Pastel Lime */
+    --clash-3: #ffdac1; /* Pastel Orange */
+    --clash-4: #ffffb5; /* Pastel Yellow */
 }

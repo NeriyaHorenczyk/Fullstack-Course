@@ -63,3 +63,35 @@ body.glitch-active {
         transform: translate(0, 0);
     }
 }
+
+/* Sketchy CTA Button from Pleasant Theme */
+.sketchy-btn {
+    display: inline-block;
+    font-size: 18px;
+    font-family: 'Press Start 2P', monospace;
+    background: #98fb98; /* Pastel Green */
+    color: #000;
+    text-decoration: none;
+    border-radius: 30px;
+    padding: 15px 40px;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 0 5px 15px rgba(152, 251, 152, 0.4);
+    transition: transform 0.2s, background 0.2s;
+    margin-top: 20px;
+    text-shadow: none; /* Override global glitch shadow */
+    animation: none; /* Override global glitch animation */
+}
+
+.sketchy-btn:hover {
+    transform: translateY(-2px);
+    background: #88ecc0;
+}
+
+#sketchy-button-container {
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    z-index: 9999;
+    position: relative;
+}
