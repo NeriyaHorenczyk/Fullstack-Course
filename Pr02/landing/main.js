@@ -211,7 +211,7 @@ class SketchyButton {
         // -------------------- Progress handling --------------------
         const input = this.input;
         if (input.active) {
-            this.progress += 0.009;
+            this.progress += 0.005;
 
             if (this.progress >= this.maxProgress) {
                 this.progress = this.maxProgress;
@@ -219,9 +219,9 @@ class SketchyButton {
                 freezeGlitch();
 
                 setTimeout(async () => {
+                    this.audioDing.play();
                     showOverlayMessage('לא אמור להיות כאן, אבל נו, נלך על זה');
                     await new Promise((r) => setTimeout(r, 200));
-                    this.audioDing.play();
                     this.audioDing.onEnded(() => {
                         const a = document.createElement('a');
                         a.href = '/home/';
