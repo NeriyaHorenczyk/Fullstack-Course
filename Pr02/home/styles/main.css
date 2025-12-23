@@ -135,23 +135,22 @@ a {
     margin-bottom: 16px;
     box-shadow: 8px 8px 0 var(--accent-shadow);
     position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.audio-toggle {
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-    width: 28px;
-    height: 28px;
+.pixel-button {
+    width: 32px;
+    height: 32px;
     cursor: pointer;
     opacity: 0.6;
     transition: all 0.2s ease;
     filter: drop-shadow(1px 1px 0 rgba(255, 255, 255, 0.5));
 }
 
-.audio-toggle:hover {
-    transform: translateY(-50%) scale(1.1);
+.pixel-button:hover {
+    transform: translateY(-33%) scale(1.1);
     opacity: 1;
     filter: drop-shadow(2px 2px 0 var(--neon));
 }
@@ -162,6 +161,7 @@ a {
     align-items: flex-start;
     gap: 6px;
     transform: translateX(-2px) rotate(-0.5deg);
+    flex-grow: 1;
 }
 
 .logo {
