@@ -2,6 +2,7 @@
 
 import ButtonEntity from '../../../js/engine/ButtonEntity.js';
 import { GameEngine } from '../../../js/engine/GameEngine.js';
+import TextEntity from '../../../js/engine/TextEntity.js';
 import Vector from '../../../js/engine/Vector.js';
 import FoodEntity from './FoodEntity.js';
 import Player from './Player.js';
@@ -30,7 +31,7 @@ export default class SnakeGameEngine extends GameEngine {
         const player = this.entities.find((e) => e instanceof Player);
         if (player && player.isGameOver) {
             player.direction = new Vector(0, 0); // Stop the snake movement
-
+            this.addEntity(new TextEntity('Game Over', this.canvas.width / 2, this.canvas.height / 2 - 50));
             // Only add one restart button while game over
             const hasButton = this.entities.some((e) => e.type === 'button');
             if (!hasButton) {
@@ -45,7 +46,7 @@ export default class SnakeGameEngine extends GameEngine {
 
                             // Reset entities
                             for (const entity of this.entities) {
-                                if (entity.type === 'player' || entity.type === 'food') {
+                                if (entity.type === 'player' || entity.type === 'food' || entity.type === 'text') {
                                     this.removeEntity(entity);
                                 }
                             }

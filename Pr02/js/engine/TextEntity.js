@@ -22,6 +22,7 @@ export default class TextEntity extends Entity {
     render(ctx) {
         ctx.fillStyle = 'black';
         ctx.font = '20px Arial';
+        ctx.textAlign = 'center';
         ctx.fillText(this.text, this.x, this.y);
     }
 
