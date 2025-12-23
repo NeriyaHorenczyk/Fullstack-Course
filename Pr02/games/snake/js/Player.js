@@ -121,10 +121,15 @@ export default class Player extends Entity {
                 this.bodyParts.pop(); // Remove the last part if not growing
             }
 
-            console.table({
-                position: this.position,
-                bodyParts: this.bodyParts,
-            });
+            // Check for self-collision
+            for (let i = 1; i < this.bodyParts.length; i++) {
+                const part = this.bodyParts[i];
+                if (part.x === this.position.x && part.y === this.position.y) {
+                    // Collision with self detected, reset the game
+                    gameEngine.stop();
+                    break;
+                }
+            }
         }
     }
 
