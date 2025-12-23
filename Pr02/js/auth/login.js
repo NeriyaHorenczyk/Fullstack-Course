@@ -10,7 +10,8 @@ export default async function login(username, password) {
     // Check if the hashed credentials exist as a key in localStorage
     const storedData = localStorage.getItem(`user:${username}`) || '{}';
     const userData = JSON.parse(storedData);
-    if (userData.hashedCreds !== hashedCreds) {
+    if (!userData.hashedCreds || userData.hashedCreds !== hashedCreds) {
         throw new Error('Invalid username or password');
     }
+    localStorage.setItem('currentUser', username);
 }

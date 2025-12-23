@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
@@ -51,5 +51,29 @@
                 <div class="login-link">Already have an account? <a href="login.html">Login here</a></div>
             </div>
         </div>
+
+        <script type="module">
+            import signup from './js/auth/signup.js';
+            const signupForm = document.querySelector('form');
+            signupForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const username = document.getElementById('username').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match!');
+                    return;
+                }
+
+                try {
+                    await signup(username, password, email);
+                    location.href = '/';
+                } catch (error) {
+                    alert('Error creating account: ' + error.message);
+                }
+            });
+        </script>
     </body>
 </html>
