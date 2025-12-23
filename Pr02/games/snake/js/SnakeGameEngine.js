@@ -30,23 +30,32 @@ export default class SnakeGameEngine extends GameEngine {
         const player = this.entities.find((e) => e instanceof Player);
         if (player && player.isGameOver) {
             player.direction = new Vector(0, 0); // Stop the snake movement
-            this.addEntity(
-                new ButtonEntity(
-                    'Restart',
-                    new Vector(this.canvas.width / 2 - 100, this.canvas.height / 2 - 40),
-                    new Vector(200, 80),
-                    () => {
-                        this.removeEntity(player);
-                        debugger;
-                        this.addEntity(new Player(this));
-                        this.entities = this.entities.filter((e) => e.type !== 'food');
-                        this.removeEntity(
-                            //@ts-ignore
-                            this.entities.find((e) => e instanceof ButtonEntity)
-                        );
-                    }
-                )
-            );
+
+            // Only add one restart button while game over
+            const hasButton = this.entities.some((e) => e.type === 'button');
+            if (!hasButton) {
+                this.addEntity(
+                    new ButtonEntity(
+                        'Restart',
+                        new Vector(this.canvas.width / 2 - 100, this.canvas.height / 2 - 40),
+                        new Vector(200, 80),
+                        () => {
+                            // Remove all buttons to detach window listeners
+                            this.entities.filter((e) => e.type === 'button').forEach((btn) => this.removeEntity(btn));
+
+                            // Reset entities
+                            for (const entity of this.entities) {
+                                if (entity.type === 'player' || entity.type === 'food') {
+                                    this.removeEntity(entity);
+                                }
+                            }
+
+                            // Add a fresh player
+                            this.addEntity(new Player(this));
+                        }
+                    )
+                );
+            }
         }
     }
 }
