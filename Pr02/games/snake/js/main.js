@@ -2,6 +2,8 @@
 import FoodEntity from './FoodEntity.js';
 import Player from './Player.js';
 import SnakeGameEngine from './SnakeGameEngine.js';
+import ButtonEntity from '../../../js/engine/ButtonEntity.js';
+import Vector from '../../../js/engine/Vector.js';
 
 const canvas = document.getElementById('game-canvas');
 if (!(canvas instanceof HTMLCanvasElement)) {
@@ -18,5 +20,5 @@ window.addEventListener('resize', () => {
 
 const engine = new SnakeGameEngine(canvas, false);
 engine.addEntity(new FoodEntity());
-engine.addEntity(new Player());
+engine.addEntity(new Player(engine));
 engine.start();
