@@ -1,4 +1,5 @@
 @import './variables.css';
+@import './projector.css';
 
 * {
     box-sizing: border-box;
