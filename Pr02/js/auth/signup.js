@@ -14,7 +14,7 @@ export default async function register(username, password, email) {
         await login(username, password);
         throw new Error('User already exists');
     } catch (e) {
-        if (e.message !== 'Invalid username or password') {
+        if (!(e instanceof Error) || e.message !== 'Invalid username or password') {
             throw e; // re-throw unexpected errors
         }
         // User does not exist, proceed to create
