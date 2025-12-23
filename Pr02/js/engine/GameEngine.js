@@ -150,7 +150,6 @@ export class GameEngine {
     render() {
         const ctx = this.context;
         if (!ctx) return;
-        debugger;
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         ctx.save();
