@@ -11,13 +11,19 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const bgAudio = new Audio(
-                'https://ia904504.us.archive.org/18/items/Bandcamp-804842275/804842275.mp3'
-            );
+const welcomeEl = document.getElementById('welcome-message');
+
+                const currentUser = localStorage.getItem('currentUser');
+                if (currentUser && welcomeEl) {
+                    welcomeEl.textContent = `✨ Welcome, ${currentUser}! ✨`;
+                }
+
+            const bgAudio = new Audio(                'https://ia904504.us.archive.org/18/items/Bandcamp-804842275/804842275.mp3'            );
             bgAudio.loop = true;
             bgAudio.volume = 0.4;
 
             const startBtn = document.getElementById('start-btn');
+const logoutBtn = document.getElementById('logout-btn');
             const popup = document.getElementById('start-popup');
             const audioToggle = document.getElementById('audio-toggle');
             const musicIcon = 'https://static.thenounproject.com/png/music-icon-7119672-512.png';
@@ -45,6 +51,11 @@
                     updateAudioIcon();
                 }
             });
+
+                logoutBtn.addEventListener('click', () => {
+                    localStorage.removeItem('currentUser');
+                    location.href = '/login.html';
+                });
         });
     </script>
 </head>
@@ -52,7 +63,7 @@
 <body>
     <div id="start-popup" class="start-popup">
         <div class="popup-content">
-            <h2>✨ Welcome! ✨</h2>
+            <h2 id="welcome-message">✨ Welcome! ✨</h2>
             <div class="scrolling-text">
                 Cozy Games for Rainy Days // Hand-picked Indie Gems // 100% Free & Safe
             </div>
