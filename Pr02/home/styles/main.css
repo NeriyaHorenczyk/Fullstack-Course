@@ -21,7 +21,6 @@ body {
     overflow-x: hidden;
 }
 
-
 /* subtle fake compression noise */
 body::before {
     content: '';
@@ -148,7 +147,7 @@ a {
     cursor: pointer;
     opacity: 0.6;
     transition: all 0.2s ease;
-    filter: drop-shadow(1px 1px 0 rgba(255,255,255,0.5));
+    filter: drop-shadow(1px 1px 0 rgba(255, 255, 255, 0.5));
 }
 
 .audio-toggle:hover {
@@ -221,21 +220,35 @@ a {
     align-items: center;
     box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.05);
     position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
     min-height: 240px;
 }
 
 /* Pleasant Chaos */
-.tile:nth-child(odd) { transform: rotate(1deg); }
-.tile:nth-child(even) { transform: rotate(-1deg); }
-.tile:nth-child(3n) { border-color: var(--neon-2); background: #f0f8ff; }
-.tile:nth-child(4n) { border-radius: 16px; }
-.tile:nth-child(5n) { background: #fffacd; border-color: var(--neon-3); }
+.tile:nth-child(odd) {
+    transform: rotate(1deg);
+}
+.tile:nth-child(even) {
+    transform: rotate(-1deg);
+}
+.tile:nth-child(3n) {
+    border-color: var(--neon-2);
+    background: #f0f8ff;
+}
+.tile:nth-child(4n) {
+    border-radius: 16px;
+}
+.tile:nth-child(5n) {
+    background: #fffacd;
+    border-color: var(--neon-3);
+}
 
 .tile:hover {
     transform: translateY(-5px) rotate(0deg) !important;
     z-index: 10 !important;
-    box-shadow: 8px 8px 0 rgba(0,0,0,0.1);
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.1);
     background: #fff;
 }
 
@@ -273,8 +286,6 @@ a {
     letter-spacing: 0;
     text-transform: none;
 }
-
-
 
 .tile .title {
     letter-spacing: 0.4px;
@@ -463,15 +474,26 @@ a {
 }
 
 @keyframes shake {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-3px); }
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
 }
 
 @keyframes bounce {
-    from { transform: translateY(0); }
-    to { transform: translateY(-5px); }
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0);
+    }
 }
-
 
 /* === PLEASANT WELCOME POPUP === */
 .start-popup {
@@ -495,7 +517,7 @@ a {
     color: #555;
     font-family: var(--pixel-font);
     max-width: 500px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     animation: bounce 3s infinite ease-in-out;
 }
 
@@ -531,7 +553,9 @@ a {
     text-transform: uppercase;
     font-weight: normal;
     box-shadow: 0 5px 15px rgba(152, 251, 152, 0.4);
-    transition: transform 0.2s, background 0.2s;
+    transition:
+        transform 0.2s,
+        background 0.2s;
 }
 
 #start-btn:hover {
