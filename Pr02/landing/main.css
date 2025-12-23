@@ -1,71 +1,11 @@
-/* ==============================
-   Global Glitch Text Effect
-   ============================== */
-
 /* Base styling for all text */
 body * {
     position: relative; /* ensures shadows render correctly */
     color: #333; /* fallback text color */
-    transition: text-shadow 0.05s linear;
-    text-shadow:
-        0 0 red,
-        0 0 cyan,
-        0 0 lime; /* initial: no offset */
-    animation: glitch-flicker 0.1s infinite;
-}
-body.glitch-frozen * {
-    animation: none;
-    transform: none;
-    transition: none;
-}
-
-/* Keyframes for flicker animation */
-@keyframes glitch-flicker {
-    0% {
-        text-shadow:
-            0 0 red,
-            0 0 cyan,
-            0 0 lime;
-    }
-    50% {
-        text-shadow:
-            calc(var(--glitch-intensity) * 2px) calc(var(--glitch-intensity) * -2px) red,
-            calc(var(--glitch-intensity) * -2px) calc(var(--glitch-intensity) * 2px) cyan,
-            calc(var(--glitch-intensity) * 1px) calc(var(--glitch-intensity) * 1px) lime;
-    }
-    100% {
-        text-shadow:
-            0 0 red,
-            0 0 cyan,
-            0 0 lime;
-    }
-}
-
-/* Optional: subtle shake effect */
-body.glitch-active {
-    animation: glitch-shake 0.05s infinite alternate;
-}
-
-@keyframes glitch-shake {
-    0% {
-        transform: translate(0, 0);
-    }
-    25% {
-        transform: translate(calc(var(--glitch-intensity) * 1px), calc(var(--glitch-intensity) * -1px));
-    }
-    50% {
-        transform: translate(calc(var(--glitch-intensity) * -1px), calc(var(--glitch-intensity) * 1px));
-    }
-    75% {
-        transform: translate(calc(var(--glitch-intensity) * 1px), calc(var(--glitch-intensity) * 1px));
-    }
-    100% {
-        transform: translate(0, 0);
-    }
 }
 
 /* Sketchy CTA Button from Pleasant Theme */
-.sketchy-btn {
+.cozy-btn {
     display: inline-block;
     font-size: 18px;
     font-family: 'Press Start 2P', monospace;
@@ -77,18 +17,20 @@ body.glitch-active {
     cursor: pointer;
     text-transform: uppercase;
     box-shadow: 0 5px 15px rgba(152, 251, 152, 0.4);
-    transition: transform 0.2s, background 0.2s;
+    transition:
+        transform 0.2s,
+        background 0.2s;
     margin-top: 20px;
     text-shadow: none; /* Override global glitch shadow */
     animation: none; /* Override global glitch animation */
 }
 
-.sketchy-btn:hover {
+.cozy-btn:hover {
     transform: translateY(-2px);
     background: #88ecc0;
 }
 
-#sketchy-button-container {
+#cozy-button-container {
     text-align: center;
     padding: 20px;
     width: 100%;
