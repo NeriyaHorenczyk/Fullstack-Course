@@ -3,7 +3,7 @@
 import { Entity } from './Entity.js';
 import Vector from './Vector.js';
 
-class ButtonEntity extends Entity {
+export default class ButtonEntity extends Entity {
     type = 'button';
 
     /**
