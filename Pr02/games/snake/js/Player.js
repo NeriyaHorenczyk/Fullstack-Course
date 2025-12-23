@@ -3,15 +3,26 @@ import { Entity } from '../../../js/engine/Entity.js';
 import { GameEngine } from '../../../js/engine/GameEngine.js';
 import Vector from '../../../js/engine/Vector.js';
 import FoodEntity from './FoodEntity.js';
+import ButtonEntity from '../../../js/engine/ButtonEntity.js';
+
 export default class Player extends Entity {
     type = 'player';
-    SNAKE_SPEED = 10; // Moves per second
+    SNAKE_SPEED = 20; // Moves per second
     BODY_CELL_SIZE = 20;
     HEAD_CELL_SIZE = 20;
 
-    constructor() {
+    /**
+     * @param {GameEngine} engine
+     */
+    constructor(engine) {
         super();
-        this.direction = new Vector(0, 1);
+        const rangeX = Math.floor(engine.canvas.width / this.BODY_CELL_SIZE);
+        const rangeY = Math.floor(engine.canvas.height / this.BODY_CELL_SIZE);
+        this.position = new Vector(
+            Math.floor(Math.random() * rangeX) * this.BODY_CELL_SIZE,
+            Math.floor(Math.random() * rangeY) * this.BODY_CELL_SIZE
+        );
+        this.direction = new Vector(0, 0);
         this.eventListeners = new Map();
         this.bodyParts = [this.position.clone()]; // Initialize with head position
         this.hasEaten = false;
@@ -19,9 +30,15 @@ export default class Player extends Entity {
         this.growthPending = 0;
         this.moveTimer = 0; // Timer to control grid-based movement
         this.moveInterval = 60 / this.SNAKE_SPEED; // Frames between moves (at 60fps)
+        this.isGameOver = false;
+        this.frozen = false;
     }
 
-    onAdd() {
+    /**
+     *
+     * @param {GameEngine} gameEngine
+     */
+    onAdd(gameEngine) {
         // Add listeners for keyboard input to change direction
         /** @type {(event: KeyboardEvent) => void} */
         const keydownListener = (event) => {
@@ -89,6 +106,7 @@ export default class Player extends Entity {
      * @param {GameEngine} gameEngine - The game engine instance.
      */
     update(deltaFrames, gameEngine) {
+        if (this.frozen) return;
         // Increment the timer
         this.moveTimer += deltaFrames;
 
@@ -115,7 +133,7 @@ export default class Player extends Entity {
 
             this.bodyParts.unshift(this.position.clone()); // Add new head position to the front of the body parts array
 
-            if (this.growthPending > 0) {
+            if (this.growthPending > 0 && !this.frozen) {
                 this.growthPending--;
             } else {
                 this.bodyParts.pop(); // Remove the last part if not growing
@@ -126,7 +144,8 @@ export default class Player extends Entity {
                 const part = this.bodyParts[i];
                 if (part.x === this.position.x && part.y === this.position.y) {
                     // Collision with self detected, reset the game
-                    gameEngine.stop();
+                    this.isGameOver = true;
+                    this.frozen = true;
                     break;
                 }
             }
