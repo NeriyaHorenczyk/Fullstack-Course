@@ -213,4 +213,14 @@ export class GameEngine {
             a.position.y + a.size.y > b.position.y
         );
     }
+
+    /**
+     *
+     */
+    destroy() {
+        this.stop();
+        for (const entity of this.entities) {
+            entity.destroy?.(this);
+        }
+    }
 }

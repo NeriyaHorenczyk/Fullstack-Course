@@ -26,7 +26,7 @@
     font-family: var(--pixel-font);
     color: #333;
     opacity: 0;
-    transition: opacity 1s ease 3s; /* Fade in content after screen lowers */
+    transition: opacity 1s ease 2s; /* Fade in content after screen lowers */
 }
 
 .projector-screen.active .screen-content {
