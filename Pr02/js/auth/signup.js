@@ -19,6 +19,7 @@ export default async function register(username, password, email) {
         }
         // User does not exist, proceed to create
     }
-    localStorage.setItem(`user:${username}`, JSON.stringify({ hashedCreds, email }));
+    const tokenExpiry = Date.now() + 60 * 60 * 1000; // 1 hour from now
+    localStorage.setItem(`user:${username}`, JSON.stringify({ hashedCreds, email, tokenExpiry }));
     return login(username, password);
 }

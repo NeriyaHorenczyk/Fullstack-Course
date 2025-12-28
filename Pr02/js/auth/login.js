@@ -1,17 +1,19 @@
 // @ts-check
 import { hashCredentials } from './utils.js';
+import { storeUserData, fetchUserData } from './userdata.js';
 /**
  * Logs in a user by verifying their credentials against stored data.
  * @param {string} username
  * @param {string} password
  */
-export default async function login(username, password) {
+export default async function login(username, password, rememberMe = false) {
     const hashedCreds = await hashCredentials(username, password);
     // Check if the hashed credentials exist as a key in localStorage
-    const storedData = localStorage.getItem(`user:${username}`) || '{}';
-    const userData = JSON.parse(storedData);
+    const userData = fetchUserData(username);
     if (!userData.hashedCreds || userData.hashedCreds !== hashedCreds) {
         throw new Error('Invalid username or password');
     }
+    if (rememberMe) userData.tokenExpiry = Date.now() + 60 * 60 * 1000; // 1 hour from now
+    storeUserData(username, userData);
     localStorage.setItem('currentUser', username);
 }

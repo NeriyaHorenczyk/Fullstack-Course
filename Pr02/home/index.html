@@ -1,245 +1,258 @@
 <!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>GameBox — by Nintetra</title>
+        <link rel="stylesheet" href="styles/main.css" />
+        <script type="module" src="./checkAuth.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+        <link
+            rel="preload"
+            href="https://ia904504.us.archive.org/18/items/Bandcamp-804842275/804842275.mp3"
+            as="audio"
+        />
+        <script>
+            const bgAudio = new Audio('https://ia904504.us.archive.org/18/items/Bandcamp-804842275/804842275.mp3');
+            const projectorAudio = new Audio('./assets/projector.mp3');
+            const musicIcon = 'https://static.thenounproject.com/png/music-icon-7119672-512.png';
+            const noMusicIcon = 'https://static.thenounproject.com/png/no-music-icon-7119674-512.png';
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GameBox — by Nintetra</title>
-    <link rel="stylesheet" href="styles/main.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-    <link rel="preload" href="https://ia904504.us.archive.org/18/items/Bandcamp-804842275/804842275.mp3" as="audio" />
-    <script>
-        const bgAudio = new Audio('https://ia904504.us.archive.org/18/items/Bandcamp-804842275/804842275.mp3');
-        const projectorAudio = new Audio('./assets/projector.mp3');
-        const musicIcon = 'https://static.thenounproject.com/png/music-icon-7119672-512.png';
-        const noMusicIcon = 'https://static.thenounproject.com/png/no-music-icon-7119674-512.png';
+            bgAudio.loop = true;
+            bgAudio.volume = 0.4;
 
-        bgAudio.loop = true;
-        bgAudio.volume = 0.4;
-
-        function logout() {
-            localStorage.removeItem('currentUser');
-            location.href = '/login.html';
-        }
-
-        function updateAudioIcon() {
-            const audioToggle = document.getElementById('audio-toggle');
-            if (bgAudio.paused) {
-                audioToggle.src = noMusicIcon;
-            } else {
-                audioToggle.src = musicIcon;
+            function logout() {
+                localStorage.removeItem('currentUser');
+                location.href = '/login.html';
             }
-        }
 
+            function updateAudioIcon() {
+                const audioToggle = document.getElementById('audio-toggle');
+                if (bgAudio.paused) {
+                    audioToggle.src = noMusicIcon;
+                } else {
+                    audioToggle.src = musicIcon;
+                }
+            }
 
-        function playSiteMusic() {
-            bgAudio
-                .play()
-                .then(() => updateAudioIcon())
-                .catch((e) => console.log('Audio failed:', e));
-            document.getElementById('start-popup').style.display = 'none';
-        }
-
-        function toggleAudio() {
-            if (bgAudio.paused) {
+            function playSiteMusic() {
                 bgAudio
                     .play()
                     .then(() => updateAudioIcon())
                     .catch((e) => console.log('Audio failed:', e));
-            } else {
-                bgAudio.pause();
-                updateAudioIcon();
-            }
-        }
-    </script>
-
-    <script type="module">
-        import { launchGame } from './gameLauncher.js';
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const welcomeEl = document.getElementById('welcome-message');
-
-            const currentUser = localStorage.getItem('currentUser');
-            if (currentUser && welcomeEl) {
-                welcomeEl.textContent = `✨ Welcome, ${currentUser}! ✨`;
+                document.getElementById('start-popup').style.display = 'none';
             }
 
-
-            const projectorScreen = document.getElementById('projector-screen');
-            const closeProjectorBtn = document.getElementById('close-projector');
-            const playButtons = document.querySelectorAll('.play-btn');
-
-            let activeGameCleanup = null;
-
-            function launchGameFromBtn(btn) {
-                const gameId = btn.getAttribute('data-game-id');
-                if (!gameId) return;
-                const gameLaunch = launchGame(gameId);
-
-                projectorAudio.currentTime = 0;
-                projectorAudio.play().catch(e => console.error("Audio play failed", e));
-
-                projectorScreen.classList.add('active');
-
-                // start the game after 5 seconds
-                setTimeout(() => {
-                    if (activeGameCleanup) activeGameCleanup();
-                    activeGameCleanup = gameLaunch();
-                }, 5000);
+            function toggleAudio() {
+                if (bgAudio.paused) {
+                    bgAudio
+                        .play()
+                        .then(() => updateAudioIcon())
+                        .catch((e) => console.log('Audio failed:', e));
+                } else {
+                    bgAudio.pause();
+                    updateAudioIcon();
+                }
             }
+        </script>
 
-            playButtons.forEach(btn => btn.onclick = () => launchGameFromBtn(btn));
+        <script type="module">
+            import { launchGame } from './gameLauncher.js';
 
-            if (closeProjectorBtn && projectorScreen) {
-                closeProjectorBtn.onclick = () => {
+            document.addEventListener('DOMContentLoaded', () => {
+                const welcomeEl = document.getElementById('welcome-message');
+
+                const currentUser = localStorage.getItem('currentUser');
+                if (currentUser && welcomeEl) {
+                    welcomeEl.textContent = `✨ Welcome, ${currentUser}! ✨`;
+                }
+
+                const projectorScreen = document.getElementById('projector-screen');
+                const closeProjectorBtn = document.getElementById('close-projector');
+                const playButtons = document.querySelectorAll('.play-btn');
+
+                let activeGameCleanup = null;
+
+                function launchGameFromBtn(btn) {
+                    const gameId = btn.getAttribute('data-game-id');
+                    if (!gameId) return;
+                    const gameLaunch = launchGame(gameId);
+
                     projectorAudio.currentTime = 0;
-                    projectorAudio.play().catch(e => console.error("Audio play failed", e));
-                    projectorScreen.classList.remove('active');
-                    if (activeGameCleanup) {
-                        activeGameCleanup();
-                        activeGameCleanup = null;
-                    }
-                };
-            }
-        });
-    </script>
-</head>
+                    projectorAudio.play().catch((e) => console.error('Audio play failed', e));
 
-<body>
-    <div id="start-popup" class="start-popup">
-        <div class="popup-content">
-            <h2 id="welcome-message">✨ Welcome! ✨</h2>
-            <div class="scrolling-text">
-                Cozy Games for Rainy Days <br />
-                Hand-picked Indie Gems <br />
-                100% Free & Safe
+                    projectorScreen.classList.add('active');
+
+                    // start the game after 5 seconds
+                    setTimeout(() => {
+                        if (activeGameCleanup) activeGameCleanup();
+                        activeGameCleanup = gameLaunch();
+                    }, 5000);
+                }
+
+                playButtons.forEach((btn) => (btn.onclick = () => launchGameFromBtn(btn)));
+
+                if (closeProjectorBtn && projectorScreen) {
+                    closeProjectorBtn.onclick = () => {
+                        projectorAudio.currentTime = 0;
+                        projectorAudio.play().catch((e) => console.error('Audio play failed', e));
+                        projectorScreen.classList.remove('active');
+                        if (activeGameCleanup) {
+                            activeGameCleanup();
+                            activeGameCleanup = null;
+                        }
+                    };
+                }
+            });
+        </script>
+    </head>
+
+    <body>
+        <div id="start-popup" class="start-popup">
+            <div class="popup-content">
+                <h2 id="welcome-message">✨ Welcome! ✨</h2>
+                <div class="scrolling-text">
+                    Cozy Games for Rainy Days <br />
+                    Hand-picked Indie Gems <br />
+                    100% Free & Safe
+                </div>
+                <button id="start-btn" onclick="playSiteMusic()">Start Exploring</button>
             </div>
-            <button id="start-btn" onclick="playSiteMusic()">Start Exploring</button>
         </div>
-    </div>
-    <header class="site-header">
-        <div class="header-inner">
-            <h1 class="logo glitch" data-text="GameBox">GameBox</h1>
-            <div class="byline">by Nintetra</div>
-            <div class="slogan">Hand-crafted Games for Good Vibes</div>
+        <header class="site-header">
+            <div class="header-inner">
+                <h1 class="logo glitch" data-text="GameBox">GameBox</h1>
+                <div class="byline">by Nintetra</div>
+                <div class="slogan">Hand-crafted Games for Good Vibes</div>
+            </div>
+            <img
+                id="audio-toggle"
+                src="https://static.thenounproject.com/png/no-music-icon-7119674-512.png"
+                onclick="toggleAudio()"
+                alt="Toggle Audio"
+                class="pixel-button"
+            />
+            <img
+                id="logout-btn"
+                onclick="logout()"
+                src="https://static.thenounproject.com/png/door-icon-7460675-512.png"
+                alt="Logout"
+                class="pixel-button"
+            />
+        </header>
+
+        <main class="main">
+            <div class="pop-up-container">
+                <div class="sticker sticker-hot">Cozy!</div>
+                <div class="sticker sticker-free">Free</div>
+                <div class="sticker sticker-virus">Safe & Clean</div>
+            </div>
+
+            <section class="catalog">
+                <article class="tile">
+                    <img src="game_art/worm.jpg" alt="Worm Game Art" class="art" />
+                    <h3 class="title">Worm</h3>
+                    <div class="play-btn" data-game-id="worm">Play</div>
+                </article>
+                <article class="tile">
+                    <img src="game_art/sketch_hopper.jpg" alt="Sketch Hopper Game Art" class="art" />
+                    <h3 class="title">Sketch Hopper</h3>
+                    <div class="play-btn" data-game-id="doodle">Play</div>
+                </article>
+
+                <article class="tile">
+                    <img src="game_art/meh_marlo_cousins.jpg" alt="Meh Marlo Cousins Game Art" class="art" />
+                    <h3 class="title">Meh Marlo Cousins</h3>
+                    <div class="play-btn" data-game-id="meh-marlo">Play</div>
+                </article>
+                <article class="tile">
+                    <img src="game_art/adventures_of_lunk.jpg" alt="Adventures of Lunk Game Art" class="art" />
+                    <h3 class="title">Adventures of Lunk</h3>
+                    <div class="play-btn" data-game-id="lunk">Play</div>
+                </article>
+                <article class="tile">
+                    <img src="game_art/really_punchy_fellows.jpg" alt="Really Punchy Fellows Game Art" class="art" />
+                    <div class="sticker sticker-wow">Wow!</div>
+                    <h3 class="title">Really Punchy Fellows</h3>
+                    <div class="play-btn" data-game-id="punchy">Play</div>
+                </article>
+                <article class="tile">
+                    <img src="game_art/jabbimon.jpg" alt="Jabbímon Game Art" class="art" />
+                    <h3 class="title">Jabbímon</h3>
+                    <div class="play-btn" data-game-id="jabbimon">Play</div>
+                </article>
+                <article class="tile">
+                    <img src="game_art/plumbers_ghost_house.jpg" alt="Plumber's Ghost House Game Art" class="art" />
+                    <h3 class="title">Plumber's Ghost House</h3>
+                    <div class="play-btn" data-game-id="plumber">Play</div>
+                </article>
+                <article class="tile">
+                    <img src="game_art/dong.jpg" alt="Dong Game Art" class="art" />
+                    <h3 class="title">Dong</h3>
+                    <div class="play-btn" data-game-id="dong">Play</div>
+                </article>
+                <article class="tile">
+                    <img src="game_art/monkey_smash.jpg" alt="Monkey Smash Game Art" class="art" />
+                    <h3 class="title">Monkey Smash</h3>
+                    <div class="play-btn" data-game-id="monkey">Play</div>
+                </article>
+                <article class="tile">
+                    <div class="sticker sticker-new">New!</div>
+                    <img src="game_art/speedy_the_dog.jpg" alt="Speedy the Dog Game Art" class="art" />
+                    <h3 class="title">Speedy the Dog</h3>
+                    <div class="play-btn" data-game-id="speedy">Play</div>
+                </article>
+                <article class="tile">
+                    <img src="game_art/quick_minute.jpg" alt="Quick Minute Game Art" class="art" />
+                    <h3 class="title">Quick Minute</h3>
+                    <div class="play-btn" data-game-id="quick-minute">Play</div>
+                </article>
+                <article class="tile">
+                    <img src="game_art/salmon_sways.jpg" alt="Salmon Sways Game Art" class="art" />
+                    <h3 class="title">Salmon Sways</h3>
+                    <div class="play-btn" data-game-id="salmon">Play</div>
+                </article>
+                <article class="tile">
+                    <img src="game_art/peepers_creepers.jpg" alt="Peepers Creepers Game Art" class="art" />
+                    <h3 class="title">Peepers Creepers</h3>
+                    <div class="play-btn" data-game-id="peepers">Play</div>
+                </article>
+                <article class="tile">
+                    <img src="game_art/rail_rush.jpg" alt="Rail Rush Game Art" class="art" />
+                    <h3 class="title">Rail Rush</h3>
+                    <div class="play-btn" data-game-id="rail">Play</div>
+                </article>
+                <article class="tile">
+                    <img src="game_art/vegetable_samurai.jpg" alt="Vegetable Samurai Game Art" class="art" />
+                    <h3 class="title">Vegetable Samurai</h3>
+                    <div class="play-btn" data-game-id="vegetable">Play</div>
+                </article>
+                <article class="tile">
+                    <img src="game_art/block_smasher.jpg" alt="Block Smasher Game Art" class="art" />
+                    <h3 class="title">Block Smasher</h3>
+                    <div class="play-btn" data-game-id="block">Play</div>
+                </article>
+            </section>
+        </main>
+
+        <div id="spacer"></div>
+        <footer class="site-footer">
+            <div class="foot-inner">
+                <p class="copyright">© 2024 GameBox. Made with love.</p>
+                <p class="disclaimer">A collection of original concepts.</p>
+                <p class="warning">Note: Best experienced with a warm cup of tea.</p>
+                <p>Background Audio: HOME by Toby Fox</p>
+            </div>
+        </footer>
+
+        <div id="projector-screen" class="projector-screen">
+            <div id="projector-screen-content" class="screen-content">
+                <h2 id="projector-title"></h2>
+                <p id="projector-subtitle"></p>
+            </div>
+            <button id="close-projector" class="pixel-button" style="position: absolute; top: 20px; right: 20px">
+                X
+            </button>
         </div>
-        <img id="audio-toggle" src="https://static.thenounproject.com/png/no-music-icon-7119674-512.png"
-            onclick="toggleAudio()" alt="Toggle Audio" class="pixel-button" />
-        <img id="logout-btn" onclick="logout()" src="https://static.thenounproject.com/png/door-icon-7460675-512.png"
-            alt="Logout" class="pixel-button" />
-    </header>
-
-    <main class="main">
-        <div class="pop-up-container">
-            <div class="sticker sticker-hot">Cozy!</div>
-            <div class="sticker sticker-free">Free</div>
-            <div class="sticker sticker-virus">Safe & Clean</div>
-        </div>
-
-        <section class="catalog">
-            <article class="tile">
-                <img src="game_art/worm.jpg" alt="Worm Game Art" class="art" />
-                <h3 class="title">Worm</h3>
-                <div class="play-btn" data-game-id="worm">Play</div>
-            </article>
-            <article class="tile">
-                <img src="game_art/sketch_hopper.jpg" alt="Sketch Hopper Game Art" class="art" />
-                <h3 class="title">Sketch Hopper</h3>
-                <div class="play-btn" data-game-id="doodle">Play</div>
-            </article>
-
-            <article class="tile">
-                <img src="game_art/meh_marlo_cousins.jpg" alt="Meh Marlo Cousins Game Art" class="art" />
-                <h3 class="title">Meh Marlo Cousins</h3>
-                <div class="play-btn" data-game-id="meh-marlo">Play</div>
-            </article>
-            <article class="tile">
-                <img src="game_art/adventures_of_lunk.jpg" alt="Adventures of Lunk Game Art" class="art" />
-                <h3 class="title">Adventures of Lunk</h3>
-                <div class="play-btn" data-game-id="lunk">Play</div>
-            </article>
-            <article class="tile">
-                <img src="game_art/really_punchy_fellows.jpg" alt="Really Punchy Fellows Game Art" class="art" />
-                <div class="sticker sticker-wow">Wow!</div>
-                <h3 class="title">Really Punchy Fellows</h3>
-                <div class="play-btn" data-game-id="punchy">Play</div>
-            </article>
-            <article class="tile">
-                <img src="game_art/jabbimon.jpg" alt="Jabbímon Game Art" class="art" />
-                <h3 class="title">Jabbímon</h3>
-                <div class="play-btn" data-game-id="jabbimon">Play</div>
-            </article>
-            <article class="tile">
-                <img src="game_art/plumbers_ghost_house.jpg" alt="Plumber's Ghost House Game Art" class="art" />
-                <h3 class="title">Plumber's Ghost House</h3>
-                <div class="play-btn" data-game-id="plumber">Play</div>
-            </article>
-            <article class="tile">
-                <img src="game_art/dong.jpg" alt="Dong Game Art" class="art" />
-                <h3 class="title">Dong</h3>
-                <div class="play-btn" data-game-id="dong">Play</div>
-            </article>
-            <article class="tile">
-                <img src="game_art/monkey_smash.jpg" alt="Monkey Smash Game Art" class="art" />
-                <h3 class="title">Monkey Smash</h3>
-                <div class="play-btn" data-game-id="monkey">Play</div>
-            </article>
-            <article class="tile">
-                <div class="sticker sticker-new">New!</div>
-                <img src="game_art/speedy_the_dog.jpg" alt="Speedy the Dog Game Art" class="art" />
-                <h3 class="title">Speedy the Dog</h3>
-                <div class="play-btn" data-game-id="speedy">Play</div>
-            </article>
-            <article class="tile">
-                <img src="game_art/quick_minute.jpg" alt="Quick Minute Game Art" class="art" />
-                <h3 class="title">Quick Minute</h3>
-                <div class="play-btn" data-game-id="quick-minute">Play</div>
-            </article>
-            <article class="tile">
-                <img src="game_art/salmon_sways.jpg" alt="Salmon Sways Game Art" class="art" />
-                <h3 class="title">Salmon Sways</h3>
-                <div class="play-btn" data-game-id="salmon">Play</div>
-            </article>
-            <article class="tile">
-                <img src="game_art/peepers_creepers.jpg" alt="Peepers Creepers Game Art" class="art" />
-                <h3 class="title">Peepers Creepers</h3>
-                <div class="play-btn" data-game-id="peepers">Play</div>
-            </article>
-            <article class="tile">
-                <img src="game_art/rail_rush.jpg" alt="Rail Rush Game Art" class="art" />
-                <h3 class="title">Rail Rush</h3>
-                <div class="play-btn" data-game-id="rail">Play</div>
-            </article>
-            <article class="tile">
-                <img src="game_art/vegetable_samurai.jpg" alt="Vegetable Samurai Game Art" class="art" />
-                <h3 class="title">Vegetable Samurai</h3>
-                <div class="play-btn" data-game-id="vegetable">Play</div>
-            </article>
-            <article class="tile">
-                <img src="game_art/block_smasher.jpg" alt="Block Smasher Game Art" class="art" />
-                <h3 class="title">Block Smasher</h3>
-                <div class="play-btn" data-game-id="block">Play</div>
-            </article>
-        </section>
-    </main>
-
-    <div id="spacer"></div>
-    <footer class="site-footer">
-        <div class="foot-inner">
-            <p class="copyright">© 2024 GameBox. Made with love.</p>
-            <p class="disclaimer">A collection of original concepts.</p>
-            <p class="warning">Note: Best experienced with a warm cup of tea.</p>
-            <p>Background Audio: HOME by Toby Fox</p>
-        </div>
-    </footer>
-
-    <div id="projector-screen" class="projector-screen">
-        <div id="projector-screen-content" class="screen-content">
-            <h2 id="projector-title"></h2>
-            <p id="projector-subtitle"></p>
-        </div>
-        <button id="close-projector" class="pixel-button" style="position: absolute; top: 20px; right: 20px;">X</button>
-    </div>
-</body>
-
+    </body>
 </html>
