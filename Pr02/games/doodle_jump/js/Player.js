@@ -83,8 +83,13 @@ export default class Player extends Entity {
             this.size = new Vector(standingImg.width * this.scale, standingImg.height * this.scale);
         };
 
+        this.isReady = standingImg.complete;
         if (standingImg.complete) setSize();
-        else standingImg.onload = setSize;
+        else
+            standingImg.onload = () => {
+                setSize();
+                this.isReady = true;
+            };
 
         this.eventListeners = new Map();
     }
@@ -127,6 +132,7 @@ export default class Player extends Entity {
      * @param {DoodleJumpEngine} gameEngine
      */
     update(deltaFrames, gameEngine) {
+        if (!this.isReady) return;
         // Store previous position for collision resolution
         this.previousPosition = new Vector(this.position.x, this.position.y);
 
@@ -243,6 +249,7 @@ export default class Player extends Entity {
      * @param {boolean} debug
      */
     render(ctx, debug) {
+        if (!this.isReady) return;
         const currentSprite = this.sprites[this.state];
         // Save context to restore later (important for rotation/flipping)
         ctx.save();
@@ -260,7 +267,7 @@ export default class Player extends Entity {
         }
 
         // Draw Player (Local coordinates 0,0 because we translated)
-        if (currentSprite && currentSprite.complete) {
+        if (currentSprite && currentSprite.complete && currentSprite.naturalWidth > 0) {
             // Update size just in case sprite changed and wasn't loaded before
             this.size.x = currentSprite.width * this.scale;
             this.size.y = currentSprite.height * this.scale;

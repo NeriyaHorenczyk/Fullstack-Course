@@ -15,7 +15,7 @@ let gameEngine;
 export function startGame(canvas) {
     if (gameEngine) gameEngine.destroy();
     gameEngine = new DoodleJumpEngine(canvas);
-    const player = new Player('assets/player');
+    const player = new Player('../games/doodle_jump/assets/player');
     const bg = new Wallpaper();
     const header = new Header();
 

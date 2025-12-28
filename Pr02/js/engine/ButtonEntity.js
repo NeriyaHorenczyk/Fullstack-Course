@@ -54,7 +54,7 @@ export default class ButtonEntity extends Entity {
         window.addEventListener('mousemove', this.mouseMoveListener);
     }
 
-    onRemove() {
+    destroy() {
         // @ts-expect-error shhh
         window.removeEventListener('mousemove', this.mouseMoveListener);
         // @ts-expect-error shhh

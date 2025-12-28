@@ -66,6 +66,9 @@ export class GameEngine {
 
         // Ensure correct `this` binding for requestAnimationFrame
         this.gameLoop = this.gameLoop.bind(this);
+
+        /** @type {Array<() => void>} */
+        this.cleanupCallbacks = [];
     }
 
     /**
@@ -215,12 +218,22 @@ export class GameEngine {
     }
 
     /**
-     *
+     * Destroys the engine and all its entities.
      */
     destroy() {
         this.stop();
         for (const entity of this.entities) {
             entity.destroy?.(this);
         }
+        this.cleanupCallbacks.forEach((cb) => cb());
+    }
+
+    /**
+     * Registers a callback to be executed when the engine is destroyed.
+     *
+     * @param {() => void} callback
+     */
+    registerCleanupCallback(callback) {
+        this.cleanupCallbacks.push(callback);
     }
 }

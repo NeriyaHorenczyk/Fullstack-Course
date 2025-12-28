@@ -69,6 +69,8 @@
             const closeProjectorBtn = document.getElementById('close-projector');
             const playButtons = document.querySelectorAll('.play-btn');
 
+            let activeGameCleanup = null;
+
             function launchGameFromBtn(btn) {
                 const gameId = btn.getAttribute('data-game-id');
                 if (!gameId) return;
@@ -80,7 +82,10 @@
                 projectorScreen.classList.add('active');
 
                 // start the game after 5 seconds
-                setTimeout(() => gameLaunch(), 5000);
+                setTimeout(() => {
+                    if (activeGameCleanup) activeGameCleanup();
+                    activeGameCleanup = gameLaunch();
+                }, 5000);
             }
 
             playButtons.forEach(btn => btn.onclick = () => launchGameFromBtn(btn));
@@ -90,6 +95,10 @@
                     projectorAudio.currentTime = 0;
                     projectorAudio.play().catch(e => console.error("Audio play failed", e));
                     projectorScreen.classList.remove('active');
+                    if (activeGameCleanup) {
+                        activeGameCleanup();
+                        activeGameCleanup = null;
+                    }
                 };
             }
         });
@@ -136,7 +145,7 @@
             <article class="tile">
                 <img src="game_art/sketch_hopper.jpg" alt="Sketch Hopper Game Art" class="art" />
                 <h3 class="title">Sketch Hopper</h3>
-                <div class="play-btn" data-game-id="sketch-hopper">Play</div>
+                <div class="play-btn" data-game-id="doodle">Play</div>
             </article>
 
             <article class="tile">

@@ -1,3 +1,6 @@
+import { startGame as startWorm, stopGame as stopWorm } from '../games/snake/js/main.js';
+import { startGame as startDoodle, stopGame as stopDoodle } from '../games/doodle_jump/js/main.js';
+
 const gameConfig = {
     worm: {
         title: 'Worm',
@@ -6,16 +9,18 @@ const gameConfig = {
             width: 800,
             height: 600,
         },
-        startScript: () => {},
+        startScript: startWorm,
+        stopScript: stopWorm,
     },
-    ['sketch-hopper']: {
+    doodle: {
         title: 'Sketch Hopper',
         subtitle: 'A Sketch Hopper Game',
         canvas: {
             width: 800,
-            height: 600,
+            height: 900,
         },
-        startScript: () => {},
+        startScript: startDoodle,
+        stopScript: stopDoodle,
     },
 };
 
@@ -31,11 +36,12 @@ export function launchGame(gameId) {
     const projectorTitle = document.getElementById('projector-title');
     const projectorSubtitle = document.getElementById('projector-subtitle');
 
-    projectorTitle.textContent = game.title;
-    projectorSubtitle.textContent = game.subtitle;
+    if (projectorTitle) projectorTitle.textContent = game.title;
+    if (projectorSubtitle) projectorSubtitle.textContent = game.subtitle;
+
     // Delete the game canvas, if it exists
-    const canvas = document.getElementById('game-canvas');
-    if (canvas) canvas.remove();
+    const existingCanvas = document.getElementById('game-canvas');
+    if (existingCanvas) existingCanvas.remove();
 
     return () => {
         // Add a canvas, start the appropriate game engine
@@ -48,7 +54,18 @@ export function launchGame(gameId) {
         ctx.fillStyle = '#000';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        projectorScreenContent.appendChild(canvas);
-        game.startScript(canvas);
+        if (projectorScreenContent) {
+            projectorScreenContent.appendChild(canvas);
+            if (game.startScript) {
+                game.startScript(canvas);
+            }
+        }
+
+        return () => {
+            if (game.stopScript) {
+                game.stopScript();
+            }
+            canvas.remove();
+        };
     };
 }
