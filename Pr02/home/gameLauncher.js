@@ -4,7 +4,7 @@ import { startGame as startDoodle, stopGame as stopDoodle } from '../games/doodl
 const gameConfig = {
     worm: {
         title: 'Worm',
-        subtitle: 'A Worm Game',
+        subtitle: 'No legs, no mercy.',
         canvas: {
             width: 800,
             height: 600,
@@ -12,15 +12,86 @@ const gameConfig = {
         startScript: startWorm,
         stopScript: stopWorm,
     },
+
     doodle: {
         title: 'Sketch Hopper',
-        subtitle: 'A Sketch Hopper Game',
+        subtitle: 'A classic.',
         canvas: {
             width: 800,
             height: 900,
         },
         startScript: startDoodle,
         stopScript: stopDoodle,
+    },
+
+    marlo: {
+        title: 'Meh Marlo Cousins',
+        subtitle: 'Family gatherings, but competitive.',
+    },
+
+    lunk: {
+        title: 'Adventures of Lunk',
+        subtitle: 'Heroism through poor decisions.',
+    },
+
+    punchy: {
+        title: 'Really Punchy Fellows',
+        subtitle: 'Friendship ended with fists.',
+    },
+
+    jabbimon: {
+        title: 'Jabbímon',
+        subtitle: 'Or Pokébowl. We never decided.',
+    },
+
+    plumber: {
+        title: "Plumber's Ghost House",
+        subtitle: 'Fix pipes. Fear ghosts.',
+    },
+
+    dong: {
+        title: 'Dong',
+        subtitle: 'Ding Dong Ping Pong.',
+    },
+
+    monkey: {
+        title: 'Monkey Smash',
+        subtitle: 'Advanced problem-solving via chaos.',
+    },
+
+    speedy: {
+        title: 'Speedy the Dog',
+        subtitle: 'Fast. Loyal. Zero brakes.',
+    },
+
+    quickminute: {
+        title: 'Quick Minute',
+        subtitle: 'Stress, but efficiently.',
+    },
+
+    salmon: {
+        title: 'Salmon Sways',
+        subtitle: 'This is cursed.',
+    },
+
+    peepers: {
+        title: 'Peepers Creepers',
+        subtitle: 'They were watching first.',
+    },
+
+    rail: {
+        title: 'Rail Rush',
+        subtitle: 'Dodge the trains, embrace the chaos.',
+    },
+
+    vegetable: {
+        title: 'Vegetable Samurai',
+        subtitle: 'Honor. Steel. Produce.',
+    },
+
+    block: {
+        title: 'Block Smasher',
+        subtitle: 'Subtlety not included.',
     },
 };
 
@@ -42,6 +113,10 @@ export function launchGame(gameId) {
     // Delete the game canvas, if it exists
     const existingCanvas = document.getElementById('game-canvas');
     if (existingCanvas) existingCanvas.remove();
+
+    if (!game.canvas) {
+        return () => {};
+    }
 
     return () => {
         // Add a canvas, start the appropriate game engine
