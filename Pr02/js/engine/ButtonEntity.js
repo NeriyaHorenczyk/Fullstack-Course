@@ -71,6 +71,11 @@ export default class ButtonEntity extends Entity {
      * @param {CanvasRenderingContext2D} ctx
      */
     render(ctx) {
+        // If we're hovered, draw a shadow
+        if (this.isHovered) {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+            ctx.fillRect(this.position.x + 5, this.position.y + 5, this.size.x, this.size.y);
+        }
         // Draw button background
         ctx.fillStyle = this.isHovered ? '#AAAAAA' : '#CCCCCC';
         ctx.fillRect(this.position.x, this.position.y, this.size.x, this.size.y);
