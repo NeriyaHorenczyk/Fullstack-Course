@@ -114,6 +114,7 @@ export class AssetLoader {
         if (!sound) {
             throw new Error(`Audio asset '${key}' not found.`);
         }
-        return sound;
+        // @ts-expect-error I promise it's an HTMLAudioElement
+        return sound.cloneNode(true);
     }
 }
