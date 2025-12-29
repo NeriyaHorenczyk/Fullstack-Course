@@ -1,5 +1,6 @@
 // @ts-check
 import { fetchCurrentUserData, storeCurrentUserData } from '../../../js/auth/userdata.js';
+import { AssetLoader } from '../../../js/engine/AssetLoader.js';
 import { GameEngine } from '../../../js/engine/GameEngine.js';
 import { Ball } from './Ball.js';
 import { Brick } from './Brick.js';
@@ -19,6 +20,20 @@ export class BrickBreakerGameEngine extends GameEngine {
         const userData = fetchCurrentUserData() || {};
         this.highScore = userData.highScore || 0;
         this.levelCleared = false;
+        this.assets = new AssetLoader('games/brick_breaker/assets/');
+    }
+
+    async initEngine() {
+        // Load sprites and sounds
+        await this.assets.load({
+            big_paddle_powerup: {
+                url: 'sprite1.png',
+                scale: 0.1,
+            },
+        });
+        await super.initEngine();
+        this.generateLevel();
+    }
     }
 
     reset() {

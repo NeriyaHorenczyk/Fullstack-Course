@@ -72,15 +72,22 @@ export class GameEngine {
     }
 
     /**
+     * Initializes game-specific assets and state.
+     * Override in subclasses to implement custom initialization logic.
+     */
+    async initEngine() {}
+
+    /**
      * Starts the game loop.
      * Has no effect if already running.
      */
     start() {
         if (this.running) return;
-
-        this.running = true;
-        this.lastUpdateTime = performance.now();
-        requestAnimationFrame(this.gameLoop);
+        this.initEngine().then(() => {
+            this.running = true;
+            this.lastUpdateTime = performance.now();
+            requestAnimationFrame(this.gameLoop);
+        });
     }
 
     /**
