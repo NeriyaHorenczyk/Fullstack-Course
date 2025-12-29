@@ -1,7 +1,14 @@
 //@ts-check
 
 import { Entity } from './Entity.js';
-import Vector from './Vector.js';
+/** @type {(event: MouseEvent) => {correctedMouseX: number, correctedMouseY: number}} */
+const correctMousePosition = (event) => {
+    const target = /** @type {HTMLElement} */ (event.target);
+    const rect = target?.getBoundingClientRect();
+    const correctedMouseX = event.clientX - rect.left;
+    const correctedMouseY = event.clientY - rect.top;
+    return { correctedMouseX, correctedMouseY };
+};
 
 export default class ButtonEntity extends Entity {
     type = 'button';
@@ -27,24 +34,22 @@ export default class ButtonEntity extends Entity {
     onAdd() {
         /** @type {(event: MouseEvent) => void} */
         this.mouseMoveListener = (event) => {
-            const mouseX = event.clientX;
-            const mouseY = event.clientY;
+            const { correctedMouseX, correctedMouseY } = correctMousePosition(event);
             this.isHovered =
-                mouseX >= this.position.x &&
-                mouseX <= this.position.x + this.size.x &&
-                mouseY >= this.position.y &&
-                mouseY <= this.position.y + this.size.y;
+                correctedMouseX >= this.position.x &&
+                correctedMouseX <= this.position.x + this.size.x &&
+                correctedMouseY >= this.position.y &&
+                correctedMouseY <= this.position.y + this.size.y;
         };
 
         /** @type {(event: MouseEvent) => void} */
         this.mouseClickListener = (event) => {
-            const mouseX = event.clientX;
-            const mouseY = event.clientY;
+            const { correctedMouseX, correctedMouseY } = correctMousePosition(event);
             if (
-                mouseX >= this.position.x &&
-                mouseX <= this.position.x + this.size.x &&
-                mouseY >= this.position.y &&
-                mouseY <= this.position.y + this.size.y
+                correctedMouseX >= this.position.x &&
+                correctedMouseX <= this.position.x + this.size.x &&
+                correctedMouseY >= this.position.y &&
+                correctedMouseY <= this.position.y + this.size.y
             ) {
                 this.onClick();
             }
