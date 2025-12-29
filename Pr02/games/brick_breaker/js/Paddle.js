@@ -38,14 +38,12 @@ export class Paddle extends Entity {
     };
 
     update(deltaFrames, gameEngine) {
+        if (gameEngine.gameOver) return;
         const canvasWidth = gameEngine.canvas.width;
 
-        if (this.moveLeft) {
-            this.position.x -= this.speed * deltaFrames;
-        }
-        if (this.moveRight) {
-            this.position.x += this.speed * deltaFrames;
-        }
+        if (this.moveLeft) this.position.x -= this.speed * deltaFrames;
+
+        if (this.moveRight) this.position.x += this.speed * deltaFrames;
 
         // Constraints
         if (this.position.x < 0) this.position.x = 0;
