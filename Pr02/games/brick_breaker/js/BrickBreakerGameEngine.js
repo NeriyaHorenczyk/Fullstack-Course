@@ -101,7 +101,7 @@ export class BrickBreakerGameEngine extends GameEngine {
      */
     update(deltaFrames) {
         // Check if level cleared
-        const bricksRemaining = this.entities.some((e) => e instanceof Brick && e.health > 0);
+        const bricksRemaining = this.entities.some((e) => e instanceof Brick && e.health > 0 && e.requiredToClearLevel);
         if (!bricksRemaining) {
             this.levelCleared = true;
         }
