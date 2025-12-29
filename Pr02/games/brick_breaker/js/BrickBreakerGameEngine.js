@@ -20,6 +20,10 @@ export class BrickBreakerGameEngine extends GameEngine {
         const userData = fetchCurrentUserData() || {};
         this.highScore = userData.highScore || 0;
         this.levelCleared = false;
+        /** @type {Ball} */
+        this.ball;
+        /** @type {Paddle} */
+        this.paddle;
         this.assets = new AssetLoader('games/brick_breaker/assets/');
     }
 
@@ -34,6 +38,23 @@ export class BrickBreakerGameEngine extends GameEngine {
         await super.initEngine();
         this.generateLevel();
     }
+
+    /**
+     * Registers the ball entity in the game engine.
+     * @param {Ball} ball
+     */
+    registerBall(ball) {
+        this.ball = ball;
+        this.addEntity(ball);
+    }
+
+    /**
+     * Registers the paddle entity in the game engine.
+     * @param {Paddle} paddle
+     */
+    registerPaddle(paddle) {
+        this.paddle = paddle;
+        this.addEntity(paddle);
     }
 
     reset() {
@@ -45,12 +66,8 @@ export class BrickBreakerGameEngine extends GameEngine {
         this.entities.forEach((entity) => {
             if (entity.type === 'Brick') this.removeEntity(entity);
         });
-        /** @type {Paddle | undefined} */
-        const paddle = this.entities.find((e) => e instanceof Paddle);
-        /** @type {Ball | undefined} */
-        const ball = this.entities.find((e) => e instanceof Ball);
-        paddle?.reset();
-        ball?.reset();
+        this.paddle.reset();
+        this.ball.reset();
         this.generateLevel();
     }
 

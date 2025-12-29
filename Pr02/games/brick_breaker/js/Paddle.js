@@ -2,6 +2,7 @@ import { Entity } from '../../../js/engine/Entity.js';
 import Vector from '../../../js/engine/Vector.js';
 
 export class Paddle extends Entity {
+    type = 'paddle';
     constructor(x, y) {
         super();
         this.position = new Vector(x, y);
@@ -37,8 +38,6 @@ export class Paddle extends Entity {
     };
 
     update(deltaFrames, gameEngine) {
-        // We know we are inside BrickBreakerGameEngine but for general "Entity" update signature we pass gameEngine.
-        // We can access canvas dimensions from gameEngine.canvas
         const canvasWidth = gameEngine.canvas.width;
 
         if (this.moveLeft) {

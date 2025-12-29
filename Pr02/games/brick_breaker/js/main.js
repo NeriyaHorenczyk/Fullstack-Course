@@ -2,6 +2,7 @@
 import { BrickBreakerGameEngine } from './BrickBreakerGameEngine.js';
 import { Paddle } from './Paddle.js';
 import { Ball } from './Ball.js';
+import BGandHUD from './BGandHUD.js';
 
 /** @type {BrickBreakerGameEngine} */
 let gameEngine;
@@ -15,15 +16,11 @@ export function startGame(canvas) {
     gameEngine = new BrickBreakerGameEngine(canvas);
 
     // Create Entities
-    const paddle = new Paddle(canvas.width / 2 - 50, canvas.height - 40);
-    const ball = new Ball(canvas.width / 2, canvas.height - 60);
 
     // Add Entities
-    gameEngine.addEntity(paddle);
-    gameEngine.addEntity(ball);
-
-    // Initalize engine
-    gameEngine.reset();
+    gameEngine.addEntity(new BGandHUD(gameEngine));
+    gameEngine.registerPaddle(new Paddle(canvas.width / 2 - 50, canvas.height - 40));
+    gameEngine.registerBall(new Ball(canvas.width / 2, canvas.height - 60));
 
     // Input handling for Ball Launch
     /** @type {(e: KeyboardEvent) => void} */
@@ -34,7 +31,7 @@ export function startGame(canvas) {
                 gameEngine.reset();
                 return;
             }
-            if (ball.stuckToPaddle) ball.launch();
+            if (gameEngine.ball.stuckToPaddle) gameEngine.ball.launch();
         }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -42,36 +39,10 @@ export function startGame(canvas) {
         window.removeEventListener('keydown', handleKeyDown);
     });
 
-    // Score and GUI overlay
     gameEngine.onTick(() => {
-        const ctx = gameEngine.context;
-        if (!ctx) return;
-        ctx.save();
-        ctx.fillStyle = '#fff';
-        ctx.font = '20px Arial';
-        ctx.fillText(`Score: ${gameEngine.score}`, 10, 30);
-        ctx.fillText(`Lives: ${gameEngine.lives}`, 10, 60);
-        ctx.fillText(`Level: ${gameEngine.level}`, canvas.width - 100, 30);
-        ctx.fillText(`High Score: ${gameEngine.highScore}`, canvas.width - 200, 60);
-
-        if (gameEngine.gameOver) {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#fff';
-            ctx.font = '50px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2);
-            ctx.font = '20px Arial';
-            ctx.fillText('Press Space to Restart', canvas.width / 2, canvas.height / 2 + 50);
-
-            // Restart logic
-            // (Only if space is pressed in game over state, maybe reusing the same listener or logic?)
-        }
-
         if (gameEngine.levelCleared) {
             gameEngine.advanceLevel();
         }
-        ctx.restore();
     });
 
     gameEngine.start();
