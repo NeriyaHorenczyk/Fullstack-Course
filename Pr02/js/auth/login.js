@@ -13,7 +13,7 @@ export default async function login(username, password, rememberMe = false) {
     if (!userData.hashedCreds || userData.hashedCreds !== hashedCreds) {
         throw new Error('Invalid username or password');
     }
-    if (rememberMe) userData.tokenExpiry = Date.now() + 60 * 60 * 1000; // 1 hour from now
+    userData.tokenExpiry = Date.now() + 60 * 60 * 1000; // 1 hour from now
     storeUserData(username, userData);
     localStorage.setItem('currentUser', username);
 }
