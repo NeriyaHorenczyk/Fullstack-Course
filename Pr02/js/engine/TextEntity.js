@@ -25,10 +25,4 @@ export default class TextEntity extends Entity {
         ctx.textAlign = 'center';
         ctx.fillText(this.text, this.x, this.y);
     }
-
-    /**
-     * @param {number} deltaFrames
-     * @param {GameEngine} gameEngine
-     */
-    update(deltaFrames, gameEngine) {}
 }

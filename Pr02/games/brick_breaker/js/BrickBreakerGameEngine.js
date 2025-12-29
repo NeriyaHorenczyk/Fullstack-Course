@@ -5,7 +5,11 @@ import { GameEngine } from '../../../js/engine/GameEngine.js';
 import { Ball } from './Ball.js';
 import BigPaddlePowerup from './BigPaddlePowerup.js';
 import { Brick } from './Brick.js';
+import OneUpPowerup from './ExtraLifePowerup.js';
+import { InvincibleBrick } from './InvincibleBrick.js';
+import { MovingBrick } from './MovingBrick.js';
 import { Paddle } from './Paddle.js';
+import { PowerupBrick } from './PowerupBrick.js';
 
 export class BrickBreakerGameEngine extends GameEngine {
     /**
@@ -31,10 +35,12 @@ export class BrickBreakerGameEngine extends GameEngine {
     async initEngine() {
         // Load sprites and sounds
         await this.assets.load({
-            big_paddle_powerup: {
-                url: 'sprite1.png',
+            one_up_sprite: {
+                url: 'one_up.png',
                 scale: 0.1,
             },
+brick_explode: { url: 'stone_smash.mp3' },
+            one_up_sound: { url: 'oneup.ogg' },
         });
         await super.initEngine();
         this.generateLevel();
@@ -118,83 +124,147 @@ export class BrickBreakerGameEngine extends GameEngine {
      * Generates a procedural level based on the current level number.
      */
     generateLevel() {
-        const levelIndex = this.level;
-        // 1. Difficulty Scaling
-        // As levels get higher, add more rows and potential brick density
-        const rows = Math.min(5 + Math.floor(levelIndex / 2), 12);
-        const cols = 8 + (levelIndex % 2); // Alternate between 8 and 9 cols
+        const level = this.level;
+        
+        /* -----------------------------
+Difficulty & Layout Scaling
+        ------------------------------ */
+        const rows = Math.min(5 + Math.floor(level / 2), 12);
+        const cols = 8 + (level % 2);
 
         const padding = 10;
+const height = 25;
         const width = (this.canvas.width - (cols + 1) * padding) / cols;
-        const height = 25;
-        const topOffset = 60;
+                const topOffset = 60;
 
-        // 2. Select a Pattern Generator based on level index
-        const patternType = levelIndex % 5;
-        /** @type {number[][]} */
-        let map = [];
+        /* -----------------------------
+Pattern Selection
+          ------------------------------ */
+        const patternType = level % 5;
+        const map = this.generatePattern(patternType, rows, cols);
 
-        switch (patternType) {
-            case 0:
-                map = patterns.classic(rows, cols);
-                break;
-            case 1:
-                map = patterns.checkerboard(rows, cols);
-                break;
-            case 2:
-                map = patterns.diamond(rows, cols);
-                break;
-            case 3:
-                map = patterns.sineWave(rows, cols);
-                break;
-            case 4:
-                map = patterns.symmetricalRandom(rows, cols, 0.6);
-                break;
-        }
+        /* -----------------------------
+            Feature Gates
+          ------------------------------ */
+        const allowInvincible = level >= 3;
+        const allowAdvanced = level >= 4;
 
-        // 3. Render the Map
+        /* -----------------------------
+            Brick Placement
+          ------------------------------ */
         for (let r = 0; r < rows; r++) {
             for (let c = 0; c < cols; c++) {
-                // Check our generated map if a brick exists here
-                if (map[r][c] === 1) {
+                                if (map[r][c] === 0) continue;
+
                     const x = padding + c * (width + padding);
                     const y = padding + r * (height + padding) + topOffset;
 
-                    // Color Generation: HSL allows for nice programmatic gradients
-                    // Hue shifts based on Row and Level
-                    const hue = (levelIndex * 40 + r * 15) % 360;
+                                        const hue = (level * 40 + r * 15) % 360;
                     const color = `hsl(${hue}, 70%, 50%)`;
 
-                    // Health Calculation: Higher levels have tougher bricks
-                    // (Assuming your Brick class accepts health)
-                    const health = Math.random() < levelIndex * 0.1 ? 2 : 1;
-                    const spriteImage = 'sprite1.png'; // Placeholder sprite
-                    const img = createImageBitmapFromPath(`games/brick_breaker/assets/${spriteImage}`);
-                    const brick = new Brick(
+                    const brick = this.createBrick({
+                    level,
+                    allowInvincible,
+                    allowAdvanced,
                         x,
                         y,
                         width,
                         height,
                         color,
-                        health,
-                        new BigPaddlePowerup(0, 0, this.assets.getImage('big_paddle_powerup'))
-                    );
+                        });
+
                     this.addEntity(brick);
                 }
-            }
-        }
-    }
+                }
 }
 
 /**
- * Helper function to create an ImageBitmap from a given image path.
- * @param {string} path
- * @returns {Promise<HTMLImageElement>}
+ * Decides which type of brick to create based on level.
+     * @param {{
+     * level: number,
+     * allowInvincible: boolean,
+     * allowAdvanced: boolean,
+     * x: number,
+     * y: number,
+     * width: number,
+     * height: number,
+     * color: string}} options
+     * @returns {Brick}
+     */
+    createBrick({ level, allowInvincible, allowAdvanced, x, y, width, height, color }) {
+        const roll = Math.random();
+
+        /* -----------------------------
+           Powerup Blocks (Level ≥ 2)
+          ------------------------------ */
+        if (level >= 2 /* && roll < 0.3 */) {
+            return new PowerupBrick({
+                x,
+                y,
+                width,
+                height,
+                color,
+                health: this.randomHealth(level),
+                powerup: this.randomPowerup(),
+            });
+        }
+
+        /* -----------------------------
+           Invincible Blocks (Level ≥ 3)
+          ------------------------------ */
+        if (allowInvincible && roll < 0.08) {
+            return new InvincibleBrick({ x, y, width, height, color: '#666' });
+        }
+
+        /* -----------------------------
+           Moving Blocks (Level ≥ 4)
+          ------------------------------ */
+        if (allowAdvanced && roll < 0.18) {
+            return new MovingBrick({ x, y, width, height, color, health: this.randomHealth(level) });
+        }
+
+        /* -----------------------------
+           Standard Random-Health Brick
+          ------------------------------ */
+        return new Brick({ x, y, width, height, color, health: this.randomHealth(level) });
+    }
+
+    /**
+     * Returns a random health value based on level.
+     * @param {number} level
+     * @returns {number}
  */
-function createImageBitmapFromPath(path) {
-    const img = new Image();
-    img.src = path;
-    return img.decode().then(() => img);
+randomHealth(level) {
+        return Math.floor(Math.random() * level) + 1;
+    }
+
+    randomPowerup() {
+        return new OneUpPowerup(0, 0, this.assets.getImage('one_up_sprite'));
+    }
+
+    /**
+     * Generates a brick pattern based on the selected type.
+     * @param {number} type
+     * @param {number} rows
+     * @param {number} cols
+     * @returns {number[][]} 2D array representing brick placement
+     */
+    generatePattern(type, rows, cols) {
+        switch (type) {
+            case 0:
+                return patterns.classic(rows, cols);
+            case 1:
+                return patterns.checkerboard(rows, cols);
+            case 2:
+                return patterns.diamond(rows, cols);
+            case 3:
+                return patterns.sineWave(rows, cols);
+            case 4:
+                return patterns.symmetricalRandom(rows, cols, 0.6);
+            default:
+                return patterns.classic(rows, cols);
+        }
+    }
 }
 
 // --- Pattern Algorithms ---
