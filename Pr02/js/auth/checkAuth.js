@@ -1,6 +1,6 @@
 // When this script is loaded, check if the user is authenticated
 
-import { fetchUserData, storeUserData } from '../js/auth/userdata.js';
+import { fetchUserData, storeUserData } from './userdata.js';
 
 function redirectToLogin() {
     window.location.href = '/login.html';
