@@ -8,15 +8,26 @@
     <link rel="stylesheet" href="css/home.css" />
     <script type="module" src="js/auth/checkAuth.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-    <link rel="preload" href="https://ia904504.us.archive.org/18/items/Bandcamp-804842275/804842275.mp3" as="audio" />
     <script>
-        const bgAudio = new Audio('https://ia904504.us.archive.org/18/items/Bandcamp-804842275/804842275.mp3');
+        const bgAudio = new Audio('assets/home/home.mp3');
         const projectorAudio = new Audio('assets/home/projector.mp3');
         const musicIcon = 'https://static.thenounproject.com/png/music-icon-7119672-512.png';
         const noMusicIcon = 'https://static.thenounproject.com/png/no-music-icon-7119674-512.png';
 
         bgAudio.loop = true;
         bgAudio.volume = 0.4;
+
+        // play the click sound when the user clicks
+        window.addEventListener('mousedown', () => {
+            const mouseDownSound = new Audio('assets/home/mouseDown.wav');
+            mouseDownSound.volume = 0.2;
+            mouseDownSound.play();
+        });
+        window.addEventListener('mouseup', () => {
+            const mouseUpSound = new Audio('assets/home/mouseUp.wav');
+            mouseUpSound.volume = 0.2;
+            mouseUpSound.play();
+        });
 
         function logout() {
             localStorage.removeItem('currentUser');
