@@ -33,5 +33,17 @@ export default class BGandHUD extends Entity {
         ctx.textAlign = 'right';
         ctx.fillText(`Level: ${this.gameEngine.level}`, ctx.canvas.width - 20, 30);
         ctx.fillText(`High Score: ${this.gameEngine.highScore}`, ctx.canvas.width - 20, 50);
+
+        const canvas = ctx.canvas;
+        if (this.gameEngine.gameOver) {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#fff';
+            ctx.font = '50px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2);
+            ctx.font = '20px Arial';
+            ctx.fillText('Press Space to Restart', canvas.width / 2, canvas.height / 2 + 50);
+        }
     }
 }
