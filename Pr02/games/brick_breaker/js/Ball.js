@@ -41,7 +41,7 @@ export class Ball extends Entity {
     }
 
     update(deltaFrames, gameEngine) {
-        const INVINCIBLE = false;
+        if (gameEngine.gameOver) return;
         if (this.stuckToPaddle) {
             // Find the paddle
             const paddle = gameEngine.entities.find((e) => e instanceof Paddle);
