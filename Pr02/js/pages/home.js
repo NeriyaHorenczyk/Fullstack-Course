@@ -1,5 +1,6 @@
 import { startGame as startWorm, stopGame as stopWorm } from '../../games/snake/js/main.js';
 import { startGame as startDoodle, stopGame as stopDoodle } from '../../games/doodle_jump/js/main.js';
+import { startGame as startBrick, stopGame as stopBrick } from '../../games/brick_breaker/js/main.js';
 
 const gameConfig = {
     worm: {
@@ -92,6 +93,12 @@ const gameConfig = {
     block: {
         title: 'Block Smasher',
         subtitle: 'Subtlety not included.',
+        canvas: {
+            width: 800,
+            height: 600,
+        },
+        startScript: startBrick,
+        stopScript: stopBrick,
     },
 };
 
