@@ -1,7 +1,7 @@
 // @ts-check
 import BasePowerup from './BasePowerup.js';
-import { BrickBreakerGameEngine } from './BrickBreakerGameEngine.js';
-import { FloatingTextEntity } from './FloatingTextEntity.js';
+import { BrickBreakerGameEngine } from '../BrickBreakerGameEngine.js';
+import { FloatingTextEntity } from '../FloatingTextEntity.js';
 
 /**
  * Power-up that grants an extra life when collected.

@@ -1,6 +1,6 @@
 // @ts-check
 import BasePowerup from './BasePowerup.js';
-import { BrickBreakerGameEngine } from './BrickBreakerGameEngine.js';
+import { BrickBreakerGameEngine } from '../BrickBreakerGameEngine.js';
 
 /**
  * Power-up that increases the paddle size when collected.

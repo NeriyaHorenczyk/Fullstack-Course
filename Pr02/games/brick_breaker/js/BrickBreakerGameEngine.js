@@ -3,13 +3,13 @@ import { fetchCurrentUserData, storeCurrentUserData } from '../../../js/auth/use
 import { AssetLoader } from '../../../js/engine/AssetLoader.js';
 import { GameEngine } from '../../../js/engine/GameEngine.js';
 import { Ball } from './Ball.js';
-import BigPaddlePowerup from './BigPaddlePowerup.js';
-import { Brick } from './Brick.js';
-import OneUpPowerup from './ExtraLifePowerup.js';
-import { InvincibleBrick } from './InvincibleBrick.js';
-import { MovingBrick } from './MovingBrick.js';
+import BigPaddlePowerup from './Powerups/BigPaddlePowerup.js';
+import { Brick } from './Bricks/Brick.js';
+import OneUpPowerup from './Powerups/ExtraLifePowerup.js';
+import { InvincibleBrick } from './Bricks/InvincibleBrick.js';
+import { MovingBrick } from './Bricks/MovingBrick.js';
 import { Paddle } from './Paddle.js';
-import { PowerupBrick } from './PowerupBrick.js';
+import { PowerupBrick } from './Bricks/PowerupBrick.js';
 
 export class BrickBreakerGameEngine extends GameEngine {
     /**
@@ -20,7 +20,7 @@ export class BrickBreakerGameEngine extends GameEngine {
         super(canvas);
         this.score = 0;
         this.lives = 3;
-        this.level = 1;
+        this.level = 4;
         this.gameOver = false;
         const userData = fetchCurrentUserData() || {};
         this.highScore = userData.highScore || 0;
@@ -39,7 +39,7 @@ export class BrickBreakerGameEngine extends GameEngine {
                 url: 'one_up.png',
                 scale: 0.1,
             },
-brick_explode: { url: 'stone_smash.mp3' },
+            brick_explode: { url: 'stone_smash.mp3' },
             one_up_sound: { url: 'oneup.ogg' },
         });
         await super.initEngine();
@@ -125,20 +125,20 @@ brick_explode: { url: 'stone_smash.mp3' },
      */
     generateLevel() {
         const level = this.level;
-        
+
         /* -----------------------------
-Difficulty & Layout Scaling
-        ------------------------------ */
+           Difficulty & Layout Scaling
+          ------------------------------ */
         const rows = Math.min(5 + Math.floor(level / 2), 12);
         const cols = 8 + (level % 2);
 
         const padding = 10;
-const height = 25;
+        const height = 25;
         const width = (this.canvas.width - (cols + 1) * padding) / cols;
-                const topOffset = 60;
+        const topOffset = 60;
 
         /* -----------------------------
-Pattern Selection
+            Pattern Selection
           ------------------------------ */
         const patternType = level % 5;
         const map = this.generatePattern(patternType, rows, cols);
@@ -154,32 +154,32 @@ Pattern Selection
           ------------------------------ */
         for (let r = 0; r < rows; r++) {
             for (let c = 0; c < cols; c++) {
-                                if (map[r][c] === 0) continue;
+                if (map[r][c] === 0) continue;
 
-                    const x = padding + c * (width + padding);
-                    const y = padding + r * (height + padding) + topOffset;
+                const x = padding + c * (width + padding);
+                const y = padding + r * (height + padding) + topOffset;
 
-                                        const hue = (level * 40 + r * 15) % 360;
-                    const color = `hsl(${hue}, 70%, 50%)`;
+                const hue = (level * 40 + r * 15) % 360;
+                const color = `hsl(${hue}, 70%, 50%)`;
 
-                    const brick = this.createBrick({
+                const brick = this.createBrick({
                     level,
                     allowInvincible,
                     allowAdvanced,
-                        x,
-                        y,
-                        width,
-                        height,
-                        color,
-                        });
+                    x,
+                    y,
+                    width,
+                    height,
+                    color,
+                });
 
-                    this.addEntity(brick);
-                }
-                }
-}
+                this.addEntity(brick);
+            }
+        }
+    }
 
-/**
- * Decides which type of brick to create based on level.
+    /**
+     * Decides which type of brick to create based on level.
      * @param {{
      * level: number,
      * allowInvincible: boolean,
@@ -233,8 +233,8 @@ Pattern Selection
      * Returns a random health value based on level.
      * @param {number} level
      * @returns {number}
- */
-randomHealth(level) {
+     */
+    randomHealth(level) {
         return Math.floor(Math.random() * level) + 1;
     }
 

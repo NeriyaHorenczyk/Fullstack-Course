@@ -1,9 +1,9 @@
 // @ts-check
-import { Entity } from '../../../js/engine/Entity.js';
-import Vector from '../../../js/engine/Vector.js';
-import { Ball } from './Ball.js';
-import BasePowerup from './BasePowerup.js';
-import { BrickBreakerGameEngine } from './BrickBreakerGameEngine.js';
+import { Entity } from '../../../../js/engine/Entity.js';
+import Vector from '../../../../js/engine/Vector.js';
+import { Ball } from '../Ball.js';
+import BasePowerup from '../Powerups/BasePowerup.js';
+import { BrickBreakerGameEngine } from '../BrickBreakerGameEngine.js';
 
 export class Brick extends Entity {
     type = 'brick';

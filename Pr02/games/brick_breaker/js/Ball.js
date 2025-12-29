@@ -1,7 +1,7 @@
 import { Entity } from '../../../js/engine/Entity.js';
 import Vector from '../../../js/engine/Vector.js';
 import { Paddle } from './Paddle.js';
-import { Brick } from './Brick.js';
+import { Brick } from './Bricks/Brick.js';
 
 export class Ball extends Entity {
     constructor(x, y) {
@@ -77,19 +77,11 @@ export class Ball extends Entity {
                 this.velocity.y *= -1;
             }
 
-            // Floor collision (Death)
             if (this.position.y > gameEngine.canvas.height) {
-                if (INVINCIBLE) {
-                    // bounce back up
-                    this.position.y = gameEngine.canvas.height - this.size.y;
-                    this.velocity.y *= -1;
-                } else {
-                    // Die
-                    gameEngine.lives--;
-                    if (gameEngine.lives > 0) {
-                        this.stuckToPaddle = true;
-                    }
-                }
+                // bounce back from bottom for now
+                this.position.y = gameEngine.canvas.height - this.size.y;
+                this.velocity.y *= -1;
+                // In a full game, you'd handle life loss or game over here
             }
         }
     }

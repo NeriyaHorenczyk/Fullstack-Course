@@ -1,7 +1,7 @@
 // @ts-check
-import { Entity } from '../../../js/engine/Entity.js';
-import Vector from '../../../js/engine/Vector.js';
-import { BrickBreakerGameEngine } from './BrickBreakerGameEngine.js';
+import { Entity } from '../../../../js/engine/Entity.js';
+import Vector from '../../../../js/engine/Vector.js';
+import { BrickBreakerGameEngine } from '../BrickBreakerGameEngine.js';
 
 /**
  * Base class for power-up entities in the Brick Breaker game.

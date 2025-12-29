@@ -1,7 +1,7 @@
 // @ts-check
 import { Brick } from './Brick.js';
-import Vector from '../../../js/engine/Vector.js';
-import { BrickBreakerGameEngine } from './BrickBreakerGameEngine.js';
+import Vector from '../../../../js/engine/Vector.js';
+import { BrickBreakerGameEngine } from '../BrickBreakerGameEngine.js';
 
 export class MovingBrick extends Brick {
     /**
