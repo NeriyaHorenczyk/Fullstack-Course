@@ -1,10 +1,15 @@
+// @ts-check
 import { BrickBreakerGameEngine } from './BrickBreakerGameEngine.js';
 import { Paddle } from './Paddle.js';
 import { Ball } from './Ball.js';
-import { Brick } from './Brick.js';
 
+/** @type {BrickBreakerGameEngine} */
 let gameEngine;
 
+/**
+ * Starts the Brick Breaker game on the given canvas.
+ * @param {HTMLCanvasElement} canvas
+ */
 export function startGame(canvas) {
     if (gameEngine) gameEngine.destroy();
     gameEngine = new BrickBreakerGameEngine(canvas);
@@ -21,6 +26,7 @@ export function startGame(canvas) {
     gameEngine.reset();
 
     // Input handling for Ball Launch
+    /** @type {(e: KeyboardEvent) => void} */
     const handleKeyDown = (e) => {
         if (e.code === 'Space') {
             if (gameEngine.gameOver) {
@@ -39,6 +45,7 @@ export function startGame(canvas) {
     // Score and GUI overlay
     gameEngine.onTick(() => {
         const ctx = gameEngine.context;
+        if (!ctx) return;
         ctx.save();
         ctx.fillStyle = '#fff';
         ctx.font = '20px Arial';
@@ -62,15 +69,7 @@ export function startGame(canvas) {
         }
 
         if (gameEngine.levelCleared) {
-            // Snap the paddle to the center
-            /** @type {Ball} */
-            const ball = gameEngine.entities.find((e) => e instanceof Ball);
-            /** @type {Paddle} */
-            const paddle = gameEngine.entities.find((e) => e instanceof Paddle);
-            ball.attachToPaddle(paddle);
-            gameEngine.level += 1;
-            generateLevel(gameEngine);
-            gameEngine.levelCleared = false;
+            gameEngine.advanceLevel();
         }
         ctx.restore();
     });
@@ -80,5 +79,6 @@ export function startGame(canvas) {
 
 export function stopGame() {
     if (gameEngine) gameEngine.destroy();
+    // @ts-expect-error shh
     gameEngine = null;
 }

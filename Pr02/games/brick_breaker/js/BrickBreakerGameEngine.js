@@ -1,4 +1,5 @@
 // @ts-check
+import { fetchCurrentUserData, storeCurrentUserData } from '../../../js/auth/userdata.js';
 import { GameEngine } from '../../../js/engine/GameEngine.js';
 import { Ball } from './Ball.js';
 import { Brick } from './Brick.js';
@@ -15,7 +16,9 @@ export class BrickBreakerGameEngine extends GameEngine {
         this.lives = 3;
         this.level = 1;
         this.gameOver = false;
-        this.highScore = Number(localStorage.getItem('brickBreakerHighscore')) || 0;
+        const userData = fetchCurrentUserData() || {};
+        this.highScore = userData.highScore || 0;
+        this.levelCleared = false;
     }
 
     reset() {
@@ -33,7 +36,17 @@ export class BrickBreakerGameEngine extends GameEngine {
         const ball = this.entities.find((e) => e instanceof Ball);
         paddle?.reset();
         ball?.reset();
-        generateLevel(this);
+        this.generateLevel();
+    }
+
+    advanceLevel() {
+        const ball = this.entities.find((e) => e instanceof Ball);
+        const paddle = this.entities.find((e) => e instanceof Paddle);
+        ball?.attachToPaddle(paddle);
+        this.level += 1;
+        this.addScore(500); // Bonus for clearing level
+        this.generateLevel();
+        this.levelCleared = false;
     }
 
     /**
@@ -44,7 +57,10 @@ export class BrickBreakerGameEngine extends GameEngine {
         this.score += points;
         if (this.score > this.highScore) {
             this.highScore = this.score;
-            localStorage.setItem('brickBreakerHighscore', this.score.toString());
+            const userData = fetchCurrentUserData() || {};
+            userData.brickBreaker ||= {};
+            userData.brickBreaker.highScore = this.highScore;
+            storeCurrentUserData(userData);
         }
     }
 
@@ -66,66 +82,65 @@ export class BrickBreakerGameEngine extends GameEngine {
 
         super.update(deltaFrames);
     }
-}
 
-/**
- * Generates a procedural level based on the current level number.
- * @param {BrickBreakerGameEngine} engine
- */
-function generateLevel(engine) {
-    const levelIndex = engine.level;
-    // 1. Difficulty Scaling
-    // As levels get higher, add more rows and potential brick density
-    const rows = Math.min(5 + Math.floor(levelIndex / 2), 12);
-    const cols = 8 + (levelIndex % 2); // Alternate between 8 and 9 cols
+    /**
+     * Generates a procedural level based on the current level number.
+     */
+    generateLevel() {
+        const levelIndex = this.level;
+        // 1. Difficulty Scaling
+        // As levels get higher, add more rows and potential brick density
+        const rows = Math.min(5 + Math.floor(levelIndex / 2), 12);
+        const cols = 8 + (levelIndex % 2); // Alternate between 8 and 9 cols
 
-    const padding = 10;
-    const width = (engine.canvas.width - (cols + 1) * padding) / cols;
-    const height = 25;
-    const topOffset = 60;
+        const padding = 10;
+        const width = (this.canvas.width - (cols + 1) * padding) / cols;
+        const height = 25;
+        const topOffset = 60;
 
-    // 2. Select a Pattern Generator based on level index
-    const patternType = levelIndex % 5;
-    /** @type {number[][]} */
-    let map = [];
+        // 2. Select a Pattern Generator based on level index
+        const patternType = levelIndex % 5;
+        /** @type {number[][]} */
+        let map = [];
 
-    switch (patternType) {
-        case 0:
-            map = patterns.classic(rows, cols);
-            break;
-        case 1:
-            map = patterns.checkerboard(rows, cols);
-            break;
-        case 2:
-            map = patterns.diamond(rows, cols);
-            break;
-        case 3:
-            map = patterns.sineWave(rows, cols);
-            break;
-        case 4:
-            map = patterns.symmetricalRandom(rows, cols, 0.6);
-            break;
-    }
+        switch (patternType) {
+            case 0:
+                map = patterns.classic(rows, cols);
+                break;
+            case 1:
+                map = patterns.checkerboard(rows, cols);
+                break;
+            case 2:
+                map = patterns.diamond(rows, cols);
+                break;
+            case 3:
+                map = patterns.sineWave(rows, cols);
+                break;
+            case 4:
+                map = patterns.symmetricalRandom(rows, cols, 0.6);
+                break;
+        }
 
-    // 3. Render the Map
-    for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-            // Check our generated map if a brick exists here
-            if (map[r][c] === 1) {
-                const x = padding + c * (width + padding);
-                const y = padding + r * (height + padding) + topOffset;
+        // 3. Render the Map
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                // Check our generated map if a brick exists here
+                if (map[r][c] === 1) {
+                    const x = padding + c * (width + padding);
+                    const y = padding + r * (height + padding) + topOffset;
 
-                // Color Generation: HSL allows for nice programmatic gradients
-                // Hue shifts based on Row and Level
-                const hue = (levelIndex * 40 + r * 15) % 360;
-                const color = `hsl(${hue}, 70%, 50%)`;
+                    // Color Generation: HSL allows for nice programmatic gradients
+                    // Hue shifts based on Row and Level
+                    const hue = (levelIndex * 40 + r * 15) % 360;
+                    const color = `hsl(${hue}, 70%, 50%)`;
 
-                // Health Calculation: Higher levels have tougher bricks
-                // (Assuming your Brick class accepts health)
-                const health = Math.random() < levelIndex * 0.1 ? 2 : 1;
+                    // Health Calculation: Higher levels have tougher bricks
+                    // (Assuming your Brick class accepts health)
+                    const health = Math.random() < levelIndex * 0.1 ? 2 : 1;
 
-                const brick = new Brick(x, y, width, height, color, health);
-                engine.addEntity(brick);
+                    const brick = new Brick(x, y, width, height, color, health);
+                    this.addEntity(brick);
+                }
             }
         }
     }
