@@ -3,6 +3,7 @@ import { fetchCurrentUserData, storeCurrentUserData } from '../../../js/auth/use
 import { AssetLoader } from '../../../js/engine/AssetLoader.js';
 import { GameEngine } from '../../../js/engine/GameEngine.js';
 import { Ball } from './Ball.js';
+import BigPaddlePowerup from './BigPaddlePowerup.js';
 import { Brick } from './Brick.js';
 import { Paddle } from './Paddle.js';
 
@@ -72,9 +73,7 @@ export class BrickBreakerGameEngine extends GameEngine {
     }
 
     advanceLevel() {
-        const ball = this.entities.find((e) => e instanceof Ball);
-        const paddle = this.entities.find((e) => e instanceof Paddle);
-        ball?.attachToPaddle(paddle);
+        this.ball.attachToPaddle(this.paddle);
         this.level += 1;
         this.addScore(500); // Bonus for clearing level
         this.generateLevel();
@@ -169,13 +168,33 @@ export class BrickBreakerGameEngine extends GameEngine {
                     // Health Calculation: Higher levels have tougher bricks
                     // (Assuming your Brick class accepts health)
                     const health = Math.random() < levelIndex * 0.1 ? 2 : 1;
-
-                    const brick = new Brick(x, y, width, height, color, health);
+                    const spriteImage = 'sprite1.png'; // Placeholder sprite
+                    const img = createImageBitmapFromPath(`games/brick_breaker/assets/${spriteImage}`);
+                    const brick = new Brick(
+                        x,
+                        y,
+                        width,
+                        height,
+                        color,
+                        health,
+                        new BigPaddlePowerup(0, 0, this.assets.getImage('big_paddle_powerup'))
+                    );
                     this.addEntity(brick);
                 }
             }
         }
     }
+}
+
+/**
+ * Helper function to create an ImageBitmap from a given image path.
+ * @param {string} path
+ * @returns {Promise<HTMLImageElement>}
+ */
+function createImageBitmapFromPath(path) {
+    const img = new Image();
+    img.src = path;
+    return img.decode().then(() => img);
 }
 
 // --- Pattern Algorithms ---
