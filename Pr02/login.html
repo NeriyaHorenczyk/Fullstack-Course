@@ -58,7 +58,6 @@
                 const password = document.getElementById('password').value;
                 try {
                     await login(email, password);
-                    alert('Login successful!');
                     window.location.href = 'home.html';
                 } catch (error) {
                     alert(`Login failed: ${error.message}`);
