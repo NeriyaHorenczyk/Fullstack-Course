@@ -92,7 +92,7 @@ const gameConfig = {
 
     block: {
         title: 'Block Smasher',
-        subtitle: 'Subtlety not included.',
+        subtitle: 'Safety goggles not included.',
         canvas: {
             width: 800,
             height: 600,
