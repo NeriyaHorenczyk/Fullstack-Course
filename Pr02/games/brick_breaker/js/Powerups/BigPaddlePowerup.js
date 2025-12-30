@@ -23,6 +23,7 @@ export default class BigPaddlePowerup extends BasePowerup {
     activatePowerup(gameEngine) {
         super.activatePowerup(gameEngine);
         const paddle = gameEngine.paddle;
+        gameEngine.assets.getAudio('expand_paddle_sound').play();
         paddle.size.x *= 1.5; // Increase paddle width by 50%
         // Set a timer to revert the effect after 15 seconds
         setTimeout(() => {

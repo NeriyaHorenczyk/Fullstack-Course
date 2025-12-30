@@ -10,6 +10,8 @@ import { InvincibleBrick } from './Bricks/InvincibleBrick.js';
 import { MovingBrick } from './Bricks/MovingBrick.js';
 import { Paddle } from './Paddle.js';
 import { PowerupBrick } from './Bricks/PowerupBrick.js';
+import SpeedUpPowerup from './Powerups/SpeedUp.js';
+import SlowDownPowerup from './Powerups/SlowDown.js';
 
 export class BrickBreakerGameEngine extends GameEngine {
     /**
@@ -35,10 +37,25 @@ export class BrickBreakerGameEngine extends GameEngine {
     async initEngine() {
         // Load sprites and sounds
         await this.assets.load({
+            expand_paddle_sprite: {
+                url: 'expand.png',
+                scale: 0.1,
+            },
             one_up_sprite: {
                 url: 'one_up.png',
                 scale: 0.1,
             },
+            speed_up_sprite: {
+                url: 'speed_up.png',
+                scale: 0.05,
+            },
+            slow_down_sprite: {
+                url: 'slow_down.png',
+                scale: 0.05,
+            },
+            expand_paddle_sound: { url: 'expand.mp3' },
+            speed_up_sound: { url: 'speed_up.mp3' },
+            slow_down_sound: { url: 'slow_down.mp3' },
             brick_explode: { url: 'stone_smash.mp3' },
             one_up_sound: { url: 'oneup.ogg' },
         });
@@ -239,7 +256,26 @@ export class BrickBreakerGameEngine extends GameEngine {
     }
 
     randomPowerup() {
-        return new OneUpPowerup(0, 0, this.assets.getImage('one_up_sprite'));
+        const choices = [BigPaddlePowerup, OneUpPowerup, SpeedUpPowerup, SlowDownPowerup];
+        const PowerupClass = choices[Math.floor(Math.random() * choices.length)];
+        let spriteName;
+        switch (PowerupClass) {
+            case BigPaddlePowerup:
+                spriteName = 'expand_paddle_sprite';
+                break;
+            case OneUpPowerup:
+                spriteName = 'one_up_sprite';
+                break;
+            case SpeedUpPowerup:
+                spriteName = 'speed_up_sprite';
+                break;
+            case SlowDownPowerup:
+                spriteName = 'slow_down_sprite';
+                break;
+            default:
+                spriteName = '';
+        }
+        return new PowerupClass(0, 0, this.assets.getImage(spriteName));
     }
 
     /**

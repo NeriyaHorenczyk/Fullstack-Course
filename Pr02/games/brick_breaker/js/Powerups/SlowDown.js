@@ -26,6 +26,7 @@ export default class SlowDownPowerup extends BasePowerup {
         super.activatePowerup(gameEngine);
         const newSpeed = gameEngine.ball.velocity.scale(this.magnitude);
         gameEngine.ball.velocity = newSpeed;
+        gameEngine.ball.speed = gameEngine.ball.speed * this.magnitude;
         gameEngine.assets.getAudio('slow_down_sound').play();
         gameEngine.addEntity(
             new FloatingTextEntity('S L O W E R', this.position.x + this.size.x / 2, this.position.y, {

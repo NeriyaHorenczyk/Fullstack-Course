@@ -50,14 +50,6 @@ export class Ball extends Entity {
                 this.position.x = paddle.position.x + paddle.size.x / 2 - this.size.x / 2;
                 this.position.y = paddle.position.y - this.size.y - 1;
             }
-
-            // Input to launch
-            // We can check some global input state if we had it, or just check keys here temporarily
-            // Ideally GameEngine or InputHandler handles this, but for now:
-            // Let's assume spacebar launches. We need to hook into the event listeners similar to Paddle or global.
-            // Simplified: The main game loop or Paddle can handle launch trigger.
-            // For now, let's auto-launch on first generic "action" or let main.js handle input?
-            // Let's add a global listener for space just for the ball explicitly if not handled elsewhere.
         } else {
             // Move
             this.position.x += this.velocity.x * deltaFrames;

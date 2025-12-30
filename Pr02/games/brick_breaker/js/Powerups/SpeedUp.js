@@ -26,6 +26,7 @@ export default class SpeedUpPowerup extends BasePowerup {
         super.activatePowerup(gameEngine);
         const newSpeed = gameEngine.ball.velocity.scale(this.magnitude);
         gameEngine.ball.velocity = newSpeed;
+        gameEngine.ball.speed = gameEngine.ball.speed * this.magnitude;
         gameEngine.assets.getAudio('speed_up_sound').play();
         gameEngine.addEntity(
             new FloatingTextEntity('FASTER!!', this.position.x + this.size.x / 2, this.position.y, {
