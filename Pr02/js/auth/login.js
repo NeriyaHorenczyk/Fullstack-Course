@@ -10,7 +10,7 @@ export default async function login(username, password, rememberMe = false) {
     const hashedCreds = await hashCredentials(username, password);
     // Check if the hashed credentials exist as a key in localStorage
     const userData = fetchUserData(username);
-    if (!userData.hashedCreds || userData.hashedCreds !== hashedCreds) {
+    if (!userData || !userData.hashedCreds || userData.hashedCreds !== hashedCreds) {
         throw new Error('Invalid username or password');
     }
     userData.tokenExpiry = Date.now() + 60 * 60 * 1000; // 1 hour from now
