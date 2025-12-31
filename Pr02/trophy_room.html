@@ -19,31 +19,26 @@
 
             <a href="home.html" title="Back to Home">
                 <img
-                    src="https://static.thenounproject.com/png/home-pixel-7576162-512.png"
+                    src="https://static.thenounproject.com/png/trophy-pixel-2651783-512.png"
                     alt="Back"
                     class="pixel-button"
                 />
             </a>
-            <img
-                id="audio-toggle"
-                src="https://static.thenounproject.com/png/no-music-icon-7119674-512.png"
-                onclick="toggleAudio()"
-                alt="Toggle Audio"
-                class="pixel-button"
-                style="scale: 1.4"
-            />
         </header>
 
         <main class="main">
             <section class="trophy-panel">
-                <h2 class="panel-title">Your High Scores</h2>
+                <div class="panel-header">
+                    <h3 class="panel-title">Your High Scores</h3>
+                    <h2 class="panel-subtitle" id="username-display"></h2>
+                </div>
 
                 <div id="empty-cta" class="empty-cta" hidden>
                     <p>No scores yet — play some games to earn trophies!</p>
                     <a class="play-link" href="home.html">Browse games</a>
                 </div>
 
-                <div id="scores-list" class="scores-list" aria-live="polite"></div>
+                <div id="scores-list" class="scores-list"></div>
 
                 <div class="trophy-actions">
                     <button id="reset-all" class="play-btn small">Reset All Scores</button>
@@ -63,12 +58,16 @@
             const GAMES = [
                 { id: 'brickBreaker', name: 'Brick Breaker' },
                 { id: 'doodleJump', name: 'Doodle Jump' },
+                { id: 'snake', name: 'Worm' },
             ];
 
             const username = localStorage.getItem('currentUser');
             const scoresList = document.getElementById('scores-list');
             const emptyCta = document.getElementById('empty-cta');
-
+            const usernameDisplay = document.getElementById('username-display');
+            if (username) {
+                usernameDisplay.textContent = `Player: ${username}`;
+            }
             function render() {
                 const userData = fetchCurrentUserData() || {};
                 const rows = GAMES.map((g) => ({

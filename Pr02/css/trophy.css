@@ -1,6 +1,7 @@
 @import './variables.css';
 
 .trophy-panel {
+    width: 100%;
     max-width: 860px;
     margin: 8px auto 60px;
     background: var(--panel);
@@ -14,6 +15,22 @@
     color: var(--neon);
     font-size: 18px;
     margin: 0 0 12px 0;
+}
+
+.panel-subtitle {
+    font-family: var(--pixel-font);
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0 0 20px 0;
+}
+
+.panel-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    width: 100%;
 }
 
 .scores-list {
