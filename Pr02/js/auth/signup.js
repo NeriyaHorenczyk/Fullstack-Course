@@ -10,16 +10,18 @@ import login from './login.js';
 export default async function register(username, password, email) {
     const hashedCreds = await hashCredentials(username, password);
     // Check if the user already exists
-    try {
-        await login(username, password);
-        throw new Error('User already exists');
-    } catch (e) {
-        if (!(e instanceof Error) || e.message !== 'Invalid username or password') {
-            throw e; // re-throw unexpected errors
-        }
-        // User does not exist, proceed to create
-    }
+    if (userExists(username)) throw new Error('User already exists');
+
     const tokenExpiry = Date.now() + 60 * 60 * 1000; // 1 hour from now
     localStorage.setItem(`user:${username}`, JSON.stringify({ hashedCreds, email, tokenExpiry }));
     return login(username, password);
+}
+
+/** * Checks if a user with the given username already exists.
+ * @param {string} username
+ * @returns {boolean}
+ */
+export function userExists(username) {
+    const storedData = localStorage.getItem(`user:${username}`);
+    return !!storedData;
 }
