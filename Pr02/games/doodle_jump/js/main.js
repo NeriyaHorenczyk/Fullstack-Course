@@ -5,6 +5,7 @@ import Wallpaper from './Background.js';
 import Header from './Header.js';
 import Vector from '../../../js/engine/Vector.js';
 import { DoodleJumpEngine } from './DoodleGameEngine.js';
+import { fetchCurrentUserData } from '../../../js/auth/userdata.js';
 
 /** @type {DoodleJumpEngine} */
 let gameEngine;
@@ -28,10 +29,7 @@ export function startGame(canvas) {
     platforms.forEach((platform) => gameEngine.addEntity(platform));
     // Put the player above the first platform
     player.position = platforms[0].position.subtract(new Vector(0, 100));
-
     gameEngine.onTick(() => {
-        header.score = player.score;
-
         platforms.forEach((platform, index) => {
             if (platform.position.y - gameEngine.cameraOffset.y > canvas.height) {
                 gameEngine.removeEntity(platform);

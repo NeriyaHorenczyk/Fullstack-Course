@@ -1,5 +1,6 @@
 // @ts-check
 
+import { fetchCurrentUserData, storeCurrentUserData } from '../../../js/auth/userdata.js';
 import { GameEngine } from '../../../js/engine/GameEngine.js';
 import TextEntity from '../../../js/engine/TextEntity.js';
 /**
@@ -22,6 +23,9 @@ export class DoodleJumpEngine extends GameEngine {
 
         /** Indicates whether the game has ended */
         this.gameIsOver = false;
+        const userData = fetchCurrentUserData() || {};
+        this.highScore = userData.doodleJump?.highScore || 0;
+        this.score = 0;
     }
 
     /**
@@ -36,6 +40,9 @@ export class DoodleJumpEngine extends GameEngine {
         super.update(deltaFrames);
         this.updateCamera();
         this.checkGameOver();
+        if (this.score > this.highScore) {
+            this.highScore = this.score;
+        }
     }
 
     /**
@@ -71,6 +78,10 @@ export class DoodleJumpEngine extends GameEngine {
     gameOver() {
         if (this.gameIsOver) return;
         this.gameIsOver = true;
+        storeCurrentUserData({
+            ...fetchCurrentUserData(),
+            doodleJump: { highScore: this.highScore },
+        });
 
         this.addEntity(new TextEntity('GAME OVER', this.canvas.width / 2 - 50, this.canvas.height / 2));
     }

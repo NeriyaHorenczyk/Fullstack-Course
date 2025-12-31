@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Trophy Room — GameBox</title>
+        <link rel="stylesheet" href="css/home.css" />
+        <link rel="stylesheet" href="css/trophy.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+    </head>
+
+    <body>
+        <header class="site-header">
+            <div class="header-inner">
+                <h1 class="logo glitch" data-text="GameBox">GameBox</h1>
+                <div class="byline">by Nintetra</div>
+                <div class="slogan">Trophy Room</div>
+            </div>
+
+            <a href="home.html" title="Back to Home">
+                <img
+                    src="https://static.thenounproject.com/png/home-pixel-7576162-512.png"
+                    alt="Back"
+                    class="pixel-button"
+                />
+            </a>
+            <img
+                id="audio-toggle"
+                src="https://static.thenounproject.com/png/no-music-icon-7119674-512.png"
+                onclick="toggleAudio()"
+                alt="Toggle Audio"
+                class="pixel-button"
+                style="scale: 1.4"
+            />
+        </header>
+
+        <main class="main">
+            <section class="trophy-panel">
+                <h2 class="panel-title">Your High Scores</h2>
+
+                <div id="empty-cta" class="empty-cta" hidden>
+                    <p>No scores yet — play some games to earn trophies!</p>
+                    <a class="play-link" href="home.html">Browse games</a>
+                </div>
+
+                <div id="scores-list" class="scores-list" aria-live="polite"></div>
+
+                <div class="trophy-actions">
+                    <button id="reset-all" class="play-btn small">Reset All Scores</button>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <div class="foot-inner">
+                <p class="copyright">© 2024 GameBox. Made with love.</p>
+            </div>
+        </footer>
+
+        <script type="module">
+            import { fetchCurrentUserData } from './js/auth/userdata.js';
+
+            const GAMES = [
+                { id: 'brickBreaker', name: 'Brick Breaker' },
+                { id: 'doodleJump', name: 'Doodle Jump' },
+            ];
+
+            const username = localStorage.getItem('currentUser');
+            const scoresList = document.getElementById('scores-list');
+            const emptyCta = document.getElementById('empty-cta');
+
+            function render() {
+                const userData = fetchCurrentUserData() || {};
+                const rows = GAMES.map((g) => ({
+                    id: g.id,
+                    name: g.name,
+                    score: userData[g.id]?.highScore || 0,
+                }));
+
+                const hasAny = rows.some((r) => r.score > 0);
+                emptyCta.hidden = hasAny || !!username === false ? true : false;
+
+                // sort desc
+                rows.sort((a, b) => b.score - a.score);
+
+                scoresList.innerHTML = rows
+                    .map(
+                        (r, idx) => `
+					<article class="score-row">
+						<div class="score-left">
+							<div class="rank">${idx + 1}</div>
+							<div class="game-name">${r.name}</div>
+						</div>
+						<div class="score-right">
+							<div class="score-value">${r.score}</div>
+							<div class="row-actions">
+								<button class="play-btn tiny" data-reset="${r.id}">Reset</button>
+							</div>
+						</div>
+					</article>
+				`
+                    )
+                    .join('');
+
+                // attach per-row reset handlers
+                scoresList.querySelectorAll('button[data-reset]').forEach((btn) => {
+                    btn.addEventListener('click', (e) => {
+                        const id = btn.getAttribute('data-reset');
+                        resetScore(id);
+                    });
+                });
+            }
+
+            function resetScore(gameId) {
+                if (!username) return alert('Please login to reset scores.');
+                const key = `user:${username}`;
+                const stored = JSON.parse(localStorage.getItem(key) || '{}');
+                if (stored[gameId]) delete stored[gameId];
+                localStorage.setItem(key, JSON.stringify(stored));
+                render();
+            }
+
+            document.getElementById('reset-all').addEventListener('click', () => {
+                if (!username) return alert('Please login to reset scores.');
+                if (!confirm('Reset all saved high scores for your account?')) return;
+                const key = `user:${username}`;
+                const stored = JSON.parse(localStorage.getItem(key) || '{}');
+                GAMES.forEach((g) => delete stored[g.id]);
+                localStorage.setItem(key, JSON.stringify(stored));
+                render();
+            });
+
+            // initial
+            if (!username) {
+                emptyCta.hidden = false;
+                scoresList.innerHTML = '';
+            } else {
+                render();
+            }
+        </script>
+    </body>
+</html>

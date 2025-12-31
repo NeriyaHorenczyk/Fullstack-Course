@@ -34,7 +34,6 @@ export default class Player extends Entity {
     constructor(spriteSrc) {
         super();
         this.scale = 0.1;
-        this.score = 0;
 
         // Physics State
         this.position = new Vector(0, 0);
@@ -212,13 +211,13 @@ export default class Player extends Entity {
         }
 
         // Game Over if player falls 2x canvas height below the scoring threshold
-        const isDead = this.position.y > this.score + gameEngine.canvas.height * 2;
+        const isDead = this.position.y > gameEngine.score + gameEngine.canvas.height * 2;
         if (isDead) {
             gameEngine.gameOver();
         }
 
         // 11. Score Tracking
-        this.score = Math.max(this.score, Math.floor(-gameEngine.cameraOffset.y));
+        gameEngine.score = Math.max(gameEngine.score, Math.floor(-gameEngine.cameraOffset.y));
     }
 
     /**

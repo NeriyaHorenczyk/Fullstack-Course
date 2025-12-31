@@ -2,6 +2,7 @@
 import { Entity } from '../../../js/engine/Entity.js';
 import { GameEngine } from '../../../js/engine/GameEngine.js';
 import Vector from '../../../js/engine/Vector.js';
+import { DoodleJumpEngine } from './DoodleGameEngine.js';
 
 export default class Header extends Entity {
     NO_COLLISION = true;
@@ -10,6 +11,15 @@ export default class Header extends Entity {
     constructor() {
         super();
         this.score = 0;
+    }
+
+    /**
+     * @param {number} deltaFrames
+     * @param {DoodleJumpEngine} gameEngine
+     */
+    update(deltaFrames, gameEngine) {
+        this.score = gameEngine.score;
+        this.highScore = gameEngine.highScore;
     }
 
     /**
@@ -25,9 +35,13 @@ export default class Header extends Entity {
 
         ctx.fillRect(0, 0, ctx.canvas.width, 40);
         ctx.fillStyle = '#000000';
-        ctx.font = '24px Arial';
+        ctx.font = '24px "Press Start 2P", monospace';
         ctx.globalAlpha = 1;
         ctx.fillText(`Score: ${this.score}`, 10, 28);
+
+        // Draw high score on the right
+        ctx.textAlign = 'right';
+        ctx.fillText(`High Score: ${this.highScore}`, ctx.canvas.width - 10, 28);
 
         // Draw a shadow under the header
         ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';

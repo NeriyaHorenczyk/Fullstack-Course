@@ -25,7 +25,7 @@ export class BrickBreakerGameEngine extends GameEngine {
         this.level = 4;
         this.gameOver = false;
         const userData = fetchCurrentUserData() || {};
-        this.highScore = userData.highScore || 0;
+        this.highScore = userData.brickBreaker?.highScore || 0;
         this.levelCleared = false;
         /** @type {Ball} */
         this.ball;
