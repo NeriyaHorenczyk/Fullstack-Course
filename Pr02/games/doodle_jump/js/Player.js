@@ -164,6 +164,7 @@ export default class Player extends Entity {
 
         // 5. If we're on the ground, jump
         if (this.grounded) {
+            gameEngine.assets.getAudio('jump_' + (Math.floor(Math.random() * 3) + 1).toString()).play();
             this.velocity.y = JUMP_FORCE;
             this.state = PlayerState.JUMPING;
             this.grounded = false;

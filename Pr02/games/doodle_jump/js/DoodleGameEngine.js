@@ -1,6 +1,7 @@
 // @ts-check
 
 import { fetchCurrentUserData, storeCurrentUserData } from '../../../js/auth/userdata.js';
+import { AssetLoader } from '../../../js/engine/AssetLoader.js';
 import { GameEngine } from '../../../js/engine/GameEngine.js';
 import TextEntity from '../../../js/engine/TextEntity.js';
 /**
@@ -26,6 +27,18 @@ export class DoodleJumpEngine extends GameEngine {
         const userData = fetchCurrentUserData() || {};
         this.highScore = userData.doodleJump?.highScore || 0;
         this.score = 0;
+        this.assets = new AssetLoader('games/doodle_jump/assets/');
+    }
+
+    async initEngine() {
+        // Load sprites and sounds
+        await this.assets.load({
+            jump_1: { url: 'jump_1.ogg' },
+            jump_2: { url: 'jump_2.ogg' },
+            jump_3: { url: 'jump_3.ogg' },
+            game_over: { url: 'game_over.ogg' },
+        });
+        await super.initEngine();
     }
 
     /**
@@ -82,7 +95,8 @@ export class DoodleJumpEngine extends GameEngine {
             ...fetchCurrentUserData(),
             doodleJump: { highScore: this.highScore },
         });
-
+        const gameOverSound = this.assets.getAudio('game_over');
+        gameOverSound.play();
         this.addEntity(new TextEntity('GAME OVER', this.canvas.width / 2 - 50, this.canvas.height / 2));
     }
 
