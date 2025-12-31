@@ -2,8 +2,8 @@
 import FoodEntity from './FoodEntity.js';
 import Player from './Player.js';
 import SnakeGameEngine from './SnakeGameEngine.js';
-import ButtonEntity from '../../../js/engine/ButtonEntity.js';
-import Vector from '../../../js/engine/Vector.js';
+import ScoreEntity from './ScoreEntity.js';
+import BackgroundEntity from './bgEntity.js';
 
 /** @type {SnakeGameEngine} */
 let engine;
@@ -34,8 +34,10 @@ export function startGame(canvas) {
         // window.removeEventListener('resize', resizeListener);
     });
 
+    engine.addEntity(new BackgroundEntity());
     engine.addEntity(new FoodEntity());
     engine.addEntity(new Player(engine));
+    engine.addEntity(new ScoreEntity());
     engine.start();
 }
 

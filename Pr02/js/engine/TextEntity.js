@@ -9,12 +9,14 @@ export default class TextEntity extends Entity {
      * @param {string} text
      * @param {number} x
      * @param {number} y
+     * @param {'left'|'center'|'right'} alignment
      */
-    constructor(text, x, y) {
+    constructor(text, x, y, alignment = 'center') {
         super();
         this.text = text;
         this.x = x;
         this.y = y;
+        this.alignment = alignment;
     }
     /**
      * @param {CanvasRenderingContext2D} ctx
@@ -22,7 +24,7 @@ export default class TextEntity extends Entity {
     render(ctx) {
         ctx.fillStyle = 'black';
         ctx.font = '20px Arial';
-        ctx.textAlign = 'center';
+        ctx.textAlign = this.alignment;
         ctx.fillText(this.text, this.x, this.y);
     }
 }

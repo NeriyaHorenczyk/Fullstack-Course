@@ -71,6 +71,7 @@ export default class SnakeGameEngine extends GameEngine {
 
                             // Add a fresh player
                             this.addEntity(new Player(this));
+                            this.score = 0;
                         }
                     )
                 );
