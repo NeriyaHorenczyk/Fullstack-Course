@@ -3,7 +3,7 @@ import { Entity } from '../../../js/engine/Entity.js';
 import { GameEngine } from '../../../js/engine/GameEngine.js';
 import Vector from '../../../js/engine/Vector.js';
 import FoodEntity from './FoodEntity.js';
-import ButtonEntity from '../../../js/engine/ButtonEntity.js';
+import SnakeGameEngine from './SnakeGameEngine.js';
 
 export default class Player extends Entity {
     type = 'player';
@@ -88,7 +88,7 @@ export default class Player extends Entity {
     /**
      * Handles collision with another entity.
      * @param {Entity} other - The other entity involved in the collision.
-     * @param {GameEngine} gameEngine - The game engine instance.
+     * @param {SnakeGameEngine} gameEngine - The game engine instance.
      */
     onCollision(other, gameEngine) {
         if (other instanceof FoodEntity) {
@@ -97,6 +97,7 @@ export default class Player extends Entity {
             this.hasEaten = true;
             gameEngine.removeEntity(other);
             this.growthPending += other.value; // Increase growth pending based on food value
+            gameEngine.score += food.value;
         }
     }
 

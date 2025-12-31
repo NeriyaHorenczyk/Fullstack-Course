@@ -1,5 +1,6 @@
 // @ts-check
 
+import { fetchCurrentUserData, storeCurrentUserData } from '../../../js/auth/userdata.js';
 import ButtonEntity from '../../../js/engine/ButtonEntity.js';
 import { GameEngine } from '../../../js/engine/GameEngine.js';
 import TextEntity from '../../../js/engine/TextEntity.js';
@@ -9,11 +10,28 @@ import Player from './Player.js';
 
 export default class SnakeGameEngine extends GameEngine {
     /**
+     * @param {HTMLCanvasElement} canvas
+     * @param {boolean} [debug=false]
+     */
+    constructor(canvas, debug = false) {
+        super(canvas, debug);
+        const userData = fetchCurrentUserData() || {};
+        this.highScore = userData.snake?.highScore || 0;
+        this.score = 0;
+    }
+    /**
      *
      * @param {number} deltaTime
      */
     update(deltaTime) {
         super.update(deltaTime);
+        if (this.score > this.highScore) {
+            this.highScore = this.score;
+            storeCurrentUserData({
+                ...fetchCurrentUserData(),
+                snake: { highScore: this.highScore },
+            });
+        }
 
         // Find the player (snake)
         const player = this.entities.find((e) => e instanceof Player);
