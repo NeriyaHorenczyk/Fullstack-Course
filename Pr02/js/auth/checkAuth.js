@@ -1,6 +1,6 @@
 // When this script is loaded, check if the user is authenticated
 
-import { fetchUserData, storeUserData } from './userdata.js';
+import { fetchUserData, getCurrentUser, storeUserData } from './userdata.js';
 
 function redirectToLogin() {
     window.location.href = '/login.html';
@@ -8,7 +8,7 @@ function redirectToLogin() {
 
 function checkAuth() {
     // Check localStorage for authentication token or user info
-    const authenticatedUser = localStorage.getItem('currentUser');
+    const authenticatedUser = getCurrentUser();
     if (!authenticatedUser) {
         redirectToLogin();
         return;

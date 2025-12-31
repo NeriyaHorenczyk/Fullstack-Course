@@ -29,7 +29,8 @@
             });
 
             function logout() {
-                localStorage.removeItem('currentUser');
+                // clear user cookie and localStorage
+                document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
                 location.href = '/login.html';
             }
 
@@ -65,11 +66,12 @@
 
         <script type="module">
             import { launchGame } from './js/pages/home.js';
+            import { getCurrentUser } from './js/auth/userdata.js';
 
             document.addEventListener('DOMContentLoaded', () => {
                 const welcomeEl = document.getElementById('welcome-message');
 
-                const currentUser = localStorage.getItem('currentUser');
+                const currentUser = getCurrentUser();
                 if (currentUser && welcomeEl) {
                     welcomeEl.textContent = `✨ Welcome, ${currentUser}! ✨`;
                 }

@@ -25,11 +25,12 @@ export function startGame(canvas) {
     gameEngine.addEntity(player);
 
     // Put down the initial platforms. They will be the same every time.
-    const platforms = [new Platform(50, canvas.height - 100, 'standard')];
-    platforms.forEach((platform) => gameEngine.addEntity(platform));
+    const platform = new Platform(50, canvas.height - 100, 'standard');
+    player.position = platform.position.subtract(new Vector(0, 100));
+    gameEngine.addEntity(platform);
     // Put the player above the first platform
-    player.position = platforms[0].position.subtract(new Vector(0, 100));
     gameEngine.onTick(() => {
+        const platforms = gameEngine.entities.filter((e) => e instanceof Platform);
         platforms.forEach((platform, index) => {
             if (platform.position.y - gameEngine.cameraOffset.y > canvas.height) {
                 gameEngine.removeEntity(platform);

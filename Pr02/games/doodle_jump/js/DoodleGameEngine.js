@@ -2,8 +2,14 @@
 
 import { fetchCurrentUserData, storeCurrentUserData } from '../../../js/auth/userdata.js';
 import { AssetLoader } from '../../../js/engine/AssetLoader.js';
+import ButtonEntity from '../../../js/engine/ButtonEntity.js';
 import { GameEngine } from '../../../js/engine/GameEngine.js';
 import TextEntity from '../../../js/engine/TextEntity.js';
+import Vector from '../../../js/engine/Vector.js';
+import Wallpaper from './Background.js';
+import Header from './Header.js';
+import Platform from './Platform.js';
+import Player from './Player.js';
 /**
  * Doodle Jump–specific game engine.
  *
@@ -28,6 +34,27 @@ export class DoodleJumpEngine extends GameEngine {
         this.highScore = userData.doodleJump?.highScore || 0;
         this.score = 0;
         this.assets = new AssetLoader('games/doodle_jump/assets/');
+    }
+
+    reset() {
+        this.gameIsOver = false;
+        this.score = 0;
+        for (const entity of this.entities) {
+            this.removeEntity(entity);
+        }
+
+        const player = new Player('../games/doodle_jump/assets/player');
+        const bg = new Wallpaper();
+        const header = new Header();
+
+        this.addEntity(bg); // Background should be added first to render behind other entities
+        this.addEntity(header);
+        this.addEntity(player);
+
+        // Put down the initial platforms. They will be the same every time.
+        const platform = new Platform(50, this.canvas.height - 100, 'standard');
+        player.position = platform.position.subtract(new Vector(0, 100));
+        this.addEntity(platform);
     }
 
     async initEngine() {
@@ -98,6 +125,14 @@ export class DoodleJumpEngine extends GameEngine {
         const gameOverSound = this.assets.getAudio('game_over');
         gameOverSound.play();
         this.addEntity(new TextEntity('GAME OVER', this.canvas.width / 2 - 50, this.canvas.height / 2));
+        this.addEntity(
+            new ButtonEntity(
+                'Restart',
+                new Vector(this.canvas.width / 2 - 50, this.canvas.height / 2 + 40),
+                new Vector(100, 30),
+                () => this.reset()
+            )
+        );
     }
 
     /**

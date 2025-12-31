@@ -1,6 +1,6 @@
 // @ts-check
 import { hashCredentials } from './utils.js';
-import { storeUserData, fetchUserData } from './userdata.js';
+import { storeUserData, fetchUserData, setUsernameCookie } from './userdata.js';
 /**
  * Logs in a user by verifying their credentials against stored data.
  * @param {string} username
@@ -15,5 +15,5 @@ export default async function login(username, password, rememberMe = false) {
     }
     userData.tokenExpiry = Date.now() + 60 * 60 * 1000; // 1 hour from now
     storeUserData(username, userData);
-    localStorage.setItem('currentUser', username);
+    setUsernameCookie(username);
 }

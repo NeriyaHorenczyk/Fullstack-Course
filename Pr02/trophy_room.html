@@ -53,7 +53,7 @@
         </footer>
 
         <script type="module">
-            import { fetchCurrentUserData } from './js/auth/userdata.js';
+            import { fetchCurrentUserData, getCurrentUser } from './js/auth/userdata.js';
 
             const GAMES = [
                 { id: 'brickBreaker', name: 'Brick Breaker' },
@@ -61,7 +61,7 @@
                 { id: 'snake', name: 'Worm' },
             ];
 
-            const username = localStorage.getItem('currentUser');
+            const username = getCurrentUser();
             const scoresList = document.getElementById('scores-list');
             const emptyCta = document.getElementById('empty-cta');
             const usernameDisplay = document.getElementById('username-display');
