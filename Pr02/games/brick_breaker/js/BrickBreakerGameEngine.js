@@ -22,7 +22,7 @@ export class BrickBreakerGameEngine extends GameEngine {
         super(canvas);
         this.score = 0;
         this.lives = 3;
-        this.level = 4;
+        this.level = 1;
         this.gameOver = false;
         const userData = fetchCurrentUserData() || {};
         this.highScore = userData.brickBreaker?.highScore || 0;

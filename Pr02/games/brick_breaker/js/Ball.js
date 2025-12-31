@@ -69,11 +69,13 @@ export class Ball extends Entity {
                 this.velocity.y *= -1;
             }
 
+            // Floor collision (Death)
             if (this.position.y > gameEngine.canvas.height) {
-                // bounce back from bottom for now
-                this.position.y = gameEngine.canvas.height - this.size.y;
-                this.velocity.y *= -1;
-                // In a full game, you'd handle life loss or game over here
+                // Die
+                gameEngine.lives--;
+                if (gameEngine.lives > 0) {
+                    this.stuckToPaddle = true;
+                }
             }
         }
     }
