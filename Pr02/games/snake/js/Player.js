@@ -98,6 +98,9 @@ export default class Player extends Entity {
             gameEngine.removeEntity(other);
             this.growthPending += other.value; // Increase growth pending based on food value
             gameEngine.score += food.value;
+            const soundName = 'yum_' + (Math.floor(Math.random() * 3) + 1).toString();
+            const sound = gameEngine.assets.getAudio(soundName);
+            sound.play();
         }
     }
 

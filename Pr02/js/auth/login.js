@@ -7,7 +7,7 @@ import { storeUserData, fetchUserData } from './userdata.js';
  * @param {string} password
  */
 export default async function login(username, password, rememberMe = false) {
-    const hashedCreds = hashCredentials(username, password);
+    const hashedCreds = await hashCredentials(username, password);
     // Check if the hashed credentials exist as a key in localStorage
     const userData = fetchUserData(username);
     if (!userData || !userData.hashedCreds || userData.hashedCreds !== hashedCreds) {
