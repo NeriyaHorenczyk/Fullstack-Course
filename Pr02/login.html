@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Login</title>
+        <link rel="stylesheet" href="css/login-style.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+    </head>
+
+    <body>
+        <div class="login-container">
+            <div class="login-box">
+                <h1 class="pixel-title">LOGIN</h1>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="email">Email or Username</label>
+                        <input
+                            type="text"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email or username"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox">
+                            <input type="checkbox" name="remember" />
+                            Remember me
+                        </label>
+                        <a href="#" class="forgot-password">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="login-btn">Login</button>
+                </form>
+
+                <div class="signup-link">Don't have an account? <a href="signup.html">Sign up here</a></div>
+            </div>
+        </div>
+        <script type="module">
+            import login from './js/auth/login.js';
+            const loginForm = document.getElementById('login-form');
+            loginForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                try {
+                    await login(email, password);
+                    window.location.href = 'home.html';
+                } catch (error) {
+                    alert(`Login failed: ${error.message}`);
+                }
+            });
+        </script>
+    </body>
+</html>
