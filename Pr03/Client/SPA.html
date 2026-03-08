@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Manager</title>
+  <link rel="stylesheet" href="client.css" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════════════
+       LOADER — shown during network calls
+  ══════════════════════════════════════════════════════════ -->
+  <div id="loader" class="loader hidden">
+    <div class="loader-spinner"></div>
+    <p id="loader-message">Loading...</p>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       TOAST — success/error popup messages
+  ══════════════════════════════════════════════════════════ -->
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- ══════════════════════════════════════════════════════
+       PAGE: LOGIN
+  ══════════════════════════════════════════════════════════ -->
+  <section id="page-login" class="page">
+    <div class="auth-box">
+      <h1>Contact Manager</h1>
+      <h2>Sign in</h2>
+
+      <form id="login-form" novalidate>
+        <div class="field">
+          <label for="login-username">Username</label>
+          <input type="text" id="login-username" placeholder="your_username" />
+          <span class="field-error" id="login-username-err"></span>
+        </div>
+        <div class="field">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="••••••••" />
+          <span class="field-error" id="login-password-err"></span>
+        </div>
+        <span class="field-error form-error" id="login-form-err"></span>
+        <button type="submit" id="login-btn">Sign in</button>
+      </form>
+
+      <p>No account? <a href="#" id="go-register">Register here</a></p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       PAGE: REGISTER
+  ══════════════════════════════════════════════════════════ -->
+  <section id="page-register" class="page">
+    <div class="auth-box">
+      <h1>Contact Manager</h1>
+      <h2>Create account</h2>
+
+      <form id="register-form" novalidate>
+        <div class="field">
+          <label for="reg-username">Username</label>
+          <input type="text" id="reg-username" placeholder="choose_a_username" />
+          <span class="field-error" id="reg-username-err"></span>
+        </div>
+        <div class="field">
+          <label for="reg-email">Email</label>
+          <input type="email" id="reg-email" placeholder="you@example.com" />
+          <span class="field-error" id="reg-email-err"></span>
+        </div>
+        <div class="field">
+          <label for="reg-password">Password</label>
+          <input type="password" id="reg-password" placeholder="at least 6 characters" />
+          <span class="field-error" id="reg-password-err"></span>
+        </div>
+        <div class="field">
+          <label for="reg-confirm">Confirm password</label>
+          <input type="password" id="reg-confirm" placeholder="repeat password" />
+          <span class="field-error" id="reg-confirm-err"></span>
+        </div>
+        <span class="field-error form-error" id="reg-form-err"></span>
+        <button type="submit" id="register-btn">Create account</button>
+      </form>
+
+      <p>Already have an account? <a href="#" id="go-login">Sign in</a></p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       PAGE: APP (main contacts view)
+  ══════════════════════════════════════════════════════════ -->
+  <section id="page-app" class="page">
+
+    <!-- Top navigation bar -->
+    <header class="app-header">
+      <span class="app-title">📒 Contacts</span>
+      <span id="welcome-msg" class="welcome-msg"></span>
+      <button id="logout-btn">Sign out</button>
+    </header>
+
+    <div class="app-body">
+
+      <!-- ── LEFT SIDEBAR: contact list ─────────────────── -->
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <input type="search" id="search-input" placeholder="Search..." />
+          <button id="add-btn">+ New</button>
+        </div>
+
+        <ul id="contacts-ul" class="contacts-ul"></ul>
+        <p id="list-empty" class="list-empty hidden">No contacts yet. Add one!</p>
+      </aside>
+
+      <!-- ── RIGHT PANEL: detail / form ─────────────────── -->
+      <main class="detail-panel">
+
+        <!-- State 1: nothing selected -->
+        <div id="detail-empty" class="detail-empty">
+          <p>👤</p>
+          <p>Select a contact or create a new one</p>
+        </div>
+
+        <!-- State 2: viewing a contact -->
+        <div id="detail-view" class="detail-view hidden">
+          <div class="detail-header">
+            <div class="detail-avatar" id="view-avatar"></div>
+            <h2 id="view-name"></h2>
+          </div>
+          <div class="detail-fields">
+            <div class="detail-row">
+              <span class="detail-label">Email</span>
+              <span id="view-email"></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Phone</span>
+              <span id="view-phone"></span>
+            </div>
+          </div>
+          <div class="detail-actions">
+            <button id="edit-btn">Edit</button>
+            <button id="delete-btn" class="btn-danger">Delete</button>
+          </div>
+        </div>
+
+        <!-- State 3: add / edit form -->
+        <div id="detail-form" class="detail-form hidden">
+          <h3 id="form-title">New Contact</h3>
+          <form id="contact-form" novalidate>
+            <input type="hidden" id="cf-id" />
+            <div class="field">
+              <label for="cf-firstname">First name *</label>
+              <input type="text" id="cf-firstname" placeholder="Jane" />
+              <span class="field-error" id="cf-firstname-err"></span>
+            </div>
+            <div class="field">
+              <label for="cf-lastname">Last name *</label>
+              <input type="text" id="cf-lastname" placeholder="Doe" />
+              <span class="field-error" id="cf-lastname-err"></span>
+            </div>
+            <div class="field">
+              <label for="cf-email">Email *</label>
+              <input type="email" id="cf-email" placeholder="jane@example.com" />
+              <span class="field-error" id="cf-email-err"></span>
+            </div>
+            <div class="field">
+              <label for="cf-phone">Phone</label>
+              <input type="tel" id="cf-phone" placeholder="050-0000000" />
+            </div>
+            <span class="field-error form-error" id="cf-form-err"></span>
+            <div class="detail-actions">
+              <button type="submit" id="save-btn">Save</button>
+              <button type="button" id="cancel-btn">Cancel</button>
+            </div>
+          </form>
+        </div>
+
+      </main>
+    </div>
+  </section>
+
+  <script src="network.js"></script>
+  <script src="fajax.js"></script>
+  <script src="../Server/db-users.js"></script>
+  <script src="../Server/db-contacts.js"></script>
+  <script src="../Server/server-auth.js"></script>
+  <script src="../Server/server-data.js"></script>
+  <script src="client.js"></script>
+
+</body>
+</html>
