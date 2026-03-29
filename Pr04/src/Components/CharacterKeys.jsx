@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import styles from './CharacterKeys.module.css'
+import styles from './CSS/CharacterKeys.module.css'
 import { characters } from '../Data/Characters'
 import Key from './Key'
 

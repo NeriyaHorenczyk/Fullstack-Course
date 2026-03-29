@@ -1,5 +1,5 @@
 
-import styles from './Key.module.css'
+import styles from './CSS/Key.module.css'
 
 function Key({label, onClick, isSelected = false}) {
     return ( 

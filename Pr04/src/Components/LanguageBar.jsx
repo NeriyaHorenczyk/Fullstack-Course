@@ -1,5 +1,5 @@
 import Key from './Key'
-import styles from './LanguageBar.module.css'
+import styles from './CSS/LanguageBar.module.css'
 
 function LanguageBar({language, setLanguage}) {
     return (
