@@ -1,15 +1,19 @@
 import { useState } from 'react'
+import Keyboard from './Components/Keyboard.jsx'
+import Display from './Components/Display.jsx'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [text, setText] = useState('')
+  const [history, setHistory] = useState([])
+  const [language, setLanguage] = useState("Hebrew")
+
+  
 
   return (
     <div className='app'>
-      <p>{count}</p>
-      <button onClick={()=> setCount(count - 1)}>Decrement</button>
-      <button onClick={()=> setCount(0)}>Reset</button>
-      <button onClick={()=> setCount(count + 1)}>Increment</button>
+      <Display text={text} />
+      <Keyboard language={language} setLanguage={setLanguage} text={text} setText={setText} history={history} setHistory={setHistory} />
     </div>
   )
 }

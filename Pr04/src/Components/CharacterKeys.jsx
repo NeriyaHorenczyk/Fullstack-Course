@@ -17,6 +17,7 @@ function CharacterKeys({language="Hebrew", text, setText}) {
 
             {/* Number / Special row */}
             <div className={styles.row}>
+                <Key label={isSpecial ? "123" : "!@#"} onClick={() => setIsSpecial(!isSpecial)} isSelected={isSpecial} />
                 {numberRow.map((char, index) => (
                     <Key key={index} label={char} onClick={() => setText(text + char)} />
                 ))}
@@ -31,12 +32,18 @@ function CharacterKeys({language="Hebrew", text, setText}) {
                 </div>
             ))}
 
-            {/* Control keys row */}
+            {/* Space bar row */}
             <div className={styles.row}>
                 {language !== "Hebrew" && (
                     <Key label="Caps" onClick={() => setIsCaps(!isCaps)} isSelected={isCaps} />
                 )}
-                <Key label={isSpecial ? "123" : "!@#"} onClick={() => setIsSpecial(!isSpecial)} isSelected={isSpecial} />
+            <Key label="Space" onClick={() => setText(text + ' ')} className={styles.spaceBar}/>
+            </div>
+
+            {/* Control keys row */}
+            <div className={styles.row}>
+                
+                
             </div>
 
         </section>

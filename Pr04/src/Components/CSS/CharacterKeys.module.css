@@ -14,3 +14,7 @@
     justify-content: center;
     gap: 6px;
 }
+
+.spaceBar {
+    width: 400px;
+}
