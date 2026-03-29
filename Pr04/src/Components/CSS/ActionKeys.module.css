@@ -1,0 +1,7 @@
+.actionKeys {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px;
+}
