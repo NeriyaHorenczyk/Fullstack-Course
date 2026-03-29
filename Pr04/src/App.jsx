@@ -8,7 +8,7 @@ function App() {
   const [history, setHistory] = useState([])
   const [language, setLanguage] = useState("Hebrew")
 
-  
+  console.log('history:', history)
 
   return (
     <div className='app'>

@@ -4,14 +4,15 @@ import { characters } from '../Data/Characters'
 import Key from './Key'
 
 
-function CharacterKeys({language="Hebrew", text, setText}) {
+function CharacterKeys({language="Hebrew", text, setText, history = [], setHistory}) {
 
     const [isCaps, setIsCaps] = useState(false);
     const [isSpecial, setIsSpecial] = useState(false);
 
     const letterRows = characters[language][isCaps && characters[language].secondary ? "secondary" : "primary"]
     const numberRow = isSpecial ? characters[language].special : characters[language].numbers
-    
+    console.log('setHistory:', setHistory)
+console.log('history:', history)
     return (
         <section className={styles.characterKeys}>
 
@@ -19,7 +20,7 @@ function CharacterKeys({language="Hebrew", text, setText}) {
             <div className={styles.row}>
                 <Key label={isSpecial ? "123" : "!@#"} onClick={() => setIsSpecial(!isSpecial)} isSelected={isSpecial} />
                 {numberRow.map((char, index) => (
-                    <Key key={index} label={char} onClick={() => setText(text + char)} />
+                    <Key key={index} label={char} onClick={() =>{ setHistory([...history, text]); setText(text + char);  }} />
                 ))}
             </div>
 
@@ -27,7 +28,7 @@ function CharacterKeys({language="Hebrew", text, setText}) {
             {letterRows.map((row, rowIndex) => (
                 <div className={styles.row} key={rowIndex}>
                     {row.map((char, charIndex) => (
-                        <Key key={charIndex} label={char} onClick={() => setText(text + char)} />
+                        <Key key={charIndex} label={char} onClick={() =>{ setHistory([...history, text]); setText(text + char);  }} />
                     ))}
                 </div>
             ))}
@@ -37,7 +38,7 @@ function CharacterKeys({language="Hebrew", text, setText}) {
                 {language !== "Hebrew" && (
                     <Key label="Caps" onClick={() => setIsCaps(!isCaps)} isSelected={isCaps} />
                 )}
-            <Key label="Space" onClick={() => setText(text + ' ')} className={styles.spaceBar}/>
+            <Key label="Space" onClick={() => { setHistory([...history, text]); setText(text + ' '); }} className={styles.spaceBar}/>
             </div>
 
             {/* Control keys row */}
