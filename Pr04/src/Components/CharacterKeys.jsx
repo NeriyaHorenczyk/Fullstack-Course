@@ -19,8 +19,7 @@ function CharacterKeys({language="Hebrew", text, setText, history, setHistory}) 
             <div className={styles.row}>
                 <Key 
                 label={isSpecial ? "123" : "!@#"} 
-                onClick={() => setIsSpecial(!isSpecial)} 
-                isSelected={isSpecial} 
+                onClick={() => setIsSpecial(!isSpecial)}
                 />
 
                 {numberRow.map((char, index) => (
@@ -64,7 +63,7 @@ function CharacterKeys({language="Hebrew", text, setText, history, setHistory}) 
             label="Space" 
             onClick={() => { 
                 setHistory([...history, text]); 
-                setText(prev => prev + ' '); }} 
+                setText(text + ' '); }} 
                 className={styles.spaceBar}
                 />
             </div>
