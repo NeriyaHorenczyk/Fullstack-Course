@@ -9,4 +9,7 @@
     line-height: 1.6;
     word-wrap: break-word;
     overflow-y: auto;
+    
+    /* Preserve whitespace and line breaks */
+    white-space: pre-wrap;
 }

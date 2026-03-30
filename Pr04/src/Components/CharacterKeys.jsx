@@ -64,7 +64,7 @@ function CharacterKeys({language="Hebrew", text, setText, history, setHistory}) 
             label="Space" 
             onClick={() => { 
                 setHistory([...history, text]); 
-                setText(text + ' '); }} 
+                setText(prev => prev + ' '); }} 
                 className={styles.spaceBar}
                 />
             </div>
