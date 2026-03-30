@@ -12,8 +12,16 @@ function App() {
 
   return (
     <div className='app'>
-      <Display text={text} />
-      <Keyboard language={language} setLanguage={setLanguage} text={text} setText={setText} history={history} setHistory={setHistory} />
+      <Display 
+      text={text} 
+      />
+      
+      <Keyboard 
+      language={language} setLanguage={setLanguage} 
+      text={text} setText={setText} 
+      history={history} setHistory={setHistory} 
+      />
+
     </div>
   )
 }
