@@ -1,6 +1,7 @@
 import styles from './CSS/Keyboard.module.css'
 import LanguageBar from './LanguageBar'
 import CharacterKeys from './CharacterKeys'
+import NavigationKeys from './NavigationKeys'
 import ActionKeys from './ActionKeys'
 
 
@@ -15,6 +16,11 @@ function Keyboard({language, setLanguage, text, setText, history, setHistory, cu
             language={language}
             text={text} setText={setText}
             history={history} setHistory={setHistory}
+            cursorPos={cursorPos} setCursorPos={setCursorPos}
+            />
+
+            <NavigationKeys
+            text={text}
             cursorPos={cursorPos} setCursorPos={setCursorPos}
             />
 
