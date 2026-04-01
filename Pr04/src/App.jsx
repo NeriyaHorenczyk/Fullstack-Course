@@ -7,19 +7,24 @@ function App() {
   const [text, setText] = useState('')
   const [history, setHistory] = useState([])
   const [language, setLanguage] = useState("Hebrew")
+  const [cursorPos, setCursorPos] = useState(0)
+  
 
   console.log('history:', history)
 
   return (
     <div className='app'>
-      <Display 
-      text={text} 
+      <Display
+      text={text}
+      cursorPos={cursorPos}
+      language={language}
       />
       
       <Keyboard 
       language={language} setLanguage={setLanguage} 
       text={text} setText={setText} 
-      history={history} setHistory={setHistory} 
+      history={history} setHistory={setHistory}
+      cursorPos={cursorPos} setCursorPos={setCursorPos} 
       />
 
     </div>

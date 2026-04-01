@@ -4,22 +4,24 @@ import CharacterKeys from './CharacterKeys'
 import ActionKeys from './ActionKeys'
 
 
-function Keyboard({language, setLanguage, text, setText, history, setHistory}) {
-    return ( 
+function Keyboard({language, setLanguage, text, setText, history, setHistory, cursorPos, setCursorPos}) {
+    return (
         <section className={styles.keyboard}>
-            <LanguageBar 
-            language={language} setLanguage={setLanguage} 
-            />
-            
-            <CharacterKeys 
-            language={language} 
-            text={text} setText={setText} 
-            history={history} setHistory={setHistory} 
+            <LanguageBar
+            language={language} setLanguage={setLanguage}
             />
 
-            <ActionKeys 
-            text={text} setText={setText} 
-            history={history} setHistory={setHistory} 
+            <CharacterKeys
+            language={language}
+            text={text} setText={setText}
+            history={history} setHistory={setHistory}
+            cursorPos={cursorPos} setCursorPos={setCursorPos}
+            />
+
+            <ActionKeys
+            text={text} setText={setText}
+            history={history} setHistory={setHistory}
+            cursorPos={cursorPos} setCursorPos={setCursorPos}
             />
         </section>
      );

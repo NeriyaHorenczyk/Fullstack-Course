@@ -5,7 +5,13 @@ import Key from './Key'
 import { MdKeyboardReturn } from 'react-icons/md';
 
 
-function CharacterKeys({language="Hebrew", text, setText, history, setHistory}) {
+function CharacterKeys({language="Hebrew", text, setText, history, setHistory, cursorPos, setCursorPos}) {
+
+    const insertAtCursor = (char) => {
+        setHistory([...history, text]);
+        setText(text.slice(0, cursorPos) + char + text.slice(cursorPos));
+        setCursorPos(cursorPos + char.length);
+    };
 
     const [isCaps, setIsCaps] = useState(false);
     const [isSpecial, setIsSpecial] = useState(false);
@@ -24,13 +30,10 @@ function CharacterKeys({language="Hebrew", text, setText, history, setHistory}) 
                 />
 
                 {numberRow.map((char, index) => (
-                    <Key 
-                    key={index} 
-                    label={char} 
-                    onClick={() =>{ 
-                        setHistory([...history, text]); 
-                        setText(text + char);  
-                    }} 
+                    <Key
+                    key={index}
+                    label={char}
+                    onClick={() => insertAtCursor(char)}
                     />
                 ))}
             </div>
@@ -39,13 +42,10 @@ function CharacterKeys({language="Hebrew", text, setText, history, setHistory}) 
             {letterRows.map((row, rowIndex) => (
                 <div className={styles.row} key={rowIndex}>
                     {row.map((char, charIndex) => (
-                        <Key 
-                        key={charIndex} 
-                        label={char} 
-                        onClick={() =>{ 
-                            setHistory([...history, text]); 
-                            setText(text + char);  
-                        }} 
+                        <Key
+                        key={charIndex}
+                        label={char}
+                        onClick={() => insertAtCursor(char)}
                         />
                     ))}
                 </div>
@@ -60,20 +60,16 @@ function CharacterKeys({language="Hebrew", text, setText, history, setHistory}) 
                     isSelected={isCaps} 
                     />
                 )}
-            <Key 
-            label="Space" 
-            onClick={() => { 
-                setHistory([...history, text]); 
-                setText(text + ' '); }} 
-                className={styles.spaceBar}
-                />
+            <Key
+            label="Space"
+            onClick={() => insertAtCursor(' ')}
+            className={styles.spaceBar}
+            />
 
-            <Key 
-            label={<MdKeyboardReturn />} 
-            onClick={() => { 
-                setHistory([...history, text]); 
-                setText(text + "\n"); 
-                }} />
+            <Key
+            label={<MdKeyboardReturn />}
+            onClick={() => insertAtCursor("\n")}
+            />
             </div>
 
             {/* Control keys row */}
