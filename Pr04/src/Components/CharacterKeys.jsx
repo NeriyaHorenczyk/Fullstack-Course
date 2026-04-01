@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import styles from './CSS/CharacterKeys.module.css'
 import { characters } from '../Data/Characters'
 import Key from './Key'
+import { MdKeyboardReturn } from 'react-icons/md';
 
 
 function CharacterKeys({language="Hebrew", text, setText, history, setHistory}) {
@@ -66,6 +67,13 @@ function CharacterKeys({language="Hebrew", text, setText, history, setHistory}) 
                 setText(text + ' '); }} 
                 className={styles.spaceBar}
                 />
+
+            <Key 
+            label={<MdKeyboardReturn />} 
+            onClick={() => { 
+                setHistory([...history, text]); 
+                setText(text + "\n"); 
+                }} />
             </div>
 
             {/* Control keys row */}
