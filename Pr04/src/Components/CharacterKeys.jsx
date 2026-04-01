@@ -53,11 +53,11 @@ function CharacterKeys({language="Hebrew", text, setText, history, setHistory, c
 
             {/* Space bar row */}
             <div className={styles.row}>
-                {language !== "Hebrew" && (
-                    <Key 
-                    label="Caps" 
-                    onClick={() => setIsCaps(!isCaps)} 
-                    isSelected={isCaps} 
+                {language !== "Hebrew" && language !== "Emoji" && (
+                    <Key
+                    label="Caps"
+                    onClick={() => setIsCaps(!isCaps)}
+                    isSelected={isCaps}
                     />
                 )}
             <Key

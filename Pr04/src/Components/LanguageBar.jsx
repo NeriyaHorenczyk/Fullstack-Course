@@ -16,10 +16,16 @@ function LanguageBar({language, setLanguage}) {
             isSelected={language==="English"} 
             />
             
-            <Key 
-            label="French" 
-            onClick={() => setLanguage("French")} 
-            isSelected={language==="French"} 
+            <Key
+            label="French"
+            onClick={() => setLanguage("French")}
+            isSelected={language==="French"}
+            />
+
+            <Key
+            label="😀"
+            onClick={() => setLanguage("Emoji")}
+            isSelected={language==="Emoji"}
             />
         </section>
       );

@@ -10,7 +10,7 @@ const englishUpper = [
 ]
 const hebrewLetters = [
     ['/',"'",'ק','ר','א','ט','ו','ן','ם','פ','[',']'],
-    ['ש','ד','ג','כ','ע','י','ח','ל','ך', ';',"'"],
+    ['ש','ד','ג','כ','ע','י','ח','ל','ך', 'ף',"'"],
     ['ז','ס','ב','ה','נ','מ','צ','ת','ץ','.']
     ]
 
@@ -19,17 +19,29 @@ const hebrewLetters = [
 const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 const special =  ['!','@','#','$','%','^','&','*','(',')'];
 
+const emojiSmileys = ['😀','😂','😍','🤣','😊','😭','😘','🤔','😎','😴','🥳','🤯']
+const emojiAnimals = ['🐶','🐱','🐭','🐰','🦊','🐻','🐼','🐨','🐯','🐸','🐙','🦋']
+const emojiFood    = ['🍕','🍔','🌮','🍜','🍣','🍦','🎂','☕','🍺','🍓','🥑','🌽']
+const emojiObjects = ['⚽','🎸','🎮','📱','💻','🎈','🎉','❤️','⭐','🔥','💡','🎁']
+const emojiExtra   = ['👍','👎','👏','🙌','🤝','💪','👀','🧠','💀','👻','🤖','👽']
+const emojiSymbols = ['✅','❌','⚠️','💯','🔴','🟢','🔵','🟡','🔑','🔒','💰','📌']
+
 export const characters = {
-    English: { 
-        primary: englishLower, 
+    English: {
+        primary: englishLower,
         secondary: englishUpper,
         numbers: numbers,
         special: special
     },
-    Hebrew: { 
+    Hebrew: {
         primary: hebrewLetters,
         numbers: numbers,
         special: special
+    },
+    Emoji: {
+        primary: [emojiSmileys, emojiAnimals, emojiFood, emojiObjects],
+        numbers: emojiExtra,
+        special: emojiSymbols
     }
 
     //TODO: Add French characters
