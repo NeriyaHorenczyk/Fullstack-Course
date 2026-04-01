@@ -1,0 +1,37 @@
+.styleControls {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: 12px;
+    background-color: #b0b7c3;
+    border-radius: 16px;
+    min-width: 80px;
+}
+
+.label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #374151;
+    text-align: center;
+    margin-top: 4px;
+}
+
+.select {
+    padding: 4px 6px;
+    border-radius: 8px;
+    border: none;
+    background-color: #e5e7eb;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.colorPicker {
+    width: 100%;
+    height: 36px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 2px;
+    background-color: #e5e7eb;
+}

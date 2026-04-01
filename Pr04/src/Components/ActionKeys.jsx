@@ -13,24 +13,27 @@ function ActionKeys({text, setText, history, setHistory, cursorPos, setCursorPos
             onClick={() => {
                 if (cursorPos === 0) return;
                 setHistory([...history, text]);
-                setText(text.slice(0, cursorPos - 1) + text.slice(cursorPos));
+                setText([...text.slice(0, cursorPos - 1), ...text.slice(cursorPos)]);
                 setCursorPos(cursorPos - 1);
                 }} />
 
             <Key
             label="Delete Word"
             onClick={() => {
+                const str = text.map(c => c.char).join('');
+                const trimmed = str.trimEnd();
+                const lastSpace = trimmed.lastIndexOf(' ');
+                const newLength = lastSpace === -1 ? 0 : lastSpace + 1;
                 setHistory([...history, text]);
-                const newText = text.trim().split(" ").slice(0, -1).join(" ") + " ";
-                setText(newText);
-                setCursorPos(newText.length);
+                setText(text.slice(0, newLength));
+                setCursorPos(newLength);
                 }} />
 
             <Key
             label={<MdDelete />}
             onClick={() => {
                 setHistory([...history, text]);
-                setText("");
+                setText([]);
                 setCursorPos(0);
                 }} />
 
@@ -43,7 +46,7 @@ function ActionKeys({text, setText, history, setHistory, cursorPos, setCursorPos
                 setCursorPos(prev.length);
                 setHistory(history.slice(0, -1));
                 }} />
-                
+
         </section>
      );
 }

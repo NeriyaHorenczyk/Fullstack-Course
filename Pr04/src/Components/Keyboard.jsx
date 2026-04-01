@@ -5,7 +5,7 @@ import NavigationKeys from './NavigationKeys'
 import ActionKeys from './ActionKeys'
 
 
-function Keyboard({language, setLanguage, text, setText, history, setHistory, cursorPos, setCursorPos}) {
+function Keyboard({language, setLanguage, text, setText, history, setHistory, cursorPos, setCursorPos, currentStyle}) {
     return (
         <section className={styles.keyboard}>
             <LanguageBar
@@ -17,6 +17,7 @@ function Keyboard({language, setLanguage, text, setText, history, setHistory, cu
             text={text} setText={setText}
             history={history} setHistory={setHistory}
             cursorPos={cursorPos} setCursorPos={setCursorPos}
+            currentStyle={currentStyle}
             />
 
             <NavigationKeys

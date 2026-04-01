@@ -5,12 +5,17 @@ import Key from './Key'
 import { MdKeyboardReturn } from 'react-icons/md';
 
 
-function CharacterKeys({language="Hebrew", text, setText, history, setHistory, cursorPos, setCursorPos}) {
+function CharacterKeys({language="Hebrew", text, setText, history, setHistory, cursorPos, setCursorPos, currentStyle}) {
 
     const insertAtCursor = (char) => {
         setHistory([...history, text]);
-        setText(text.slice(0, cursorPos) + char + text.slice(cursorPos));
-        setCursorPos(cursorPos + char.length);
+        const newText = [
+            ...text.slice(0, cursorPos),
+            { char, style: { ...currentStyle } },
+            ...text.slice(cursorPos)
+        ];
+        setText(newText);
+        setCursorPos(cursorPos + 1);
     };
 
     const [isCaps, setIsCaps] = useState(false);

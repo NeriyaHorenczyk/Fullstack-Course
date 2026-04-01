@@ -6,3 +6,11 @@
     gap: 16px;
     background-color: #f3f4f6;
 }
+
+.keyboardArea {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: center;
+}
