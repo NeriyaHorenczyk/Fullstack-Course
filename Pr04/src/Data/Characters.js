@@ -14,7 +14,17 @@ const hebrewLetters = [
     ['ז','ס','ב','ה','נ','מ','צ','ת','ץ','.']
     ]
 
-//TODO: Add French characters
+const frenchLower = [
+    ['a','z','e','r','t','y','u','i','o','p','^','$'],
+    ['q','s','d','f','g','h','j','k','l', 'm', 'ù'],
+    ['w','x','c','v','b','n',',','.','-']
+]
+const frenchUpper = [
+    ['A','Z','E','R','T','Y','U','I','O','P','^','$'],
+    ['Q','S','D','F','G','H','J','K','L', 'M', 'Ù'],
+    ['W','X','C','V','B','N',',','.','-']
+]
+
 
 const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 const special =  ['!','@','#','$','%','^','&','*','(',')'];
@@ -42,7 +52,12 @@ export const characters = {
         primary: [emojiSmileys, emojiAnimals, emojiFood, emojiObjects],
         numbers: emojiExtra,
         special: emojiSymbols
+    },
+    French: {
+        primary: frenchLower,
+        secondary: frenchUpper,
+        numbers: numbers,
+        special: special
     }
-
-    //TODO: Add French characters
+    
 }
