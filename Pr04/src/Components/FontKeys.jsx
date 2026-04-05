@@ -20,7 +20,7 @@ function FontKeys({ currentStyle, setCurrentStyle }) {
                 <Key
                     key={font}
                     label={font}
-                    style={{ fontFamily: font, fontSize: '12px' }}
+                    style={{ fontFamily: font, fontSize: '16px' }}
                     isSelected={currentStyle.fontFamily === font}
                     onClick={() => setCurrentStyle({ ...currentStyle, fontFamily: font })}
                 />

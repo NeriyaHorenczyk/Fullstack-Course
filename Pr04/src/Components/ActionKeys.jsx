@@ -3,6 +3,8 @@ import Key from './Key'
 import { FaUndo } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
+import { CiSearch } from "react-icons/ci";
+
 
 function ActionKeys({text, setText, history, setHistory, cursorPos, setCursorPos}) {
     return (
@@ -43,10 +45,10 @@ function ActionKeys({text, setText, history, setHistory, cursorPos, setCursorPos
                 if (history.length === 0) return;
                 const prev = history[history.length - 1];
                 setText(prev);
-                setCursorPos(prev.length);
+                setCursorPos(cursorPos > prev.length ? prev.length : cursorPos);
                 setHistory(history.slice(0, -1));
                 }} />
-
+                
         </section>
      );
 }
