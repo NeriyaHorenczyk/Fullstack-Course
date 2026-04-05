@@ -14,7 +14,7 @@ const COLOR_KEYS = [
     { color: '#ec4899', title: 'Pink' },
 ]
 
-function StyleControls({ currentStyle, setCurrentStyle }) {
+function StyleControls({ currentStyle, setCurrentStyle, onApplyToAll }) {
     return (
         <section className={styles.styleControls}>
             <label className={styles.label}>Size</label>
@@ -44,6 +44,7 @@ function StyleControls({ currentStyle, setCurrentStyle }) {
                 value={currentStyle.color}
                 onChange={e => setCurrentStyle({ ...currentStyle, color: e.target.value })}
             />
+            <Key label="Edit All" onClick={onApplyToAll} />
         </section>
     );
 }

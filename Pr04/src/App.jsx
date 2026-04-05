@@ -22,8 +22,9 @@ function App() {
 
       <div className='keyboardArea'>
         
-        <StyleControls 
-        currentStyle={currentStyle} setCurrentStyle={setCurrentStyle} 
+        <StyleControls
+        currentStyle={currentStyle} setCurrentStyle={setCurrentStyle}
+        onApplyToAll={() => setText(text.map(c => ({ ...c, style: currentStyle })))}
         />
 
         <Keyboard
