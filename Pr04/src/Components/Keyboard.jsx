@@ -3,6 +3,7 @@ import LanguageBar from './LanguageBar'
 import CharacterKeys from './CharacterKeys'
 import NavigationKeys from './NavigationKeys'
 import ActionKeys from './ActionKeys'
+import SearchReplace from './SearchReplace'
 
 
 function Keyboard({language, setLanguage, text, setText, history, setHistory, cursorPos, setCursorPos, currentStyle}) {
@@ -26,6 +27,12 @@ function Keyboard({language, setLanguage, text, setText, history, setHistory, cu
             />
 
             <ActionKeys
+            text={text} setText={setText}
+            history={history} setHistory={setHistory}
+            cursorPos={cursorPos} setCursorPos={setCursorPos}
+            />
+
+            <SearchReplace
             text={text} setText={setText}
             history={history} setHistory={setHistory}
             cursorPos={cursorPos} setCursorPos={setCursorPos}
