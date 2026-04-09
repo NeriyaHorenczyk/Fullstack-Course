@@ -3,6 +3,7 @@ import Keyboard from './Components/Keyboard.jsx'
 import Display from './Components/Display.jsx'
 import StyleControls from './Components/StyleControls.jsx'
 import FontKeys from './Components/FontKeys.jsx'
+import FileControls from './Components/FileControls.jsx'
 import './App.css'
 
 function App() {
@@ -21,8 +22,9 @@ function App() {
       />
 
       <div className='keyboardArea'>
+    
         
-        <StyleControls
+        < StyleControls
         currentStyle={currentStyle} setCurrentStyle={setCurrentStyle}
         onApplyToAll={() => setText(text.map(c => ({ ...c, style: currentStyle })))}
         />
@@ -35,8 +37,14 @@ function App() {
         currentStyle={currentStyle}
         />
 
-        <FontKeys 
-        currentStyle={currentStyle} setCurrentStyle={setCurrentStyle} 
+        <FontKeys
+        currentStyle={currentStyle} setCurrentStyle={setCurrentStyle}
+        />
+
+        <FileControls
+        text={text} setText={setText}
+        setCursorPos={setCursorPos}
+        setHistory={setHistory}
         />
       </div>
     </div>

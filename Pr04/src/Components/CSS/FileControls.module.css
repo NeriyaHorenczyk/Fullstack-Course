@@ -1,0 +1,22 @@
+.input {
+    padding: 4px 6px;
+    border-radius: 8px;
+    border: none;
+    background-color: #e5e7eb;
+    font-size: 13px;
+    width: 100%;
+}
+
+.btn {
+    padding: 6px 8px;
+    border: none;
+    border-radius: 8px;
+    background-color: #e5e7eb;
+    font-size: 13px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #d1d5db;
+}
