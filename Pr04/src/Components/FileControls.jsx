@@ -44,6 +44,14 @@ function FileControls({ text, setText, setCursorPos, setHistory }) {
         setFilename(selectedFile)
     }
 
+    const handleDelete = () => {
+        if (!selectedFile) return
+        if (!confirm(`Delete "${selectedFile}"?`)) return
+        localStorage.removeItem(LS_PREFIX + selectedFile)
+        setSavedFiles(getSavedFiles())
+        setSelectedFile('')
+    }
+
     return (
         <section className={styles.styleControls}>
             <label className={styles.label}>File</label>
@@ -72,6 +80,21 @@ function FileControls({ text, setText, setCursorPos, setHistory }) {
             </select>
 
             <button className={fileStyles.btn} onClick={handleOpen}>Open</button>
+
+            <label className={styles.label}>Delete</label>
+
+            <select
+                className={styles.select}
+                value={selectedFile}
+                onChange={e => setSelectedFile(e.target.value)}
+            >
+                <option value="">-- select --</option>
+                {savedFiles.map(f => (
+                    <option key={f} value={f}>{f}</option>
+                ))}
+            </select>
+
+            <button className={fileStyles.btn} onClick={handleDelete}>Delete</button>
         </section>
     )
 }
