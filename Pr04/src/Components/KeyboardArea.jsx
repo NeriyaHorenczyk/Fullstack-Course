@@ -9,6 +9,7 @@ function KeyboardArea({
   language, setLanguage,
   cursorPos, setCursorPos,
   currentStyle, setCurrentStyle,
+  filename, setFilename,
 }) {
   return (
     <div className='keyboardArea'>
@@ -33,6 +34,7 @@ function KeyboardArea({
         text={text} setText={setText}
         setCursorPos={setCursorPos}
         setHistory={setHistory}
+        filename={filename} setFilename={setFilename}
       />
     </div>
   )

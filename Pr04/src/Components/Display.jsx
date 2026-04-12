@@ -1,6 +1,6 @@
 import styles from './CSS/Display.module.css'
 
-function Display({ text, cursorPos, language }) {
+function Display({ text, cursorPos, language, isActive = false }) {
     const before = text.slice(0, cursorPos);
     const after = text.slice(cursorPos);
     const isRTL = language === "Hebrew";
@@ -8,8 +8,8 @@ function Display({ text, cursorPos, language }) {
     return (
         <div className={styles.display} dir={isRTL ? "rtl" : "ltr"}>
             {before.map((c, i) => <span key={i} style={c.style}>{c.char}</span>)}
-            <span key={cursorKey} className={styles.cursor}>|</span>
-            {after.map((c, i) => <span key={before.length + 1 + i} style={c.style}>{c.char}</span>)}
+            {isActive && <span key={cursorKey} className={styles.cursor}>|</span>}
+            {after.map((c, i) => <span key={before.length + (isActive ? 1 : 0) + i} style={c.style}>{c.char}</span>)}
         </div>
     );
 }

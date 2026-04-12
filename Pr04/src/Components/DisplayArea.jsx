@@ -1,12 +1,38 @@
 import Display from './Display.jsx'
+import styles from './CSS/DisplayArea.module.css'
 
-function DisplayArea({ text, cursorPos, language }) {
+function DisplayArea({ panels, activePanelId, setActivePanelId, onClosePanel, onNewPanel }) {
   return (
-    <Display
-      text={text}
-      cursorPos={cursorPos}
-      language={language}
-    />
+    <div className={styles.displayArea}>
+      <div className={styles.toolbar}>
+        <button className={styles.newPanelBtn} onClick={onNewPanel}>+ New Panel</button>
+      </div>
+
+      <div className={styles.panelsContainer}>
+        {panels.map(panel => (
+          <div
+            key={panel.id}
+            className={`${styles.panel} ${panel.id === activePanelId ? styles.active : ''}`}
+            onClick={() => setActivePanelId(panel.id)}
+          >
+            <div className={styles.panelHeader}>
+              <span className={styles.panelTitle}>{panel.filename || 'Untitled'}</span>
+              <button
+                className={styles.closeBtn}
+                onClick={e => { e.stopPropagation(); onClosePanel(panel.id) }}
+              >×</button>
+            </div>
+
+            <Display
+              text={panel.text}
+              cursorPos={panel.cursorPos}
+              language={panel.language}
+              isActive={panel.id === activePanelId}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
 

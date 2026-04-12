@@ -10,8 +10,7 @@ function getSavedFiles() {
         .map(k => k.slice(LS_PREFIX.length))
 }
 
-function FileControls({ text, setText, setCursorPos, setHistory }) {
-    const [filename, setFilename] = useState('')
+function FileControls({ text, setText, setCursorPos, setHistory, filename, setFilename }) {
     const [savedFiles, setSavedFiles] = useState(getSavedFiles)
     const [selectedFile, setSelectedFile] = useState('')
 
