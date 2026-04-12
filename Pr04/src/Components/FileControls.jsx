@@ -2,23 +2,29 @@ import { useState } from 'react'
 import styles from './CSS/StyleControls.module.css'
 import fileStyles from './CSS/FileControls.module.css'
 
-const LS_PREFIX = 'textEditor_'
+const LS_FILE_PREFIX = 'textEditor_file_'
 
-function getSavedFiles() {
-    return Object.keys(localStorage)
-        .filter(k => k.startsWith(LS_PREFIX))
-        .map(k => k.slice(LS_PREFIX.length))
+function getUserPrefix(user) {
+    return LS_FILE_PREFIX + user + '_'
 }
 
-function FileControls({ text, setText, setCursorPos, setHistory, filename, setFilename }) {
-    const [savedFiles, setSavedFiles] = useState(getSavedFiles)
+function getSavedFiles(user) {
+    const prefix = getUserPrefix(user)
+    return Object.keys(localStorage)
+        .filter(k => k.startsWith(prefix))
+        .map(k => k.slice(prefix.length))
+}
+
+function FileControls({ text, setText, setCursorPos, setHistory, filename, setFilename, currentUser, setIsDirty }) {
+    const [savedFiles, setSavedFiles] = useState(() => getSavedFiles(currentUser))
     const [selectedFile, setSelectedFile] = useState('')
 
     const save = (name) => {
         if (!name) return alert('Enter a file name')
-        localStorage.setItem(LS_PREFIX + name, JSON.stringify(text))
-        setSavedFiles(getSavedFiles())
+        localStorage.setItem(getUserPrefix(currentUser) + name, JSON.stringify(text))
+        setSavedFiles(getSavedFiles(currentUser))
         setSelectedFile(name)
+        setIsDirty(false)
     }
 
     const handleSave = () => {
@@ -34,20 +40,21 @@ function FileControls({ text, setText, setCursorPos, setHistory, filename, setFi
 
     const handleOpen = () => {
         if (!selectedFile) return
-        const raw = localStorage.getItem(LS_PREFIX + selectedFile)
+        const raw = localStorage.getItem(getUserPrefix(currentUser) + selectedFile)
         if (!raw) return
         const loaded = JSON.parse(raw)
         setHistory([])
         setText(loaded)
         setCursorPos(loaded.length)
         setFilename(selectedFile)
+        setIsDirty(false)
     }
 
     const handleDelete = () => {
         if (!selectedFile) return
         if (!confirm(`Delete "${selectedFile}"?`)) return
-        localStorage.removeItem(LS_PREFIX + selectedFile)
-        setSavedFiles(getSavedFiles())
+        localStorage.removeItem(getUserPrefix(currentUser) + selectedFile)
+        setSavedFiles(getSavedFiles(currentUser))
         setSelectedFile('')
     }
 

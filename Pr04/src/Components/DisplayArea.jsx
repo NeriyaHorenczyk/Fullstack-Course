@@ -1,10 +1,12 @@
 import Display from './Display.jsx'
 import styles from './CSS/DisplayArea.module.css'
 
-function DisplayArea({ panels, activePanelId, setActivePanelId, onClosePanel, onNewPanel }) {
+function DisplayArea({ panels, activePanelId, setActivePanelId, onClosePanel, onNewPanel, currentUser, onLogout }) {
   return (
     <div className={styles.displayArea}>
       <div className={styles.toolbar}>
+        <span className={styles.userInfo}>Logged in as <strong>{currentUser}</strong></span>
+        <button className={styles.logoutBtn} onClick={onLogout}>Logout</button>
         <button className={styles.newPanelBtn} onClick={onNewPanel}>+ New Panel</button>
       </div>
 
@@ -16,7 +18,7 @@ function DisplayArea({ panels, activePanelId, setActivePanelId, onClosePanel, on
             onClick={() => setActivePanelId(panel.id)}
           >
             <div className={styles.panelHeader}>
-              <span className={styles.panelTitle}>{panel.filename || 'Untitled'}</span>
+              <span className={styles.panelTitle}>{panel.filename || 'Untitled'}{panel.isDirty ? ' *' : ''}</span>
               <button
                 className={styles.closeBtn}
                 onClick={e => { e.stopPropagation(); onClosePanel(panel.id) }}
