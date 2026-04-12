@@ -1,9 +1,6 @@
 import { useState } from 'react'
-import Keyboard from './Components/Keyboard.jsx'
-import Display from './Components/Display.jsx'
-import StyleControls from './Components/StyleControls.jsx'
-import FontKeys from './Components/FontKeys.jsx'
-import FileControls from './Components/FileControls.jsx'
+import DisplayArea from './Components/DisplayArea.jsx'
+import KeyboardArea from './Components/KeyboardArea.jsx'
 import './App.css'
 
 function App() {
@@ -15,38 +12,19 @@ function App() {
 
   return (
     <div className='app'>
-      <Display
-      text={text}
-      cursorPos={cursorPos}
-      language={language}
+      <DisplayArea
+        text={text}
+        cursorPos={cursorPos}
+        language={language}
       />
 
-      <div className='keyboardArea'>
-    
-        
-        < StyleControls
-        currentStyle={currentStyle} setCurrentStyle={setCurrentStyle}
-        onApplyToAll={() => setText(text.map(c => ({ ...c, style: currentStyle })))}
-        />
-
-        <Keyboard
-        language={language} setLanguage={setLanguage}
+      <KeyboardArea
         text={text} setText={setText}
         history={history} setHistory={setHistory}
+        language={language} setLanguage={setLanguage}
         cursorPos={cursorPos} setCursorPos={setCursorPos}
-        currentStyle={currentStyle}
-        />
-
-        <FontKeys
         currentStyle={currentStyle} setCurrentStyle={setCurrentStyle}
-        />
-
-        <FileControls
-        text={text} setText={setText}
-        setCursorPos={setCursorPos}
-        setHistory={setHistory}
-        />
-      </div>
+      />
     </div>
   )
 }
